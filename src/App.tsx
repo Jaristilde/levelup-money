@@ -5,6 +5,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import Navigation from "@/components/Navigation";
+import AppSidebar from "@/components/AppSidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { lazy, Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -75,23 +77,45 @@ const App = () => {
                   path="/*"
                   element={
                     <ProtectedRoute>
-                      <Navigation />
-                      <Suspense fallback={<PageLoader />}>
-                        <Routes>
-                          <Route path="/" element={<Home />} />
-                          <Route path="/milestones" element={<Milestones />} />
-                          <Route path="/credit-report" element={<CreditReport />} />
-                          <Route path="/dispute-letter" element={<DisputeLetter />} />
-                          <Route path="/budget" element={<Budget />} />
-                          <Route path="/debt" element={<Debt />} />
-                          <Route path="/goals" element={<Goals />} />
-                          <Route path="/retirement" element={<Retirement />} />
-                          <Route path="/chat" element={<Chat />} />
-                          <Route path="/settings" element={<Settings />} />
-                          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                          <Route path="*" element={<NotFound />} />
-                        </Routes>
-                      </Suspense>
+                      <SidebarProvider>
+                        <div className="flex min-h-screen w-full">
+                          {/* Desktop Sidebar */}
+                          <div className="hidden md:block">
+                            <AppSidebar />
+                          </div>
+                          
+                          {/* Main Content */}
+                          <div className="flex-1 flex flex-col w-full">
+                            {/* Mobile Header */}
+                            <header className="md:hidden h-14 border-b border-border flex items-center px-4 bg-card sticky top-0 z-40">
+                              <SidebarTrigger />
+                              <span className="ml-4 font-semibold text-foreground">FinWell</span>
+                            </header>
+
+                            {/* Page Content */}
+                            <main className="flex-1 pb-20 md:pb-8 transition-opacity duration-150">
+                              <Suspense fallback={<PageLoader />}>
+                                <Routes>
+                                  <Route path="/" element={<Home />} />
+                                  <Route path="/milestones" element={<Milestones />} />
+                                  <Route path="/credit-report" element={<CreditReport />} />
+                                  <Route path="/dispute-letter" element={<DisputeLetter />} />
+                                  <Route path="/budget" element={<Budget />} />
+                                  <Route path="/debt" element={<Debt />} />
+                                  <Route path="/goals" element={<Goals />} />
+                                  <Route path="/retirement" element={<Retirement />} />
+                                  <Route path="/chat" element={<Chat />} />
+                                  <Route path="/settings" element={<Settings />} />
+                                  <Route path="*" element={<NotFound />} />
+                                </Routes>
+                              </Suspense>
+                            </main>
+                          </div>
+
+                          {/* Mobile Bottom Navigation */}
+                          <Navigation />
+                        </div>
+                      </SidebarProvider>
                     </ProtectedRoute>
                   }
                 />

@@ -3,6 +3,7 @@ import { Target, Plus, CheckCircle2 } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { LoadingButton } from '@/components/ui/loading-button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
@@ -21,6 +22,8 @@ const Goals = () => {
   const { t } = useLanguage();
   const [goals, setGoals] = useState<Goal[]>([]);
   const [showForm, setShowForm] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
     target: '',
@@ -28,11 +31,15 @@ const Goals = () => {
     timeframe: '3',
   });
 
-  const handleAddGoal = () => {
+  const handleAddGoal = async () => {
     if (!formData.title || !formData.target) {
       toast.error('Please fill in goal name and target amount');
       return;
     }
+
+    setLoading(true);
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1200));
 
     const newGoal: Goal = {
       id: Date.now().toString(),
@@ -44,8 +51,14 @@ const Goals = () => {
 
     setGoals([...goals, newGoal]);
     setFormData({ title: '', target: '', current: '', timeframe: '3' });
-    setShowForm(false);
+    setLoading(false);
+    setSuccess(true);
     toast.success('Goal added successfully');
+    
+    setTimeout(() => {
+      setSuccess(false);
+      setShowForm(false);
+    }, 2000);
   };
 
   return (
@@ -156,8 +169,24 @@ const Goals = () => {
                 </Select>
               </div>
               <div className="flex gap-2">
-                <Button onClick={handleAddGoal} className="flex-1">Add Goal</Button>
-                <Button variant="outline" onClick={() => setShowForm(false)} className="flex-1">Cancel</Button>
+                <LoadingButton 
+                  onClick={handleAddGoal} 
+                  className="flex-1"
+                  loading={loading}
+                  success={success}
+                  loadingText="Adding..."
+                  successText="✓ Added"
+                >
+                  Add Goal
+                </LoadingButton>
+                <Button 
+                  variant="outline" 
+                  onClick={() => setShowForm(false)} 
+                  className="flex-1"
+                  disabled={loading || success}
+                >
+                  Cancel
+                </Button>
               </div>
             </CardContent>
           </Card>

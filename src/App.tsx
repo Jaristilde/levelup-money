@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import Navigation from "@/components/Navigation";
 import Home from "./pages/Home";
+import Milestones from "./pages/Milestones";
 import CreditReport from "./pages/CreditReport";
 import DisputeLetter from "./pages/DisputeLetter";
 import Budget from "./pages/Budget";
@@ -28,6 +29,7 @@ const App = () => (
           <Navigation />
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/milestones" element={<Milestones />} />
             <Route path="/credit-report" element={<CreditReport />} />
             <Route path="/dispute-letter" element={<DisputeLetter />} />
             <Route path="/budget" element={<Budget />} />

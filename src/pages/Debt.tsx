@@ -1,9 +1,60 @@
-import { CreditCard } from 'lucide-react';
+import { useState } from 'react';
+import { CreditCard, Plus, Trash2 } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Progress } from '@/components/ui/progress';
+import { toast } from 'sonner';
+
+interface Debt {
+  id: string;
+  name: string;
+  balance: number;
+  interestRate: number;
+  minimumPayment: number;
+}
 
 const Debt = () => {
   const { t } = useLanguage();
+  const [debts, setDebts] = useState<Debt[]>([]);
+  const [strategy, setStrategy] = useState<'snowball' | 'avalanche'>('snowball');
+  const [showForm, setShowForm] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    balance: '',
+    interestRate: '',
+    minimumPayment: '',
+  });
+
+  const handleAddDebt = () => {
+    if (!formData.name || !formData.balance) {
+      toast.error('Please fill in at least debt name and balance');
+      return;
+    }
+
+    const newDebt: Debt = {
+      id: Date.now().toString(),
+      name: formData.name,
+      balance: parseFloat(formData.balance),
+      interestRate: parseFloat(formData.interestRate) || 0,
+      minimumPayment: parseFloat(formData.minimumPayment) || 0,
+    };
+
+    setDebts([...debts, newDebt]);
+    setFormData({ name: '', balance: '', interestRate: '', minimumPayment: '' });
+    setShowForm(false);
+    toast.success('Debt added successfully');
+  };
+
+  const handleRemoveDebt = (id: string) => {
+    setDebts(debts.filter(d => d.id !== id));
+    toast.success('Debt removed');
+  };
+
+  const totalDebt = debts.reduce((sum, d) => sum + d.balance, 0);
 
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-8 md:pt-20">
@@ -18,16 +69,129 @@ const Debt = () => {
           </p>
         </div>
 
-        <Card>
+        <Card className="mb-6">
           <CardHeader>
-            <CardTitle>Coming Soon</CardTitle>
+            <CardTitle>{t('totalDebt')}</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-muted-foreground">
-              Debt payoff planning features will be available soon.
-            </p>
+            <div className="text-4xl font-bold text-center py-4">
+              ${totalDebt.toFixed(2)}
+            </div>
           </CardContent>
         </Card>
+
+        <Card className="mb-6">
+          <CardHeader>
+            <CardTitle>{t('payoffStrategy')}</CardTitle>
+            <CardDescription>Choose your preferred debt payoff method</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Select value={strategy} onValueChange={(v) => setStrategy(v as 'snowball' | 'avalanche')}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="snowball">Snowball (Smallest Balance First)</SelectItem>
+                <SelectItem value="avalanche">Avalanche (Highest Interest First)</SelectItem>
+              </SelectContent>
+            </Select>
+          </CardContent>
+        </Card>
+
+        <div className="space-y-4 mb-6">
+          {debts.map((debt) => (
+            <Card key={debt.id}>
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="font-semibold">{debt.name}</h3>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => handleRemoveDebt(debt.id)}
+                  >
+                    <Trash2 className="w-4 h-4 text-destructive" />
+                  </Button>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span>Balance:</span>
+                    <span className="font-semibold">${debt.balance.toFixed(2)}</span>
+                  </div>
+                  {debt.interestRate > 0 && (
+                    <div className="flex justify-between text-sm">
+                      <span>Interest Rate:</span>
+                      <span>{debt.interestRate}%</span>
+                    </div>
+                  )}
+                  {debt.minimumPayment > 0 && (
+                    <div className="flex justify-between text-sm">
+                      <span>Minimum Payment:</span>
+                      <span>${debt.minimumPayment.toFixed(2)}</span>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        {showForm ? (
+          <Card>
+            <CardHeader>
+              <CardTitle>Add New Debt</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="debt-name">Debt Name *</Label>
+                <Input
+                  id="debt-name"
+                  placeholder="Credit Card, Student Loan, etc."
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="debt-balance">Balance *</Label>
+                <Input
+                  id="debt-balance"
+                  type="number"
+                  placeholder="5000"
+                  value={formData.balance}
+                  onChange={(e) => setFormData({ ...formData, balance: e.target.value })}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="interest-rate">Interest Rate (%)</Label>
+                <Input
+                  id="interest-rate"
+                  type="number"
+                  placeholder="18.5"
+                  value={formData.interestRate}
+                  onChange={(e) => setFormData({ ...formData, interestRate: e.target.value })}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="min-payment">Minimum Payment</Label>
+                <Input
+                  id="min-payment"
+                  type="number"
+                  placeholder="150"
+                  value={formData.minimumPayment}
+                  onChange={(e) => setFormData({ ...formData, minimumPayment: e.target.value })}
+                />
+              </div>
+              <div className="flex gap-2">
+                <Button onClick={handleAddDebt} className="flex-1">Add Debt</Button>
+                <Button variant="outline" onClick={() => setShowForm(false)} className="flex-1">Cancel</Button>
+              </div>
+            </CardContent>
+          </Card>
+        ) : (
+          <Button onClick={() => setShowForm(true)} className="w-full">
+            <Plus className="w-4 h-4 mr-2" />
+            Add Debt
+          </Button>
+        )}
       </div>
     </div>
   );

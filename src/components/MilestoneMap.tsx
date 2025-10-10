@@ -3,7 +3,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardContent } from '@/components/ui/card';
 import { MilestoneCard } from './MilestoneCard';
 import { SnapshotTool } from './SnapshotTool';
-import financialFreedomImage from '@/assets/financial-freedom.png';
+import financialFreedomImage from '@/assets/financial-freedom.jpg';
 
 interface ChecklistItem {
   id: string;

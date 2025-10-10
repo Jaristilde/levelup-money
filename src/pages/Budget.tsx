@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Wallet, Plus, TrendingUp, TrendingDown } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { LoadingButton } from '@/components/ui/loading-button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
@@ -11,14 +11,25 @@ const Budget = () => {
   const { t } = useLanguage();
   const [income, setIncome] = useState('');
   const [expenses, setExpenses] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
-  const handleCalculate = () => {
+  const handleCalculate = async () => {
     if (!income || !expenses) {
       toast.error('Please enter both income and expenses');
       return;
     }
+    
+    setLoading(true);
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
     const cashFlow = parseFloat(income) - parseFloat(expenses);
+    setLoading(false);
+    setSuccess(true);
     toast.success(`Your monthly cash flow is $${cashFlow.toFixed(2)}`);
+    
+    setTimeout(() => setSuccess(false), 2000);
   };
 
   return (
@@ -93,9 +104,16 @@ const Budget = () => {
                 <span className="text-muted-foreground">$0.00</span>
               )}
             </div>
-            <Button onClick={handleCalculate} className="w-full">
+            <LoadingButton 
+              onClick={handleCalculate} 
+              className="w-full"
+              loading={loading}
+              success={success}
+              loadingText="Calculating..."
+              successText="✓ Complete"
+            >
               Calculate Cash Flow
-            </Button>
+            </LoadingButton>
           </CardContent>
         </Card>
       </div>

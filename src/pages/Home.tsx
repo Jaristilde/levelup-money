@@ -4,6 +4,8 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
+import { CreditScoreCard } from '@/components/CreditScoreCard';
+import { StatCard } from '@/components/StatCard';
 
 const Home = () => {
   const { t } = useLanguage();
@@ -73,108 +75,16 @@ const Home = () => {
 
         {/* Credit Score - Primary Focus */}
         <div className="space-y-4 md:space-y-6">
-          <Card className="border-2 border-success/20 bg-gradient-to-br from-success/5 to-background max-w-2xl mx-auto">
-            <CardContent className="p-6 md:p-12 text-center">
-              <h2 className="text-lg md:text-xl font-semibold text-muted-foreground mb-4 md:mb-6">
-                {t('creditScore')}
-              </h2>
-              <div className="relative inline-flex items-center justify-center mb-4 md:mb-6">
-                {/* Progress Ring */}
-                <svg className="w-48 h-48 md:w-64 md:h-64 transform -rotate-90">
-                  <circle
-                    cx="96"
-                    cy="96"
-                    r="84"
-                    stroke="hsl(var(--muted))"
-                    strokeWidth="10"
-                    fill="none"
-                    className="md:hidden"
-                  />
-                  <circle
-                    cx="96"
-                    cy="96"
-                    r="84"
-                    stroke="hsl(var(--success))"
-                    strokeWidth="10"
-                    fill="none"
-                    strokeDasharray={`${(650 / 850) * 527.79} 527.79`}
-                    strokeLinecap="round"
-                    className="transition-all duration-1000 md:hidden"
-                  />
-                  <circle
-                    cx="128"
-                    cy="128"
-                    r="112"
-                    stroke="hsl(var(--muted))"
-                    strokeWidth="12"
-                    fill="none"
-                    className="hidden md:block"
-                  />
-                  <circle
-                    cx="128"
-                    cy="128"
-                    r="112"
-                    stroke="hsl(var(--success))"
-                    strokeWidth="12"
-                    fill="none"
-                    strokeDasharray={`${(650 / 850) * 703.72} 703.72`}
-                    strokeLinecap="round"
-                    className="transition-all duration-1000 hidden md:block"
-                  />
-                </svg>
-                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <span className="text-[80px] md:text-[120px] font-bold leading-none text-foreground">
-                    650
-                  </span>
-                  <span className="text-xl md:text-2xl font-medium text-success mt-1 md:mt-2">+15</span>
-                  <span className="text-xs md:text-sm text-muted-foreground mt-0.5 md:mt-1">/ 850</span>
-                </div>
-              </div>
-              <Link to="/credit-report">
-                <Button variant="outline" size="lg" className="mt-2 md:mt-4 min-h-[44px]">
-                  View Full Report
-                  <ArrowRight className="ml-2 w-4 h-4" />
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
+          <CreditScoreCard score={650} change={15} maxScore={850} t={t} />
         </div>
 
         {/* Financial Wellness Snapshot */}
         <div className="space-y-4 md:space-y-6">
           <h2 className="text-xl md:text-2xl font-bold text-foreground">{t('financialSnapshot')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-            {stats.slice(1).map((stat) => {
-              const Icon = stat.icon;
-              return (
-                <Link key={stat.label} to={stat.link}>
-                  <Card className="hover:shadow-xl transition-all duration-300 border-border hover:border-primary/50 h-full scale-95 md:scale-100">
-                    <CardContent className="p-4">
-                      <div className="flex items-start justify-between mb-3">
-                        <div className={`p-2 rounded-lg ${stat.bgColor}`}>
-                          <Icon className={`w-5 h-5 md:w-6 md:h-6 ${stat.color}`} />
-                        </div>
-                        <ArrowRight className="w-4 h-4 text-muted-foreground" />
-                      </div>
-                      <h3 className="text-xs font-medium text-muted-foreground mb-2">
-                        {stat.label}
-                      </h3>
-                      <div className="flex items-baseline gap-2 mb-2">
-                        <span className="text-xl md:text-2xl font-bold text-foreground">
-                          {stat.value}
-                        </span>
-                      </div>
-                      {stat.subtitle && (
-                        <p className="text-xs text-muted-foreground">{stat.subtitle}</p>
-                      )}
-                      {stat.progress !== undefined && (
-                        <Progress value={stat.progress} className="h-1.5 mt-2" />
-                      )}
-                    </CardContent>
-                  </Card>
-                </Link>
-              );
-            })}
+            {stats.slice(1).map((stat) => (
+              <StatCard key={stat.label} stat={stat} />
+            ))}
           </div>
         </div>
 

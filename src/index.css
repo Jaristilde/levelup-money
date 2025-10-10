@@ -17,37 +17,45 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 47.4% 11.2%;
 
-    /* Primary: Trustworthy teal for financial stability */
-    --primary: 175 65% 45%;
+    /* Primary: Darker green for better contrast (WCAG AA) */
+    --primary: 160 84% 39%;
     --primary-foreground: 0 0% 100%;
-    --primary-light: 175 55% 60%;
+    --primary-light: 160 70% 50%;
     
-    /* Secondary: Warm coral for motivation and progress */
-    --secondary: 14 85% 65%;
+    /* Secondary: Dark slate for readability */
+    --secondary: 222 47% 11%;
     --secondary-foreground: 0 0% 100%;
     
     /* Muted backgrounds */
     --muted: 175 25% 96%;
-    --muted-foreground: 220 15% 40%;
+    --muted-foreground: 215 25% 27%;
 
-    /* Accent: Soft amber for highlights */
-    --accent: 40 80% 70%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Accent: High-contrast blue for links */
+    --accent: 217 91% 60%;
+    --accent-foreground: 0 0% 100%;
 
-    /* Success: Fresh green for achievements */
-    --success: 145 70% 50%;
+    /* Success: Dark green on light background (WCAG AA) */
+    --success: 160 84% 39%;
     --success-foreground: 0 0% 100%;
+    --success-light: 151 81% 86%;
     
-    /* Warning: Amber (not scary) */
-    --warning: 40 95% 60%;
-    --warning-foreground: 222.2 47.4% 11.2%;
+    /* Warning: Dark amber (WCAG AA) */
+    --warning: 28 88% 38%;
+    --warning-foreground: 0 0% 100%;
+    --warning-light: 48 90% 88%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 73% 42%;
     --destructive-foreground: 0 0% 100%;
+    --destructive-light: 0 86% 94%;
 
     --border: 175 20% 90%;
     --input: 175 20% 90%;
-    --ring: 175 65% 45%;
+    --ring: 217 91% 60%;
+    
+    /* Text colors for WCAG AA compliance */
+    --text-primary: 222 47% 11%;
+    --text-secondary: 215 25% 27%;
+    --text-placeholder: 215 16% 47%;
 
     --radius: 0.5rem;
 
@@ -78,31 +86,39 @@ All colors MUST be HSL.
     --popover: 220 25% 15%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 175 65% 45%;
+    --primary: 160 84% 39%;
     --primary-foreground: 0 0% 100%;
-    --primary-light: 175 55% 60%;
+    --primary-light: 160 70% 50%;
 
-    --secondary: 14 85% 65%;
+    --secondary: 222 47% 11%;
     --secondary-foreground: 0 0% 100%;
 
     --muted: 220 25% 20%;
-    --muted-foreground: 215 20% 65%;
+    --muted-foreground: 215 25% 70%;
 
-    --accent: 40 80% 70%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 217 91% 60%;
+    --accent-foreground: 0 0% 100%;
 
-    --success: 145 70% 50%;
+    --success: 160 84% 39%;
     --success-foreground: 0 0% 100%;
+    --success-light: 151 81% 86%;
     
-    --warning: 40 95% 60%;
-    --warning-foreground: 222.2 47.4% 11.2%;
+    --warning: 28 88% 38%;
+    --warning-foreground: 0 0% 100%;
+    --warning-light: 48 90% 88%;
 
-    --destructive: 0 62.8% 50%;
+    --destructive: 0 73% 42%;
     --destructive-foreground: 0 0% 100%;
+    --destructive-light: 0 86% 94%;
 
     --border: 220 25% 25%;
     --input: 220 25% 25%;
-    --ring: 175 65% 45%;
+    --ring: 217 91% 60%;
+    
+    /* Text colors for WCAG AA compliance */
+    --text-primary: 210 40% 98%;
+    --text-secondary: 215 25% 70%;
+    --text-placeholder: 215 16% 60%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -121,5 +137,26 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+  }
+  
+  /* High-contrast focus indicators (WCAG 2.1 AA) */
+  *:focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring;
+  }
+  
+  /* Link styles with proper contrast */
+  a {
+    @apply text-accent underline-offset-4 hover:underline;
+  }
+  
+  /* Placeholder text with proper contrast */
+  input::placeholder,
+  textarea::placeholder {
+    color: hsl(var(--text-placeholder));
+  }
+  
+  /* Disabled states with maintained readability */
+  :disabled {
+    @apply cursor-not-allowed opacity-50;
   }
 }

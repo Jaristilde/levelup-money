@@ -3,7 +3,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardContent } from '@/components/ui/card';
 import { MilestoneCard } from './MilestoneCard';
 import { SnapshotTool } from './SnapshotTool';
-import { ImageIcon } from 'lucide-react';
+import financialFreedomImage from '@/assets/financial-freedom.png';
 
 interface ChecklistItem {
   id: string;
@@ -135,12 +135,12 @@ export const MilestoneMap = () => {
               </div>
             </div>
             <div className="flex items-center justify-center">
-              <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10 border-2 border-border flex items-center justify-center">
-                <div className="text-center space-y-2">
-                  <ImageIcon className="w-16 h-16 mx-auto text-primary/50" />
-                  <p className="text-sm font-medium text-muted-foreground">{t('memeLabel')}</p>
-                  <p className="text-xs text-muted-foreground/70">Upload custom image in settings</p>
-                </div>
+              <div className="relative w-full aspect-video rounded-xl overflow-hidden">
+                <img 
+                  src={financialFreedomImage} 
+                  alt={t('memeLabel')}
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
           </div>

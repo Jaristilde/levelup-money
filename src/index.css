@@ -17,45 +17,47 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 47.4% 11.2%;
 
-    /* Primary: Darker green for better contrast (WCAG AA) */
+    /* Primary: Green (#10B981) */
     --primary: 160 84% 39%;
     --primary-foreground: 0 0% 100%;
-    --primary-light: 160 70% 50%;
+    --primary-dark: 160 93% 30%;
+    --primary-light: 151 81% 91%;
     
-    /* Secondary: Dark slate for readability */
-    --secondary: 222 47% 11%;
+    /* Secondary: Blue (#3B82F6) */
+    --secondary: 217 91% 60%;
     --secondary-foreground: 0 0% 100%;
     
     /* Muted backgrounds */
-    --muted: 175 25% 96%;
-    --muted-foreground: 215 25% 27%;
+    --muted: 210 20% 98%;
+    --muted-foreground: 215 20% 47%;
 
-    /* Accent: High-contrast blue for links */
-    --accent: 217 91% 60%;
+    /* Accent: Amber (#F59E0B) */
+    --accent: 38 92% 50%;
     --accent-foreground: 0 0% 100%;
 
-    /* Success: Dark green on light background (WCAG AA) */
-    --success: 160 84% 39%;
+    /* Success: Green (#22C55E) */
+    --success: 142 71% 45%;
     --success-foreground: 0 0% 100%;
-    --success-light: 151 81% 86%;
+    --success-light: 142 71% 85%;
     
-    /* Warning: Dark amber (WCAG AA) */
-    --warning: 28 88% 38%;
+    /* Warning: Amber (#F59E0B) */
+    --warning: 38 92% 50%;
     --warning-foreground: 0 0% 100%;
-    --warning-light: 48 90% 88%;
+    --warning-light: 38 92% 85%;
 
-    --destructive: 0 73% 42%;
+    /* Error: Red (#EF4444) */
+    --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
-    --destructive-light: 0 86% 94%;
+    --destructive-light: 0 72% 90%;
 
-    --border: 175 20% 90%;
-    --input: 175 20% 90%;
-    --ring: 217 91% 60%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 160 84% 39%;
     
-    /* Text colors for WCAG AA compliance */
+    /* Text colors */
     --text-primary: 222 47% 11%;
-    --text-secondary: 215 25% 27%;
-    --text-placeholder: 215 16% 47%;
+    --text-secondary: 215 20% 47%;
+    --text-disabled: 214 32% 85%;
 
     --radius: 0.5rem;
 
@@ -88,37 +90,38 @@ All colors MUST be HSL.
 
     --primary: 160 84% 39%;
     --primary-foreground: 0 0% 100%;
-    --primary-light: 160 70% 50%;
+    --primary-dark: 160 93% 30%;
+    --primary-light: 151 81% 91%;
 
-    --secondary: 222 47% 11%;
+    --secondary: 217 91% 60%;
     --secondary-foreground: 0 0% 100%;
 
     --muted: 220 25% 20%;
     --muted-foreground: 215 25% 70%;
 
-    --accent: 217 91% 60%;
+    --accent: 38 92% 50%;
     --accent-foreground: 0 0% 100%;
 
-    --success: 160 84% 39%;
+    --success: 142 71% 45%;
     --success-foreground: 0 0% 100%;
-    --success-light: 151 81% 86%;
+    --success-light: 142 71% 85%;
     
-    --warning: 28 88% 38%;
+    --warning: 38 92% 50%;
     --warning-foreground: 0 0% 100%;
-    --warning-light: 48 90% 88%;
+    --warning-light: 38 92% 85%;
 
-    --destructive: 0 73% 42%;
+    --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
-    --destructive-light: 0 86% 94%;
+    --destructive-light: 0 72% 90%;
 
     --border: 220 25% 25%;
     --input: 220 25% 25%;
-    --ring: 217 91% 60%;
+    --ring: 160 84% 39%;
     
-    /* Text colors for WCAG AA compliance */
+    /* Text colors */
     --text-primary: 210 40% 98%;
     --text-secondary: 215 25% 70%;
-    --text-placeholder: 215 16% 60%;
+    --text-disabled: 214 32% 85%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;

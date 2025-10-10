@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Target, Plus, CheckCircle2 } from 'lucide-react';
+import { Target, Plus, CheckCircle2, TrendingUp, DollarSign, PiggyBank } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
+import { EmptyState } from '@/components/ui/empty-state';
 
 interface Goal {
   id: string;
@@ -74,50 +75,86 @@ const Goals = () => {
           </p>
         </div>
 
-        <div className="space-y-4 mb-6">
-          {goals.map((goal) => {
-            const progress = (goal.current / goal.target) * 100;
-            const monthlyTarget = (goal.target - goal.current) / parseInt(goal.timeframe);
-            
-            return (
-              <Card key={goal.id}>
-                <CardHeader>
-                  <CardTitle className="flex items-center justify-between">
-                    <span>{goal.title}</span>
-                    {progress >= 100 && <CheckCircle2 className="w-6 h-6 text-success" />}
-                  </CardTitle>
-                  <CardDescription>
-                    Target: ${goal.target.toFixed(2)} in {goal.timeframe} months
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <div className="flex justify-between text-sm mb-2">
-                      <span>Progress</span>
-                      <span className="font-semibold">{progress.toFixed(0)}%</span>
-                    </div>
-                    <Progress value={progress} className="h-3" />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4 text-sm">
+        {goals.length === 0 && !showForm ? (
+          <EmptyState
+            icon={Target}
+            title="Set your first financial goal"
+            description="Goals help you stay motivated and track progress towards financial freedom"
+            quickActions={[
+              {
+                label: "Improve Credit Score",
+                onClick: () => {
+                  setFormData({ ...formData, title: "Improve Credit Score", target: "750" });
+                  setShowForm(true);
+                }
+              },
+              {
+                label: "Pay Off Debt",
+                onClick: () => {
+                  setFormData({ ...formData, title: "Pay Off Debt", target: "5000" });
+                  setShowForm(true);
+                }
+              },
+              {
+                label: "Build Emergency Fund",
+                onClick: () => {
+                  setFormData({ ...formData, title: "Emergency Fund", target: "3000" });
+                  setShowForm(true);
+                }
+              }
+            ]}
+            action={{
+              label: "Create Custom Goal",
+              onClick: () => setShowForm(true),
+              variant: "success"
+            }}
+          />
+        ) : (
+          <div className="space-y-4 mb-6">
+            {goals.map((goal) => {
+              const progress = (goal.current / goal.target) * 100;
+              const monthlyTarget = (goal.target - goal.current) / parseInt(goal.timeframe);
+              
+              return (
+                <Card key={goal.id}>
+                  <CardHeader>
+                    <CardTitle className="flex items-center justify-between">
+                      <span>{goal.title}</span>
+                      {progress >= 100 && <CheckCircle2 className="w-6 h-6 text-success" />}
+                    </CardTitle>
+                    <CardDescription>
+                      Target: ${goal.target.toFixed(2)} in {goal.timeframe} months
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
                     <div>
-                      <p className="text-muted-foreground">Current</p>
-                      <p className="text-lg font-semibold">${goal.current.toFixed(2)}</p>
+                      <div className="flex justify-between text-sm mb-2">
+                        <span>Progress</span>
+                        <span className="font-semibold">{progress.toFixed(0)}%</span>
+                      </div>
+                      <Progress value={progress} className="h-3" />
                     </div>
-                    <div>
-                      <p className="text-muted-foreground">Monthly Target</p>
-                      <p className="text-lg font-semibold">${monthlyTarget.toFixed(2)}</p>
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <p className="text-muted-foreground">Current</p>
+                        <p className="text-lg font-semibold">${goal.current.toFixed(2)}</p>
+                      </div>
+                      <div>
+                        <p className="text-muted-foreground">Monthly Target</p>
+                        <p className="text-lg font-semibold">${monthlyTarget.toFixed(2)}</p>
+                      </div>
                     </div>
-                  </div>
-                  {progress < 100 && (
-                    <p className="text-xs text-muted-foreground">
-                      Save ${monthlyTarget.toFixed(2)} per month to reach your goal
-                    </p>
-                  )}
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
+                    {progress < 100 && (
+                      <p className="text-xs text-muted-foreground">
+                        Save ${monthlyTarget.toFixed(2)} per month to reach your goal
+                      </p>
+                    )}
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        )}
 
         {showForm ? (
           <Card>
@@ -190,12 +227,12 @@ const Goals = () => {
               </div>
             </CardContent>
           </Card>
-        ) : (
+        ) : goals.length > 0 ? (
           <Button onClick={() => setShowForm(true)} className="w-full">
             <Plus className="w-4 h-4 mr-2" />
             {t('setNewGoal')}
           </Button>
-        )}
+        ) : null}
       </div>
     </div>
   );

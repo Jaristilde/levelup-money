@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { MilestoneMap } from '@/components/MilestoneMap';
 
 const Home = () => {
   const { t, language, setLanguage } = useLanguage();
@@ -229,6 +230,9 @@ const Home = () => {
             </CardContent>
           </Card>
         </div>
+
+        {/* Money Milestone Map */}
+        <MilestoneMap />
       </div>
     </div>
   );

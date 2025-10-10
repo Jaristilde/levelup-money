@@ -59,30 +59,30 @@ const CreditReport = () => {
 
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-8 md:pt-20">
-      <div className="max-w-4xl mx-auto px-4 py-6 space-y-8">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-foreground mb-2 flex items-center gap-2">
-            <FileText className="w-8 h-8 text-primary" />
+      <div className="max-w-4xl mx-auto px-4 py-4 md:py-6 space-y-6 md:space-y-8">
+        <div className="mb-4 md:mb-6">
+          <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2 flex items-center gap-2">
+            <FileText className="w-6 h-6 md:w-8 md:h-8 text-primary" />
             {t('creditReportTitle')}
           </h1>
-          <p className="text-muted-foreground">
+          <p className="text-sm md:text-base text-muted-foreground">
             Upload or paste your credit report for AI-powered insights
           </p>
         </div>
 
         {/* Credit Bureau Section */}
         <div className="space-y-4">
-          <div className="flex items-start justify-between gap-4 flex-wrap">
+          <div className="flex flex-col md:flex-row items-start md:items-start justify-between gap-4">
             <div>
-              <h2 className="text-2xl font-bold text-foreground mb-2">
+              <h2 className="text-xl md:text-2xl font-bold text-foreground mb-2">
                 {t('freeCreditReportTitle')}
               </h2>
-              <p className="text-muted-foreground">
+              <p className="text-sm md:text-base text-muted-foreground">
                 {t('freeCreditReportSubtitle')}
               </p>
             </div>
             <Select value={language} onValueChange={(val) => setLanguage(val as 'en' | 'es')}>
-              <SelectTrigger className="w-[180px] border-2">
+              <SelectTrigger className="w-full md:w-[180px] border-2 min-h-[44px]">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -99,21 +99,21 @@ const CreditReport = () => {
                 {creditBureaus.map((bureau) => (
                   <div
                     key={bureau.name}
-                    className="flex items-center justify-between p-4 md:p-6 gap-4 hover:bg-accent/5 transition-colors"
+                    className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 md:p-6 gap-4 hover:bg-accent/5 transition-colors"
                   >
-                    <div className="flex items-center gap-3 flex-1 min-w-0">
+                    <div className="flex items-center gap-3 flex-1 min-w-0 w-full sm:w-auto">
                       <div className="w-12 h-12 rounded-full bg-background border-2 border-border flex items-center justify-center flex-shrink-0">
                         <span className={`font-bold text-xl ${bureau.color}`}>
                           {bureau.name[0]}
                         </span>
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className={`font-bold text-lg ${bureau.color}`}>
+                        <h3 className={`font-bold text-base md:text-lg ${bureau.color}`}>
                           {bureau.name}
                         </h3>
                         <a
                           href={`tel:${bureau.phone}`}
-                          className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1 transition-colors"
+                          className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1 transition-colors min-h-[44px] sm:min-h-0"
                         >
                           <Phone className="w-3 h-3" />
                           {bureau.phone}
@@ -122,13 +122,13 @@ const CreditReport = () => {
                     </div>
                     <Button
                       asChild
-                      className="flex-shrink-0 bg-primary hover:bg-primary/90"
+                      className="flex-shrink-0 bg-primary hover:bg-primary/90 w-full sm:w-auto min-h-[44px]"
                     >
                       <a
                         href={bureau.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2"
+                        className="flex items-center gap-2 justify-center"
                       >
                         {t('viewReport')}
                         <ExternalLink className="w-4 h-4" />
@@ -195,7 +195,7 @@ const CreditReport = () => {
             <Button
               onClick={handleAnalyze}
               disabled={isAnalyzing}
-              className="w-full bg-primary hover:bg-primary/90"
+              className="w-full bg-primary hover:bg-primary/90 min-h-[48px]"
             >
               {isAnalyzing ? (
                 <>Analyzing...</>

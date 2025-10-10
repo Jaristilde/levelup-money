@@ -52,13 +52,13 @@ const Retirement = () => {
 
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-8 md:pt-20">
-      <div className="max-w-4xl mx-auto px-4 py-6">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-foreground mb-2 flex items-center gap-2">
-            <PiggyBank className="w-8 h-8 text-primary" />
+      <div className="max-w-4xl mx-auto px-4 py-4 md:py-6">
+        <div className="mb-4 md:mb-6">
+          <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2 flex items-center gap-2">
+            <PiggyBank className="w-6 h-6 md:w-8 md:h-8 text-primary" />
             {t('retirementTitle')}
           </h1>
-          <p className="text-muted-foreground">
+          <p className="text-sm md:text-base text-muted-foreground">
             Check your retirement readiness and plan for the future
           </p>
         </div>
@@ -121,7 +121,7 @@ const Retirement = () => {
                 onChange={(e) => setFormData({ ...formData, monthlyContribution: e.target.value })}
               />
             </div>
-            <Button onClick={handleCheck} className="w-full">
+            <Button onClick={handleCheck} className="w-full min-h-[48px]">
               {t('checkReadiness')}
             </Button>
           </CardContent>

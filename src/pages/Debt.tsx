@@ -58,13 +58,13 @@ const Debt = () => {
 
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-8 md:pt-20">
-      <div className="max-w-4xl mx-auto px-4 py-6">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-foreground mb-2 flex items-center gap-2">
-            <CreditCard className="w-8 h-8 text-primary" />
+      <div className="max-w-4xl mx-auto px-4 py-4 md:py-6">
+        <div className="mb-4 md:mb-6">
+          <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2 flex items-center gap-2">
+            <CreditCard className="w-6 h-6 md:w-8 md:h-8 text-primary" />
             {t('debtTitle')}
           </h1>
-          <p className="text-muted-foreground">
+          <p className="text-sm md:text-base text-muted-foreground">
             Create a strategic plan to pay off your debts
           </p>
         </div>
@@ -180,14 +180,14 @@ const Debt = () => {
                   onChange={(e) => setFormData({ ...formData, minimumPayment: e.target.value })}
                 />
               </div>
-              <div className="flex gap-2">
-                <Button onClick={handleAddDebt} className="flex-1">Add Debt</Button>
-                <Button variant="outline" onClick={() => setShowForm(false)} className="flex-1">Cancel</Button>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <Button onClick={handleAddDebt} className="flex-1 min-h-[48px]">Add Debt</Button>
+                <Button variant="outline" onClick={() => setShowForm(false)} className="flex-1 min-h-[44px]">Cancel</Button>
               </div>
             </CardContent>
           </Card>
         ) : (
-          <Button onClick={() => setShowForm(true)} className="w-full">
+          <Button onClick={() => setShowForm(true)} className="w-full min-h-[48px]">
             <Plus className="w-4 h-4 mr-2" />
             Add Debt
           </Button>

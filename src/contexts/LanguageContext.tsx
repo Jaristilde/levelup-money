@@ -69,6 +69,16 @@ const translations = {
     // Chat
     chatTitle: 'AI Financial Assistant',
     askQuestion: 'Ask me anything about credit, debt, or savings...',
+    
+    // Credit Bureau Section
+    freeCreditReportTitle: 'Get My Free Credit Report',
+    freeCreditReportSubtitle: 'Check your credit for free and stay in control—you\'re entitled to 1 free report every 12 months from each bureau.',
+    viewReport: 'View Report',
+    didYouKnow: 'Did you know?',
+    legalNotice: 'Under U.S. federal law, you are entitled to one free credit report every 12 months from each of the three credit bureaus. Always use AnnualCreditReport.com—the official government-backed site.',
+    quickActions: 'Quick Actions',
+    generateDisputeLetter: 'Generate Dispute Letter',
+    askAIAssistant: 'Ask AI Assistant',
   },
   es: {
     // Navigation
@@ -130,6 +140,16 @@ const translations = {
     // Chat
     chatTitle: 'Asistente Financiero IA',
     askQuestion: 'Pregúntame sobre crédito, deuda o ahorros...',
+    
+    // Credit Bureau Section
+    freeCreditReportTitle: 'Obtén Tu Reporte de Crédito Gratuito',
+    freeCreditReportSubtitle: 'Revisa tu crédito gratis y mantén el control—tienes derecho a 1 reporte gratuito cada 12 meses de cada agencia.',
+    viewReport: 'Ver Reporte',
+    didYouKnow: '¿Sabías que...?',
+    legalNotice: 'Según la ley federal de EE.UU., tienes derecho a un informe de crédito gratuito cada 12 meses de cada una de las tres agencias de crédito. Usa siempre AnnualCreditReport.com, el sitio web oficial aprobado por el gobierno.',
+    quickActions: 'Acciones Rápidas',
+    generateDisputeLetter: 'Generar Carta de Disputa',
+    askAIAssistant: 'Preguntar al Asistente IA',
   },
 };
 

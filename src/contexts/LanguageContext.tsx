@@ -8,26 +8,38 @@ interface LanguageContextType {
   t: (key: string) => string;
 }
 
-const translations = {
-  en: {
-    // Navigation
-    home: 'Home',
-    creditReport: 'Credit Report',
-    disputeLetter: 'Dispute Letter',
-    budget: 'Budget',
-    debt: 'Debt',
-    goals: 'Goals',
-    retirement: 'Retirement',
-    chat: 'AI Assistant',
+  const translations = {
+    en: {
+      // Navigation
+      home: 'Home',
+      milestones: 'Milestones',
+      creditReport: 'Credit Report',
+      disputeLetter: 'Dispute Letter',
+      budget: 'Budget',
+      debt: 'Debt',
+      goals: 'Goals',
+      retirement: 'Retirement',
+      chat: 'AI Assistant',
     settings: 'Settings',
     
     // Home page
-    welcomeTitle: 'Your Financial Wellness Journey',
-    welcomeSubtitle: 'Take control of your credit and build a brighter financial future',
+    welcomeTitle: 'Break Free from the Paycheck-to-Paycheck Cycle',
+    welcomeSubtitle: 'Join thousands who have taken control of their finances with our proven step-by-step system',
+    startJourney: 'Start Your Journey',
+    financialSnapshot: 'Your Financial Wellness Snapshot',
+    journeyProgress: 'Journey Progress',
+    overallCompletion: 'Overall completion',
+    nextMilestone: 'Next milestone',
+    viewFullJourney: 'View Full Journey',
+    completedMilestones: 'milestones completed',
     creditScore: 'Credit Score',
     monthlyBudget: 'Monthly Budget',
     debtPayoff: 'Debt Progress',
     savingsGoal: 'Savings Goal',
+    
+    // Milestones page
+    milestonePageTitle: 'Your Financial Wellness Journey',
+    milestonePageSubtitle: 'Track your progress toward financial freedom',
     
     // Common
     loading: 'Loading...',
@@ -165,22 +177,34 @@ const translations = {
   es: {
     // Navigation
     home: 'Inicio',
+    milestones: 'Metas',
     creditReport: 'Reporte de Crédito',
     disputeLetter: 'Carta de Disputa',
     budget: 'Presupuesto',
     debt: 'Deuda',
-    goals: 'Metas',
+    goals: 'Objetivos',
     retirement: 'Retiro',
     chat: 'Asistente IA',
     settings: 'Configuración',
     
     // Home page
-    welcomeTitle: 'Tu Camino al Bienestar Financiero',
-    welcomeSubtitle: 'Toma control de tu crédito y construye un futuro financiero brillante',
+    welcomeTitle: 'Sal de la Rueda del Hámster',
+    welcomeSubtitle: 'Únete a miles que han tomado control de sus finanzas con nuestro sistema paso a paso',
+    startJourney: 'Comienza Tu Viaje',
+    financialSnapshot: 'Tu Instantánea de Bienestar Financiero',
+    journeyProgress: 'Progreso del Viaje',
+    overallCompletion: 'Progreso total',
+    nextMilestone: 'Siguiente meta',
+    viewFullJourney: 'Ver Viaje Completo',
+    completedMilestones: 'metas completadas',
     creditScore: 'Puntaje de Crédito',
     monthlyBudget: 'Presupuesto Mensual',
     debtPayoff: 'Progreso de Deuda',
     savingsGoal: 'Meta de Ahorro',
+    
+    // Milestones page
+    milestonePageTitle: 'Tu Viaje de Bienestar Financiero',
+    milestonePageSubtitle: 'Sigue tu progreso hacia la libertad financiera',
     
     // Common
     loading: 'Cargando...',

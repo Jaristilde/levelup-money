@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Home, FileText, FileCheck, Wallet, CreditCard, Target, PiggyBank, MessageCircle, Settings, Languages } from 'lucide-react';
+import { Home, MapPin, FileText, FileCheck, Wallet, CreditCard, Target, PiggyBank, MessageCircle, Settings, Languages } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 
@@ -9,11 +9,12 @@ const Navigation = () => {
 
   const navItems = [
     { path: '/', icon: Home, label: t('home') },
+    { path: '/milestones', icon: MapPin, label: t('milestones') },
     { path: '/credit-report', icon: FileText, label: t('creditReport') },
-    { path: '/dispute-letter', icon: FileCheck, label: t('disputeLetter') },
     { path: '/budget', icon: Wallet, label: t('budget') },
     { path: '/debt', icon: CreditCard, label: t('debt') },
     { path: '/goals', icon: Target, label: t('goals') },
+    { path: '/dispute-letter', icon: FileCheck, label: t('disputeLetter') },
     { path: '/retirement', icon: PiggyBank, label: t('retirement') },
     { path: '/chat', icon: MessageCircle, label: t('chat') },
   ];

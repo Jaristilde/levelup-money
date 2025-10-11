@@ -6,7 +6,6 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import Navigation from "@/components/Navigation";
 import AppSidebar from "@/components/AppSidebar";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { lazy, Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -78,45 +77,40 @@ const App = () => {
                   path="/*"
                   element={
                     <ProtectedRoute>
-                      <SidebarProvider>
-                        <div className="flex min-h-screen w-full bg-white">
-                          {/* Desktop Sidebar - Always visible */}
-                          <aside className="hidden md:block sticky top-0 h-screen z-50" aria-label="Main navigation">
-                            <AppSidebar />
-                          </aside>
-                          
-                          {/* Main Content */}
-                          <div className="flex-1 flex flex-col w-full min-w-0">
-                            {/* Mobile Header */}
-                            <header className="md:hidden h-14 border-b border-gray-200 flex items-center px-4 bg-white sticky top-0 z-40">
-                              <SidebarTrigger aria-label="Toggle navigation menu" className="text-gray-900" />
-                              <span className="ml-4 font-semibold text-gray-900">FinWell</span>
-                            </header>
+                      <div className="flex min-h-screen w-full bg-white">
+                        {/* Desktop Sidebar - Always visible */}
+                        <AppSidebar />
+                        
+                        {/* Main Content */}
+                        <div className="flex-1 flex flex-col w-full ml-64">
+                          {/* Mobile Header */}
+                          <header className="md:hidden h-14 border-b border-gray-200 flex items-center px-4 bg-white sticky top-0 z-40">
+                            <span className="font-semibold text-gray-900">FinWell</span>
+                          </header>
 
-                            {/* Page Content */}
-                            <main className="flex-1 pb-20 md:pb-8 transition-opacity duration-150 bg-gray-50" role="main">
-                              <Suspense fallback={<PageLoader />}>
-                                <Routes>
-                                  <Route path="/" element={<Home />} />
-                                  <Route path="/milestones" element={<Milestones />} />
-                                  <Route path="/credit-report" element={<CreditReport />} />
-                                  <Route path="/dispute-letter" element={<DisputeLetter />} />
-                                  <Route path="/budget" element={<Budget />} />
-                                  <Route path="/debt" element={<Debt />} />
-                                  <Route path="/goals" element={<Goals />} />
-                                  <Route path="/retirement" element={<Retirement />} />
-                                  <Route path="/chat" element={<Chat />} />
-                                  <Route path="/settings" element={<Settings />} />
-                                  <Route path="*" element={<NotFound />} />
-                                </Routes>
-                              </Suspense>
-                            </main>
-                          </div>
-
-                          {/* Mobile Bottom Navigation */}
-                          <Navigation />
+                          {/* Page Content */}
+                          <main className="flex-1 pb-20 md:pb-8 transition-opacity duration-150 bg-gray-50" role="main">
+                            <Suspense fallback={<PageLoader />}>
+                              <Routes>
+                                <Route path="/" element={<Home />} />
+                                <Route path="/milestones" element={<Milestones />} />
+                                <Route path="/credit-report" element={<CreditReport />} />
+                                <Route path="/dispute-letter" element={<DisputeLetter />} />
+                                <Route path="/budget" element={<Budget />} />
+                                <Route path="/debt" element={<Debt />} />
+                                <Route path="/goals" element={<Goals />} />
+                                <Route path="/retirement" element={<Retirement />} />
+                                <Route path="/chat" element={<Chat />} />
+                                <Route path="/settings" element={<Settings />} />
+                                <Route path="*" element={<NotFound />} />
+                              </Routes>
+                            </Suspense>
+                          </main>
                         </div>
-                      </SidebarProvider>
+
+                        {/* Mobile Bottom Navigation */}
+                        <Navigation />
+                      </div>
                     </ProtectedRoute>
                   }
                 />

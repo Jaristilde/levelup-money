@@ -77,19 +77,25 @@ const App = () => {
                   path="/*"
                   element={
                     <ProtectedRoute>
-                      <div className="flex min-h-screen w-full bg-white">
-                        {/* Desktop Sidebar - Always visible */}
+                      <div className="flex min-h-screen w-full">
+                        {/* Desktop Sidebar - Always visible on desktop */}
                         <AppSidebar />
                         
-                        {/* Main Content */}
-                        <div className="flex-1 flex flex-col w-full ml-64">
-                          {/* Mobile Header */}
-                          <header className="md:hidden h-14 border-b border-gray-200 flex items-center px-4 bg-white sticky top-0 z-40">
-                            <span className="font-semibold text-gray-900">LevelUp Money</span>
+                        {/* Main Content Area */}
+                        <div className="flex-1 flex flex-col w-full lg:ml-[280px]">
+                          {/* Mobile Top Bar */}
+                          <header className="lg:hidden h-16 border-b border-slate-800 flex items-center justify-between px-4 bg-gradient-to-r from-slate-900 to-slate-950 backdrop-blur-xl sticky top-0 z-40">
+                            <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                                <span className="text-white font-bold text-sm">LU</span>
+                              </div>
+                              <span className="text-base font-semibold text-white">LevelUp Money</span>
+                            </div>
+                            <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full" />
                           </header>
 
-                          {/* Page Content */}
-                          <main className="flex-1 pb-20 md:pb-8 transition-opacity duration-150 bg-gray-50" role="main">
+                          {/* Page Content with Premium Background */}
+                          <main className="flex-1 pb-20 lg:pb-8 bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen transition-all duration-200" role="main">
                             <Suspense fallback={<PageLoader />}>
                               <Routes>
                                 <Route path="/" element={<Home />} />

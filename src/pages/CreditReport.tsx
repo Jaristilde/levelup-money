@@ -60,21 +60,21 @@ const CreditReport = () => {
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-8 md:pt-20">
       <div className="max-w-4xl mx-auto px-4 py-4 md:py-6 space-y-6 md:space-y-8">
-        <div className="mb-4 md:mb-6">
+        <header className="mb-4 md:mb-6">
           <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2 flex items-center gap-2">
-            <FileText className="w-6 h-6 md:w-8 md:h-8 text-primary" />
+            <FileText className="w-6 h-6 md:w-8 md:h-8 text-primary" aria-hidden="true" />
             {t('creditReportTitle')}
           </h1>
           <p className="text-sm md:text-base text-muted-foreground">
             Upload or paste your credit report for AI-powered insights
           </p>
-        </div>
+        </header>
 
         {/* Credit Bureau Section */}
-        <div className="space-y-4">
-          <div className="flex flex-col md:flex-row items-start md:items-start justify-between gap-4">
+        <section aria-labelledby="credit-bureaus-heading">
+          <div className="flex flex-col md:flex-row items-start md:items-start justify-between gap-4 mb-4">
             <div>
-              <h2 className="text-xl md:text-2xl font-bold text-foreground mb-2">
+              <h2 id="credit-bureaus-heading" className="text-xl md:text-2xl font-bold text-foreground mb-2">
                 {t('freeCreditReportTitle')}
               </h2>
               <p className="text-sm md:text-base text-muted-foreground">
@@ -82,7 +82,7 @@ const CreditReport = () => {
               </p>
             </div>
             <Select value={language} onValueChange={(val) => setLanguage(val as 'en' | 'es')}>
-              <SelectTrigger className="w-full md:w-[180px] border-2 min-h-[44px]">
+              <SelectTrigger className="w-full md:w-[180px] border-2 min-h-[44px]" aria-label="Select language">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -95,58 +95,67 @@ const CreditReport = () => {
           {/* Credit Bureaus Table */}
           <Card className="border-2">
             <CardContent className="p-0">
-              <div className="divide-y divide-border">
-                {creditBureaus.map((bureau) => (
-                  <div
-                    key={bureau.name}
-                    className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 md:p-6 gap-4 hover:bg-accent/5 transition-colors"
-                  >
-                    <div className="flex items-center gap-3 flex-1 min-w-0 w-full sm:w-auto">
-                      <div className="w-12 h-12 rounded-full bg-background border-2 border-border flex items-center justify-center flex-shrink-0">
-                        <span className={`font-bold text-xl ${bureau.color}`}>
-                          {bureau.name[0]}
-                        </span>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h3 className={`font-bold text-base md:text-lg ${bureau.color}`}>
-                          {bureau.name}
-                        </h3>
-                        <a
-                          href={`tel:${bureau.phone}`}
-                          className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1 transition-colors min-h-[44px] sm:min-h-0"
-                        >
-                          <Phone className="w-3 h-3" />
-                          {bureau.phone}
-                        </a>
-                      </div>
-                    </div>
-                    <Button
-                      asChild
-                      className="flex-shrink-0 bg-primary hover:bg-primary/90 w-full sm:w-auto min-h-[44px]"
+              <table className="w-full">
+                <caption className="sr-only">Credit bureaus contact information</caption>
+                <tbody className="divide-y divide-border">
+                  {creditBureaus.map((bureau) => (
+                    <tr
+                      key={bureau.name}
+                      className="hover:bg-accent/5 transition-colors"
                     >
-                      <a
-                        href={bureau.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 justify-center"
-                      >
-                        {t('viewReport')}
-                        <ExternalLink className="w-4 h-4" />
-                      </a>
-                    </Button>
-                  </div>
-                ))}
-              </div>
+                      <td className="p-4 md:p-6">
+                        <div className="flex items-center gap-3 flex-1 min-w-0">
+                          <div className="w-12 h-12 rounded-full bg-background border-2 border-border flex items-center justify-center flex-shrink-0" aria-hidden="true">
+                            <span className={`font-bold text-xl ${bureau.color}`}>
+                              {bureau.name[0]}
+                            </span>
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h3 className={`font-bold text-base md:text-lg ${bureau.color}`}>
+                              {bureau.name}
+                            </h3>
+                            <a
+                              href={`tel:${bureau.phone}`}
+                              className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1 transition-colors"
+                              aria-label={`Call ${bureau.name} at ${bureau.phone}`}
+                            >
+                              <Phone className="w-3 h-3" aria-hidden="true" />
+                              {bureau.phone}
+                            </a>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="p-4 md:p-6">
+                        <Button
+                          asChild
+                          className="flex-shrink-0 bg-primary hover:bg-primary/90 w-full sm:w-auto min-h-[44px]"
+                        >
+                          <a
+                            href={bureau.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 justify-center"
+                            aria-label={`View ${bureau.name} credit report (opens in new tab)`}
+                          >
+                            {t('viewReport')}
+                            <ExternalLink className="w-4 h-4" aria-hidden="true" />
+                          </a>
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </CardContent>
           </Card>
 
           {/* Educational Notice */}
-          <Card className="border-2 border-warning/30 bg-warning/5">
+          <Card className="border-2 border-warning/30 bg-warning/5" role="note" aria-labelledby="educational-notice-heading">
             <CardContent className="p-6">
               <div className="flex gap-4">
-                <Lightbulb className="w-6 h-6 text-warning flex-shrink-0 mt-1" />
+                <Lightbulb className="w-6 h-6 text-warning flex-shrink-0 mt-1" aria-hidden="true" />
                 <div>
-                  <h3 className="font-semibold text-foreground mb-2 text-lg">
+                  <h3 id="educational-notice-heading" className="font-semibold text-foreground mb-2 text-lg">
                     {t('didYouKnow')}
                   </h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">
@@ -156,7 +165,7 @@ const CreditReport = () => {
               </div>
             </CardContent>
           </Card>
-        </div>
+        </section>
 
         <Card className="mb-6">
           <CardHeader>
@@ -190,18 +199,26 @@ const CreditReport = () => {
               value={reportText}
               onChange={(e) => setReportText(e.target.value)}
               className="min-h-[200px] font-mono text-sm"
+              aria-label="Credit report data"
+              aria-describedby="report-input-description"
             />
+            <span id="report-input-description" className="sr-only">
+              Enter your credit report information including credit score, account balances, payment history, and inquiries
+            </span>
 
             <Button
               onClick={handleAnalyze}
               disabled={isAnalyzing}
               className="w-full bg-primary hover:bg-primary/90 min-h-[48px]"
+              aria-label={isAnalyzing ? 'Analyzing your credit report' : 'Analyze your credit report'}
             >
               {isAnalyzing ? (
-                <>Analyzing...</>
+                <>
+                  <span role="status" aria-live="polite">Analyzing...</span>
+                </>
               ) : (
                 <>
-                  <TrendingUp className="w-4 h-4 mr-2" />
+                  <TrendingUp className="w-4 h-4 mr-2" aria-hidden="true" />
                   {t('analyzeCredit')}
                 </>
               )}
@@ -210,21 +227,23 @@ const CreditReport = () => {
         </Card>
 
         {analysis && (
-          <Card className="border-primary">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <TrendingUp className="w-5 h-5 text-primary" />
-                AI Analysis Results
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="prose prose-sm max-w-none">
-                <pre className="whitespace-pre-wrap text-sm text-foreground bg-muted p-4 rounded-lg">
-                  {analysis}
-                </pre>
-              </div>
-            </CardContent>
-          </Card>
+          <section aria-labelledby="analysis-results-heading">
+            <Card className="border-primary">
+              <CardHeader>
+                <CardTitle id="analysis-results-heading" className="flex items-center gap-2">
+                  <TrendingUp className="w-5 h-5 text-primary" aria-hidden="true" />
+                  AI Analysis Results
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="prose prose-sm max-w-none">
+                  <pre className="whitespace-pre-wrap text-sm text-foreground bg-muted p-4 rounded-lg" role="article" aria-label="Credit report analysis">
+                    {analysis}
+                  </pre>
+                </div>
+              </CardContent>
+            </Card>
+          </section>
         )}
       </div>
     </div>

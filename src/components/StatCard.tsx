@@ -22,14 +22,14 @@ export const StatCard = memo(({ stat }: StatCardProps) => {
   const Icon = stat.icon;
   
   return (
-    <Link to={stat.link}>
+    <Link to={stat.link} aria-label={`View ${stat.label}: ${stat.value}`}>
       <Card className="hover:shadow-xl transition-all duration-300 border-border hover:border-primary/50 h-full scale-95 md:scale-100">
         <CardContent className="p-4">
           <div className="flex items-start justify-between mb-3">
-            <div className={`p-2 rounded-lg ${stat.bgColor}`}>
+            <div className={`p-2 rounded-lg ${stat.bgColor}`} aria-hidden="true">
               <Icon className={`w-5 h-5 md:w-6 md:h-6 ${stat.color}`} />
             </div>
-            <ArrowRight className="w-4 h-4 text-muted-foreground" />
+            <ArrowRight className="w-4 h-4 text-muted-foreground" aria-hidden="true" />
           </div>
           <h3 className="text-xs font-medium text-muted-foreground mb-2">
             {stat.label}
@@ -43,7 +43,7 @@ export const StatCard = memo(({ stat }: StatCardProps) => {
             <p className="text-xs text-muted-foreground">{stat.subtitle}</p>
           )}
           {stat.progress !== undefined && (
-            <Progress value={stat.progress} className="h-1.5 mt-2" />
+            <Progress value={stat.progress} className="h-1.5 mt-2" aria-label={`Progress: ${stat.progress} percent`} />
           )}
         </CardContent>
       </Card>

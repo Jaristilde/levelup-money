@@ -16,8 +16,8 @@ const Navigation = () => {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-card border-t border-border z-50 md:hidden h-16">
-      <div className="flex justify-around items-center h-full px-2">
+    <nav className="fixed bottom-0 left-0 right-0 bg-card border-t border-border z-50 md:hidden h-16" aria-label="Mobile navigation">
+      <div className="flex justify-around items-center h-full px-2" role="tablist">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = location.pathname === item.path;
@@ -25,11 +25,14 @@ const Navigation = () => {
             <Link
               key={item.path}
               to={item.path}
+              role="tab"
+              aria-label={`Navigate to ${item.name}`}
+              aria-current={isActive ? 'page' : undefined}
               className={`flex flex-col items-center justify-center gap-1 px-3 py-2 transition-all min-h-[44px] min-w-[44px] relative ${
                 isActive ? 'text-primary' : 'text-muted-foreground/60'
               }`}
             >
-              <Icon className={`w-6 h-6 ${isActive ? 'text-primary' : ''}`} />
+              <Icon className={`w-6 h-6 ${isActive ? 'text-primary' : ''}`} aria-hidden="true" />
               <span className={`text-[10px] font-medium leading-tight ${isActive ? 'text-primary' : ''}`}>
                 {item.name}
               </span>

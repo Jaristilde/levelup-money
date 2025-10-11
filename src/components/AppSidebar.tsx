@@ -11,9 +11,9 @@ const AppSidebar = () => {
         {/* Logo */}
         <div className="flex items-center gap-3 mb-8">
           <div className="w-12 h-12 bg-gradient-to-br from-teal-400 to-emerald-500 rounded-xl flex items-center justify-center">
-            <span className="text-white font-bold text-lg">FW</span>
+            <span className="text-white font-bold text-lg">LU</span>
           </div>
-          <span className="text-xl font-semibold text-gray-900">FinWell</span>
+          <span className="text-xl font-semibold text-gray-900">LevelUp Money</span>
         </div>
         
         {/* Navigation */}

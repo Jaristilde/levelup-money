@@ -34,8 +34,8 @@ const AppSidebar = () => {
     <Sidebar className="border-r border-border">
       <SidebarContent>
         {/* Logo */}
-        <div className="p-6 flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary-light rounded-lg flex items-center justify-center">
+        <div className="p-6 flex items-center gap-3" role="banner">
+          <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary-light rounded-lg flex items-center justify-center" aria-hidden="true">
             <span className="text-primary-foreground font-bold text-lg">FW</span>
           </div>
           {state !== 'collapsed' && (
@@ -54,13 +54,14 @@ const AppSidebar = () => {
                       <NavLink
                         to={item.path}
                         end={item.path === '/'}
+                        aria-label={item.label}
                         className={({ isActive }) =>
                           isActive
                             ? 'bg-primary text-primary-foreground hover:bg-primary/90'
                             : 'text-muted-foreground hover:bg-muted hover:text-foreground'
                         }
                       >
-                        <Icon className="w-5 h-5" />
+                        <Icon className="w-5 h-5" aria-hidden="true" />
                         {state !== 'collapsed' && <span>{item.label}</span>}
                       </NavLink>
                     </SidebarMenuButton>
@@ -76,7 +77,10 @@ const AppSidebar = () => {
         <Separator className="mb-4" />
         
         {/* User Profile */}
-        <div className="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-muted cursor-pointer mb-2">
+        <button 
+          className="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-muted cursor-pointer mb-2 w-full text-left"
+          aria-label="View user profile"
+        >
           <Avatar className="w-8 h-8">
             <AvatarFallback className="bg-primary text-primary-foreground">
               <User className="w-4 h-4" />
@@ -88,15 +92,15 @@ const AppSidebar = () => {
               <p className="text-xs text-muted-foreground truncate">user@finwell.com</p>
             </div>
           )}
-        </div>
+        </button>
 
         {/* Help & Logout */}
         <div className="flex gap-2">
-          <Button variant="ghost" size="icon" className="flex-1">
-            <HelpCircle className="w-5 h-5" />
+          <Button variant="ghost" size="icon" className="flex-1" aria-label="Help and support">
+            <HelpCircle className="w-5 h-5" aria-hidden="true" />
           </Button>
-          <Button variant="ghost" size="icon" className="flex-1">
-            <LogOut className="w-5 h-5" />
+          <Button variant="ghost" size="icon" className="flex-1" aria-label="Logout">
+            <LogOut className="w-5 h-5" aria-hidden="true" />
           </Button>
         </div>
       </SidebarFooter>

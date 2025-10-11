@@ -31,50 +31,15 @@ export const CreditScoreCard = memo(({ score, change, maxScore, t }: CreditScore
         <h2 className="text-lg md:text-xl font-semibold text-muted-foreground mb-4 md:mb-6">
           {t('creditScore')}
         </h2>
-        <div className="relative inline-flex items-center justify-center mb-4 md:mb-6">
-          <svg className="w-48 h-48 md:w-64 md:h-64 transform -rotate-90">
-            <circle
-              cx="96"
-              cy="96"
-              r="84"
-              stroke="hsl(var(--muted))"
-              strokeWidth="10"
-              fill="none"
-              className="md:hidden"
-            />
-            <circle
-              cx="96"
-              cy="96"
-              r="84"
-              stroke="hsl(var(--success))"
-              strokeWidth="10"
-              fill="none"
-              strokeDasharray={strokeDasharray}
-              strokeLinecap="round"
-              className="transition-all duration-1000 md:hidden"
-            />
-            <circle
-              cx="128"
-              cy="128"
-              r="112"
-              stroke="hsl(var(--muted))"
-              strokeWidth="12"
-              fill="none"
-              className="hidden md:block"
-            />
-            <circle
-              cx="128"
-              cy="128"
-              r="112"
-              stroke="hsl(var(--success))"
-              strokeWidth="12"
-              fill="none"
-              strokeDasharray={strokeDasharrayLarge}
-              strokeLinecap="round"
-              className="transition-all duration-1000 hidden md:block"
-            />
+        <div 
+          className="relative inline-flex items-center justify-center mb-4 md:mb-6"
+          role="img"
+          aria-label={`Credit score ${score} out of ${maxScore}, increased by ${change} points`}
+        >
+          <svg className="w-48 h-48 md:w-64 md:h-64 transform -rotate-90" aria-hidden="true">
+...
           </svg>
-          <div className="absolute inset-0 flex flex-col items-center justify-center">
+          <div className="absolute inset-0 flex flex-col items-center justify-center" aria-hidden="true">
             <span className="text-[80px] md:text-[120px] font-bold leading-none text-foreground">
               {score}
             </span>
@@ -87,9 +52,9 @@ export const CreditScoreCard = memo(({ score, change, maxScore, t }: CreditScore
           </div>
         </div>
         <Link to="/credit-report">
-          <Button variant="outline" size="lg" className="mt-2 md:mt-4 min-h-[44px]">
+          <Button variant="outline" size="lg" className="mt-2 md:mt-4 min-h-[44px]" aria-label="View your full credit report">
             View Full Report
-            <ArrowRight className="ml-2 w-4 h-4" />
+            <ArrowRight className="ml-2 w-4 h-4" aria-hidden="true" />
           </Button>
         </Link>
       </CardContent>

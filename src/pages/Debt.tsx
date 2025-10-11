@@ -59,81 +59,89 @@ const Debt = () => {
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-8 md:pt-20">
       <div className="max-w-4xl mx-auto px-4 py-4 md:py-6">
-        <div className="mb-4 md:mb-6">
+        <header className="mb-4 md:mb-6">
           <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2 flex items-center gap-2">
-            <CreditCard className="w-6 h-6 md:w-8 md:h-8 text-primary" />
+            <CreditCard className="w-6 h-6 md:w-8 md:h-8 text-primary" aria-hidden="true" />
             {t('debtTitle')}
           </h1>
           <p className="text-sm md:text-base text-muted-foreground">
             Create a strategic plan to pay off your debts
           </p>
-        </div>
+        </header>
 
-        <Card className="mb-6">
-          <CardHeader>
-            <CardTitle>{t('totalDebt')}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-4xl font-bold text-center py-4">
-              ${totalDebt.toFixed(2)}
-            </div>
-          </CardContent>
-        </Card>
+        <section aria-labelledby="total-debt-heading">
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle id="total-debt-heading">{t('totalDebt')}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-4xl font-bold text-center py-4" role="status" aria-live="polite" aria-atomic="true">
+                ${totalDebt.toFixed(2)}
+              </div>
+            </CardContent>
+          </Card>
+        </section>
 
-        <Card className="mb-6">
-          <CardHeader>
-            <CardTitle>{t('payoffStrategy')}</CardTitle>
-            <CardDescription>Choose your preferred debt payoff method</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Select value={strategy} onValueChange={(v) => setStrategy(v as 'snowball' | 'avalanche')}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="snowball">Snowball (Smallest Balance First)</SelectItem>
-                <SelectItem value="avalanche">Avalanche (Highest Interest First)</SelectItem>
-              </SelectContent>
-            </Select>
-          </CardContent>
-        </Card>
+        <section aria-labelledby="strategy-heading">
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle id="strategy-heading">{t('payoffStrategy')}</CardTitle>
+              <CardDescription>Choose your preferred debt payoff method</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Select value={strategy} onValueChange={(v) => setStrategy(v as 'snowball' | 'avalanche')}>
+                <SelectTrigger aria-label="Select debt payoff strategy">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="snowball">Snowball (Smallest Balance First)</SelectItem>
+                  <SelectItem value="avalanche">Avalanche (Highest Interest First)</SelectItem>
+                </SelectContent>
+              </Select>
+            </CardContent>
+          </Card>
+        </section>
 
-        <div className="space-y-4 mb-6">
-          {debts.map((debt) => (
-            <Card key={debt.id}>
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-semibold">{debt.name}</h3>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => handleRemoveDebt(debt.id)}
-                  >
-                    <Trash2 className="w-4 h-4 text-destructive" />
-                  </Button>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span>Balance:</span>
-                    <span className="font-semibold">${debt.balance.toFixed(2)}</span>
+        <section aria-labelledby="debt-list-heading">
+          <h2 id="debt-list-heading" className="sr-only">Your Debts</h2>
+          <div className="space-y-4 mb-6" role="list">
+            {debts.map((debt) => (
+              <Card key={debt.id} role="listitem">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="font-semibold">{debt.name}</h3>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => handleRemoveDebt(debt.id)}
+                      aria-label={`Remove ${debt.name} debt`}
+                    >
+                      <Trash2 className="w-4 h-4 text-destructive" aria-hidden="true" />
+                    </Button>
                   </div>
-                  {debt.interestRate > 0 && (
+                  <div className="space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span>Interest Rate:</span>
-                      <span>{debt.interestRate}%</span>
+                      <span>Balance:</span>
+                      <span className="font-semibold">${debt.balance.toFixed(2)}</span>
                     </div>
-                  )}
-                  {debt.minimumPayment > 0 && (
-                    <div className="flex justify-between text-sm">
-                      <span>Minimum Payment:</span>
-                      <span>${debt.minimumPayment.toFixed(2)}</span>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+                    {debt.interestRate > 0 && (
+                      <div className="flex justify-between text-sm">
+                        <span>Interest Rate:</span>
+                        <span>{debt.interestRate}%</span>
+                      </div>
+                    )}
+                    {debt.minimumPayment > 0 && (
+                      <div className="flex justify-between text-sm">
+                        <span>Minimum Payment:</span>
+                        <span>${debt.minimumPayment.toFixed(2)}</span>
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
 
         {showForm ? (
           <Card>
@@ -142,22 +150,24 @@ const Debt = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="debt-name">Debt Name *</Label>
+                <Label htmlFor="debt-name">Debt Name <span aria-label="required">*</span></Label>
                 <Input
                   id="debt-name"
                   placeholder="Credit Card, Student Loan, etc."
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  aria-required="true"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="debt-balance">Balance *</Label>
+                <Label htmlFor="debt-balance">Balance <span aria-label="required">*</span></Label>
                 <Input
                   id="debt-balance"
                   type="number"
                   placeholder="5000"
                   value={formData.balance}
                   onChange={(e) => setFormData({ ...formData, balance: e.target.value })}
+                  aria-required="true"
                 />
               </div>
               <div className="space-y-2">
@@ -187,8 +197,8 @@ const Debt = () => {
             </CardContent>
           </Card>
         ) : (
-          <Button onClick={() => setShowForm(true)} className="w-full min-h-[48px]">
-            <Plus className="w-4 h-4 mr-2" />
+          <Button onClick={() => setShowForm(true)} className="w-full min-h-[48px]" aria-label="Add a new debt">
+            <Plus className="w-4 h-4 mr-2" aria-hidden="true" />
             Add Debt
           </Button>
         )}

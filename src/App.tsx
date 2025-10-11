@@ -79,22 +79,22 @@ const App = () => {
                   element={
                     <ProtectedRoute>
                       <SidebarProvider>
-                        <div className="flex min-h-screen w-full">
-                          {/* Desktop Sidebar */}
-                          <aside className="hidden md:block" aria-label="Main navigation">
+                        <div className="flex min-h-screen w-full bg-white">
+                          {/* Desktop Sidebar - Always visible */}
+                          <aside className="hidden md:block sticky top-0 h-screen z-50" aria-label="Main navigation">
                             <AppSidebar />
                           </aside>
                           
                           {/* Main Content */}
-                          <div className="flex-1 flex flex-col w-full">
+                          <div className="flex-1 flex flex-col w-full min-w-0">
                             {/* Mobile Header */}
-                            <header className="md:hidden h-14 border-b border-border flex items-center px-4 bg-card sticky top-0 z-40">
-                              <SidebarTrigger aria-label="Toggle navigation menu" />
-                              <span className="ml-4 font-semibold text-foreground">FinWell</span>
+                            <header className="md:hidden h-14 border-b border-gray-200 flex items-center px-4 bg-white sticky top-0 z-40">
+                              <SidebarTrigger aria-label="Toggle navigation menu" className="text-gray-900" />
+                              <span className="ml-4 font-semibold text-gray-900">FinWell</span>
                             </header>
 
                             {/* Page Content */}
-                            <main className="flex-1 pb-20 md:pb-8 transition-opacity duration-150" role="main">
+                            <main className="flex-1 pb-20 md:pb-8 transition-opacity duration-150 bg-gray-50" role="main">
                               <Suspense fallback={<PageLoader />}>
                                 <Routes>
                                   <Route path="/" element={<Home />} />

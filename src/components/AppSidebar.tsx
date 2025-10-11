@@ -58,7 +58,7 @@ const AppSidebar = () => {
                         className={({ isActive }) =>
                           isActive
                             ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                            : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                            : 'text-foreground/70 hover:bg-muted hover:text-foreground'
                         }
                       >
                         <Icon className="w-5 h-5" aria-hidden="true" />

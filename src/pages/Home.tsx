@@ -1,11 +1,11 @@
-import { ArrowRight, TrendingUp, DollarSign, Target, Award, MessageSquare } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { TrendingUp, TrendingDown, DollarSign, Target } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
-import { CreditScoreCard } from '@/components/CreditScoreCard';
 import { StatCard } from '@/components/StatCard';
+import { CreditScoreTracker } from '@/components/dashboard/CreditScoreTracker';
+import { RecentActivity } from '@/components/dashboard/RecentActivity';
+import { QuickActions } from '@/components/dashboard/QuickActions';
+import { GoalsProgress } from '@/components/dashboard/GoalsProgress';
+import { PersonalizedInsights } from '@/components/dashboard/PersonalizedInsights';
 
 const Home = () => {
   const { t } = useLanguage();
@@ -13,136 +13,95 @@ const Home = () => {
   const stats = [
     {
       icon: TrendingUp,
-      label: t('creditScore'),
-      value: '650',
-      change: '+15',
+      label: 'Credit Score',
+      value: '720',
+      subtitle: '+15 ↑',
       link: '/credit-report',
-      color: 'text-warning',
-      bgColor: 'bg-warning/10',
+      color: 'text-white',
+      bgColor: 'from-emerald-400 to-teal-500',
+    },
+    {
+      icon: TrendingDown,
+      label: 'Total Debt',
+      value: '$12,450',
+      subtitle: '-$350 ↓',
+      link: '/debt',
+      color: 'text-white',
+      bgColor: 'from-blue-400 to-cyan-500',
     },
     {
       icon: DollarSign,
-      label: t('monthlyBudget'),
-      value: '$2,400',
-      subtitle: '$600 left',
+      label: 'Savings',
+      value: '$5,240',
+      subtitle: '+$520 ↑',
       link: '/budget',
-      color: 'text-primary',
-      bgColor: 'bg-primary/10',
+      color: 'text-white',
+      bgColor: 'from-purple-400 to-pink-500',
     },
     {
       icon: Target,
-      label: t('debtPayoff'),
-      value: '45%',
-      progress: 45,
-      link: '/debt',
-      color: 'text-accent',
-      bgColor: 'bg-accent/10',
-    },
-    {
-      icon: Award,
-      label: t('savingsGoal'),
-      value: '$1,200',
-      subtitle: 'of $3,000',
+      label: 'Goals Progress',
+      value: '3/5',
+      progress: 60,
       link: '/goals',
-      color: 'text-success',
-      bgColor: 'bg-success/10',
+      color: 'text-white',
+      bgColor: 'from-orange-400 to-red-500',
     },
   ];
 
   return (
-    <div className="min-h-screen bg-background pb-20 md:pb-8 md:pt-20">
-      <div className="max-w-7xl mx-auto px-4 md:px-4 py-4 md:py-6 space-y-8 md:space-y-12">
-        {/* Hero Section */}
-        <section aria-label="Welcome banner">
-          <Card className="border-2 bg-gradient-to-br from-primary/10 via-background to-accent/10">
-            <CardContent className="p-6 md:p-16 text-center">
-              <h1 className="text-3xl md:text-6xl font-bold text-foreground mb-4 md:mb-6 leading-tight">
-                LevelUp Money — Build wealth, crush debt, live free.
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 pb-20 lg:pb-8">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-6 md:py-10">
+        {/* Header Section */}
+        <header className="mb-8 md:mb-12">
+          <nav className="text-sm text-slate-500 mb-4" aria-label="Breadcrumb">
+            Home &gt; Dashboard
+          </nav>
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">
+                Welcome back, Alex
               </h1>
-              <p className="text-muted-foreground text-sm md:text-xl mb-4 md:mb-6 max-w-3xl mx-auto">
-                Join thousands who are leveling up their financial game
+              <p className="text-base md:text-lg text-slate-600">
+                Here's what's happening with your finances
               </p>
-              <Link to="/milestones">
-                <Button 
-                  variant="success" 
-                  size="lg" 
-                  aria-label="Start leveling up your finances"
-                  className="text-base md:text-lg px-8 md:px-12 h-12 min-w-[200px] mt-2 md:mt-6"
-                >
-                  Start Leveling Up
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
-        </section>
+            </div>
+          </div>
+        </header>
 
-        {/* Credit Score - Primary Focus */}
-        <section aria-label="Current credit score">
-          <CreditScoreCard score={650} change={15} maxScore={850} t={t} />
-        </section>
-
-        {/* Financial Wellness Snapshot */}
-        <section aria-labelledby="financial-snapshot-heading">
-          <h2 id="financial-snapshot-heading" className="text-xl md:text-2xl font-bold text-foreground mb-4 md:mb-6">
-            {t('financialSnapshot')}
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6" role="list">
-            {stats.slice(1).map((stat) => (
-              <div key={stat.label} role="listitem">
+        {/* Stats Grid */}
+        <section className="mb-8 md:mb-12" aria-label="Financial statistics overview">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            {stats.map((stat, index) => (
+              <div 
+                key={stat.label}
+                className="animate-fade-in"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
                 <StatCard stat={stat} />
               </div>
             ))}
           </div>
         </section>
 
-        {/* Journey Progress */}
-        <section aria-labelledby="journey-progress-heading">
-          <Card className="border-2 bg-gradient-to-r from-primary/5 to-accent/5">
-            <CardContent className="p-4">
-              <h3 id="journey-progress-heading" className="text-base md:text-lg font-semibold text-foreground mb-2">
-                {t('journeyProgress')}
-              </h3>
-              <p className="text-xs md:text-sm text-muted-foreground mb-3">
-                {t('overallCompletion')}: 2 {t('completedMilestones')} • 29%
-              </p>
-              <Progress value={29} className="h-3 mb-4" aria-label="Journey completion: 29 percent" />
-              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-0">
-                <p className="text-xs md:text-sm text-muted-foreground">
-                  {t('nextMilestone')}: <span className="font-medium text-foreground">Emergency Vault</span>
-                </p>
-                <Link to="/milestones" className="w-full md:w-auto">
-                  <Button variant="outline" size="sm" className="min-h-[44px] w-full md:w-auto" aria-label="View your full financial journey">
-                    {t('viewFullJourney')}
-                    <ArrowRight className="ml-2 w-4 h-4" aria-hidden="true" />
-                  </Button>
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Quick Actions */}
-        <section aria-labelledby="quick-actions-heading">
-          <h2 id="quick-actions-heading" className="text-lg md:text-xl font-semibold text-foreground mb-4">
-            {t('quickActions')}
-          </h2>
-          <div className="space-y-4">
-            <Link to="/chat" className="block">
-              <Button variant="outline" className="w-full justify-between min-h-[44px] md:h-12 text-sm md:text-base border-2 hover:bg-accent/10 transition-all" aria-label="Ask AI assistant for financial advice">
-                <span className="flex items-center gap-2">
-                  <MessageSquare className="w-5 h-5" aria-hidden="true" />
-                  {t('askAIAssistant')}
-                </span>
-                <ArrowRight className="w-5 h-5" aria-hidden="true" />
-              </Button>
-            </Link>
-            <Link to="/dispute-letter" className="block">
-              <Button variant="link" className="w-full justify-start min-h-[44px] text-sm md:text-base text-primary hover:text-primary/80" aria-label="Generate a credit report dispute letter">
-                {t('generateDisputeLetter')}
-                <ArrowRight className="w-4 h-4 ml-2" aria-hidden="true" />
-              </Button>
-            </Link>
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 mb-8">
+          {/* Left Column - 2/3 width */}
+          <div className="lg:col-span-2 space-y-6 md:space-y-8">
+            <CreditScoreTracker />
+            <RecentActivity />
           </div>
+
+          {/* Right Column - 1/3 width */}
+          <div className="space-y-6 md:space-y-8">
+            <QuickActions />
+            <GoalsProgress />
+          </div>
+        </div>
+
+        {/* Insights Section */}
+        <section aria-label="Personalized financial insights">
+          <PersonalizedInsights />
         </section>
       </div>
     </div>

@@ -118,7 +118,7 @@ export const DashboardTourStep = ({ onComplete }: DashboardTourStepProps) => {
 
           <div className="space-y-4">
             <Button onClick={handleNext} size="lg" className="w-full">
-              {currentTip < tourSteps.length - 1 ? "Next" : "Start Using FinWell"}
+              {currentTip < tourSteps.length - 1 ? "Next" : "Start Using LevelUp Money"}
             </Button>
 
             <div className="flex justify-center gap-2">

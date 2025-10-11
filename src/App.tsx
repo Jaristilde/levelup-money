@@ -85,7 +85,7 @@ const App = () => {
                         <div className="flex-1 flex flex-col w-full ml-64">
                           {/* Mobile Header */}
                           <header className="md:hidden h-14 border-b border-gray-200 flex items-center px-4 bg-white sticky top-0 z-40">
-                            <span className="font-semibold text-gray-900">FinWell</span>
+                            <span className="font-semibold text-gray-900">LevelUp Money</span>
                           </header>
 
                           {/* Page Content */}

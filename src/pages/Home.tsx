@@ -57,19 +57,19 @@ const Home = () => {
           <Card className="border-2 bg-gradient-to-br from-primary/10 via-background to-accent/10">
             <CardContent className="p-6 md:p-16 text-center">
               <h1 className="text-3xl md:text-6xl font-bold text-foreground mb-4 md:mb-6 leading-tight">
-                Improve Your Credit Score by 100+ Points in 90 Days
+                LevelUp Money — Build wealth, crush debt, live free.
               </h1>
               <p className="text-muted-foreground text-sm md:text-xl mb-4 md:mb-6 max-w-3xl mx-auto">
-                Join 50,000+ people who achieved financial freedom
+                Join thousands who are leveling up their financial game
               </p>
               <Link to="/milestones">
                 <Button 
                   variant="success" 
                   size="lg" 
-                  aria-label="Start your free credit assessment"
+                  aria-label="Start leveling up your finances"
                   className="text-base md:text-lg px-8 md:px-12 h-12 min-w-[200px] mt-2 md:mt-6"
                 >
-                  Start Free Assessment
+                  Start Leveling Up
                 </Button>
               </Link>
             </CardContent>

@@ -11,10 +11,10 @@ export const WelcomeStep = ({ onNext, onSkip }: WelcomeStepProps) => {
       <div className="max-w-2xl w-full text-center space-y-8">
         <div className="space-y-4">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
-            Welcome to FinWell! 🎉
+            Welcome to LevelUp Money! 🎉
           </h1>
           <p className="text-lg md:text-xl text-white/90 max-w-xl mx-auto">
-            We'll help you improve your credit score in 3 simple steps
+            Build wealth, crush debt, live free.
           </p>
         </div>
 

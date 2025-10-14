@@ -1,0 +1,57 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Helper function to check if user owns the file
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Helper function to validate image file types
+    function isImageFile() {
+      return request.resource.contentType.matches('image/.*');
+    }
+
+    // Helper function to validate file size (max 5MB)
+    function isValidSize() {
+      return request.resource.size <= 5 * 1024 * 1024;
+    }
+
+    // User profile pictures
+    match /avatars/{userId}/{filename} {
+      // Allow users to read any avatar (for displaying in UI)
+      allow read: if isAuthenticated();
+
+      // Allow users to upload/update their own avatar
+      allow write: if isOwner(userId) &&
+                      isImageFile() &&
+                      isValidSize();
+
+      // Allow users to delete their own avatar
+      allow delete: if isOwner(userId);
+    }
+
+    // User documents (credit reports, dispute letters, etc.)
+    match /documents/{userId}/{filename} {
+      // Allow users to read their own documents
+      allow read: if isOwner(userId);
+
+      // Allow users to upload their own documents
+      allow write: if isOwner(userId) &&
+                      isValidSize();
+
+      // Allow users to delete their own documents
+      allow delete: if isOwner(userId);
+    }
+
+    // Deny access to all other paths
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -4,22 +4,32 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { GamificationProvider } from "@/contexts/GamificationContext";
+import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import Navigation from "@/components/Navigation";
 import AppSidebar from "@/components/AppSidebar";
 import { lazy, Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 // Lazy load all route components
+const Landing = lazy(() => import("./pages/Landing"));
+const Login = lazy(() => import("./pages/Login"));
+const Signup = lazy(() => import("./pages/Signup"));
+const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const Home = lazy(() => import("./pages/Home"));
 const Milestones = lazy(() => import("./pages/Milestones"));
 const CreditReport = lazy(() => import("./pages/CreditReport"));
 const DisputeLetter = lazy(() => import("./pages/DisputeLetter"));
 const Budget = lazy(() => import("./pages/Budget"));
 const Debt = lazy(() => import("./pages/Debt"));
+const SnowballMethod = lazy(() => import("./pages/SnowballMethod"));
+const AvalancheMethod = lazy(() => import("./pages/AvalancheMethod"));
 const Goals = lazy(() => import("./pages/Goals"));
 const Retirement = lazy(() => import("./pages/Retirement"));
 const Chat = lazy(() => import("./pages/Chat"));
 const Settings = lazy(() => import("./pages/Settings"));
+const Profile = lazy(() => import("./pages/Profile"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Onboarding = lazy(() => import("./pages/Onboarding"));
 
@@ -52,27 +62,82 @@ const queryClient = new QueryClient({
   },
 });
 
+// Protected Route - requires authentication
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const hasCompletedOnboarding = localStorage.getItem("hasCompletedOnboarding");
-  
-  if (hasCompletedOnboarding !== "true") {
-    return <Navigate to="/onboarding" replace />;
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return <PageLoader />;
   }
-  
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return <>{children}</>;
+};
+
+// Public Route - redirects to app if already logged in
+const PublicRoute = ({ children }: { children: React.ReactNode }) => {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return <PageLoader />;
+  }
+
+  if (user) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
   return <>{children}</>;
 };
 
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <LanguageProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Suspense fallback={<PageLoader />}>
-              <Routes>
-                <Route path="/onboarding" element={<Onboarding />} />
+      <AuthProvider>
+        <LanguageProvider>
+          <GamificationProvider>
+            <TooltipProvider>
+              <Toaster />
+              <Sonner />
+              <BrowserRouter>
+              <Suspense fallback={<PageLoader />}>
+                <Routes>
+                  {/* Landing Page - Root Route */}
+                  <Route path="/" element={
+                    <PublicRoute>
+                      <Landing />
+                    </PublicRoute>
+                  } />
+
+                  {/* Auth Routes */}
+                  <Route path="/login" element={
+                    <PublicRoute>
+                      <Login />
+                    </PublicRoute>
+                  } />
+                  <Route path="/signup" element={
+                    <PublicRoute>
+                      <Signup />
+                    </PublicRoute>
+                  } />
+                  <Route path="/forgot-password" element={
+                    <PublicRoute>
+                      <ForgotPassword />
+                    </PublicRoute>
+                  } />
+                  <Route path="/reset-password" element={
+                    <ResetPassword />
+                  } />
+
+                  <Route path="/onboarding" element={
+                    <PublicRoute>
+                      <Onboarding />
+                    </PublicRoute>
+                  } />
+
+                  {/* Protected Routes */}
                 <Route
                   path="/*"
                   element={
@@ -98,15 +163,19 @@ const App = () => {
                           <main className="flex-1 pb-20 lg:pb-8 bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen transition-all duration-200" role="main">
                             <Suspense fallback={<PageLoader />}>
                               <Routes>
-                                <Route path="/" element={<Home />} />
+                                <Route path="/dashboard" element={<Home />} />
                                 <Route path="/milestones" element={<Milestones />} />
                                 <Route path="/credit-report" element={<CreditReport />} />
                                 <Route path="/dispute-letter" element={<DisputeLetter />} />
                                 <Route path="/budget" element={<Budget />} />
                                 <Route path="/debt" element={<Debt />} />
+                                <Route path="/snowball-method" element={<SnowballMethod />} />
+                                <Route path="/avalanche-method" element={<AvalancheMethod />} />
                                 <Route path="/goals" element={<Goals />} />
+                                <Route path="/accounts" element={<Debt />} />
                                 <Route path="/retirement" element={<Retirement />} />
                                 <Route path="/chat" element={<Chat />} />
+                                <Route path="/profile" element={<Profile />} />
                                 <Route path="/settings" element={<Settings />} />
                                 <Route path="*" element={<NotFound />} />
                               </Routes>
@@ -124,7 +193,9 @@ const App = () => {
             </Suspense>
           </BrowserRouter>
         </TooltipProvider>
+      </GamificationProvider>
       </LanguageProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 };

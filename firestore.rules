@@ -1,0 +1,104 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Helper function to check if user owns the document
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Helper function to validate user profile data
+    function isValidProfile(profile) {
+      return profile.keys().hasAll(['email', 'full_name', 'avatar_type', 'email_verified']) &&
+             profile.email is string &&
+             profile.full_name is string &&
+             profile.avatar_type in ['kevin', 'jess', 'david', 'maria', 'ben'] &&
+             profile.email_verified is bool;
+    }
+
+    // Users collection - stores user profiles
+    match /users/{userId} {
+      // Allow users to read their own profile
+      allow read: if isOwner(userId);
+
+      // Allow users to create their own profile (during signup)
+      allow create: if isOwner(userId) &&
+                       isValidProfile(request.resource.data) &&
+                       request.resource.data.email == request.auth.token.email;
+
+      // Allow users to update their own profile
+      allow update: if isOwner(userId) &&
+                       isValidProfile(request.resource.data);
+
+      // Prevent users from deleting their profile
+      allow delete: if false;
+
+      // Subcollections for user-specific data
+
+      // Financial accounts
+      match /accounts/{accountId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // Budget data
+      match /budgets/{budgetId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // Debt tracking
+      match /debts/{debtId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // Financial goals
+      match /goals/{goalId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // Milestones and progress
+      match /milestones/{milestoneId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // Retirement planning
+      match /retirement/{retirementId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // Transaction history
+      match /transactions/{transactionId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // Credit report data
+      match /credit_reports/{reportId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // Dispute letters
+      match /dispute_letters/{letterId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // Chat messages (AI assistant)
+      match /chat_messages/{messageId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // User settings and preferences
+      match /settings/{settingId} {
+        allow read, write: if isOwner(userId);
+      }
+    }
+
+    // Deny access to all other collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

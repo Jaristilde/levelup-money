@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { WelcomeStep } from "@/components/onboarding/WelcomeStep";
+import { AwarenessQualificationStep, AwarenessLevel } from "@/components/onboarding/AwarenessQualificationStep";
 import { GoalSelectionStep } from "@/components/onboarding/GoalSelectionStep";
 import { AccountConnectionStep } from "@/components/onboarding/AccountConnectionStep";
 import { SetGoalStep } from "@/components/onboarding/SetGoalStep";
@@ -14,6 +15,7 @@ export type FinancialGoal = "credit-score" | "debt" | "emergency" | "home" | nul
 const Onboarding = () => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
+  const [awarenessLevel, setAwarenessLevel] = useState<AwarenessLevel | null>(null);
   const [selectedGoal, setSelectedGoal] = useState<FinancialGoal>(null);
   const [targetScore, setTargetScore] = useState(700);
   const [targetDate, setTargetDate] = useState<Date | undefined>(undefined);
@@ -42,7 +44,7 @@ const Onboarding = () => {
   }, [currentStep, selectedGoal]);
 
   const handleNext = () => {
-    if (currentStep < 5) {
+    if (currentStep < 6) {
       setCurrentStep(currentStep + 1);
     } else {
       // Complete onboarding
@@ -50,6 +52,11 @@ const Onboarding = () => {
       localStorage.removeItem("onboardingStep");
       navigate("/");
     }
+  };
+
+  const handleAwarenessComplete = (level: AwarenessLevel) => {
+    setAwarenessLevel(level);
+    handleNext();
   };
 
   const handleBack = () => {
@@ -64,12 +71,12 @@ const Onboarding = () => {
     navigate("/");
   };
 
-  const progressPercentage = (currentStep / 5) * 100;
+  const progressPercentage = (currentStep / 6) * 100;
 
   return (
     <div className="min-h-screen bg-background">
       {/* Progress indicator */}
-      {currentStep > 1 && currentStep < 5 && (
+      {currentStep > 1 && currentStep < 6 && (
         <div className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b">
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center justify-between mb-2">
@@ -83,7 +90,7 @@ const Onboarding = () => {
                 Back
               </Button>
               <span className="text-sm font-medium text-foreground">
-                Step {currentStep} of 5
+                Step {currentStep} of 6
               </span>
               <Button
                 variant="ghost"
@@ -99,21 +106,24 @@ const Onboarding = () => {
       )}
 
       {/* Steps */}
-      <div className={currentStep > 1 && currentStep < 5 ? "pt-24" : ""}>
+      <div className={currentStep > 1 && currentStep < 6 ? "pt-24" : ""}>
         {currentStep === 1 && (
           <WelcomeStep onNext={handleNext} onSkip={handleSkip} />
         )}
         {currentStep === 2 && (
+          <AwarenessQualificationStep onComplete={handleAwarenessComplete} />
+        )}
+        {currentStep === 3 && (
           <GoalSelectionStep
             selectedGoal={selectedGoal}
             onSelectGoal={setSelectedGoal}
             onNext={handleNext}
           />
         )}
-        {currentStep === 3 && (
+        {currentStep === 4 && (
           <AccountConnectionStep onNext={handleNext} onSkip={handleNext} />
         )}
-        {currentStep === 4 && (
+        {currentStep === 5 && (
           <SetGoalStep
             selectedGoal={selectedGoal}
             targetScore={targetScore}
@@ -123,7 +133,7 @@ const Onboarding = () => {
             onNext={handleNext}
           />
         )}
-        {currentStep === 5 && (
+        {currentStep === 6 && (
           <DashboardTourStep onComplete={handleNext} />
         )}
       </div>

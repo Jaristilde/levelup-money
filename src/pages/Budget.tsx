@@ -31,7 +31,7 @@ const Budget = () => {
     { id: '1', name: 'Salary', amount: 4000, frequency: 'monthly' },
   ]);
   const [showAddIncome, setShowAddIncome] = useState(false);
-  const [newIncome, setNewIncome] = useState({ name: '', amount: 0, frequency: 'monthly' as const });
+  const [newIncome, setNewIncome] = useState<{ name: string; amount: number; frequency: 'weekly' | 'monthly' }>({ name: '', amount: 0, frequency: 'monthly' });
 
   // Expense State
   const [expenses, setExpenses] = useState<ExpenseCategory[]>([
@@ -312,7 +312,7 @@ const Budget = () => {
                           <Label htmlFor="income-frequency">Frequency</Label>
                           <Select
                             value={newIncome.frequency}
-                            onValueChange={(value: 'weekly' | 'monthly') => setNewIncome({ ...newIncome, frequency: value })}
+                            onValueChange={(value) => setNewIncome({ ...newIncome, frequency: value as 'weekly' | 'monthly' })}
                           >
                             <SelectTrigger id="income-frequency" className="mt-1">
                               <SelectValue />

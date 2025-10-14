@@ -304,7 +304,7 @@ Enclosures: Supporting documentation`;
                     <input
                       type="text"
                       value={ssn}
-                      onChange={(e) => setSSn(e.target.value)}
+                      onChange={(e) => setSsn(e.target.value)}
                       className="w-full px-4 py-2.5 border-2 border-slate-200 rounded-xl focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-all font-inter"
                       placeholder="1234"
                       maxLength={4}

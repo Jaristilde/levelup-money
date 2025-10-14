@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import mouseInWheel from "@/assets/mouse-in-wheel.jpg"; // Make sure to place the image here
 
 const Landing = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -85,7 +84,7 @@ const Landing = () => {
               </h2>
 
               {/* CTA Button */}
-              <div className="mb-16">
+              <div className="mb-20">
                 <Link to="/signup">
                   <Button
                     size="lg"
@@ -96,9 +95,74 @@ const Landing = () => {
                 </Link>
               </div>
 
-              {/* Rat in Wheel Illustration */}
-              <div className="max-w-[250px] mx-auto lg:mx-0 mt-12">
-                <img src={mouseInWheel} alt="Mouse running in a wheel chasing dollar bills" className="w-full h-auto animate-fade-in" />
+              {/* Clean SVG Rat in Wheel Illustration */}
+              <div className="max-w-[280px] mx-auto lg:mx-0">
+                <svg viewBox="0 0 300 300" className="w-full h-auto animate-fade-in">
+                  {/* Shadow */}
+                  <ellipse cx="150" cy="270" rx="100" ry="15" fill="#4CAF70" opacity="0.2" />
+                  
+                  {/* Wheel - rotating animation */}
+                  <g className="origin-center" style={{ animation: 'spin 20s linear infinite' }}>
+                    {/* Wheel circle */}
+                    <circle cx="150" cy="150" r="120" fill="none" stroke="#5FC77D" strokeWidth="3" />
+                    
+                    {/* Dollar coins around the wheel */}
+                    <g transform="translate(150, 30)">
+                      <circle r="20" fill="#7FD98E" stroke="#4CAF70" strokeWidth="2" />
+                      <text y="7" fontSize="20" fill="#2C3E50" fontWeight="bold" textAnchor="middle">$</text>
+                    </g>
+                    <g transform="translate(255, 90)">
+                      <circle r="20" fill="#7FD98E" stroke="#4CAF70" strokeWidth="2" />
+                      <text y="7" fontSize="20" fill="#2C3E50" fontWeight="bold" textAnchor="middle">$</text>
+                    </g>
+                    <g transform="translate(255, 210)">
+                      <circle r="20" fill="#7FD98E" stroke="#4CAF70" strokeWidth="2" />
+                      <text y="7" fontSize="20" fill="#2C3E50" fontWeight="bold" textAnchor="middle">$</text>
+                    </g>
+                    <g transform="translate(45, 210)">
+                      <circle r="20" fill="#7FD98E" stroke="#4CAF70" strokeWidth="2" />
+                      <text y="7" fontSize="20" fill="#2C3E50" fontWeight="bold" textAnchor="middle">$</text>
+                    </g>
+                  </g>
+
+                  {/* Rat/Mouse - stationary in center */}
+                  <g transform="translate(150, 150)">
+                    {/* Body */}
+                    <ellipse cx="0" cy="10" rx="35" ry="30" fill="#FFF5E6" stroke="#2C3E50" strokeWidth="2" />
+                    
+                    {/* Head */}
+                    <circle cx="0" cy="-15" r="25" fill="#FFF5E6" stroke="#2C3E50" strokeWidth="2" />
+                    
+                    {/* Ears */}
+                    <ellipse cx="-15" cy="-25" rx="10" ry="15" fill="#FFB6C1" stroke="#2C3E50" strokeWidth="2" />
+                    <ellipse cx="15" cy="-25" rx="10" ry="15" fill="#FFB6C1" stroke="#2C3E50" strokeWidth="2" />
+                    
+                    {/* Eyes */}
+                    <circle cx="-8" cy="-18" r="3" fill="#2C3E50" />
+                    <circle cx="8" cy="-18" r="3" fill="#2C3E50" />
+                    
+                    {/* Nose */}
+                    <circle cx="0" cy="-8" r="4" fill="#FFB6C1" />
+                    
+                    {/* Front legs (running pose) */}
+                    <line x1="-20" y1="25" x2="-30" y2="45" stroke="#2C3E50" strokeWidth="2" strokeLinecap="round" />
+                    <line x1="20" y1="25" x2="30" y2="40" stroke="#2C3E50" strokeWidth="2" strokeLinecap="round" />
+                    
+                    {/* Back legs (running pose) */}
+                    <line x1="-15" y1="35" x2="-25" y2="50" stroke="#2C3E50" strokeWidth="2" strokeLinecap="round" />
+                    <line x1="15" y1="35" x2="25" y2="48" stroke="#2C3E50" strokeWidth="2" strokeLinecap="round" />
+                    
+                    {/* Tail */}
+                    <path d="M 30 20 Q 50 15, 55 25" fill="none" stroke="#2C3E50" strokeWidth="2" strokeLinecap="round" />
+                  </g>
+
+                  <style>{`
+                    @keyframes spin {
+                      from { transform: rotate(0deg); }
+                      to { transform: rotate(360deg); }
+                    }
+                  `}</style>
+                </svg>
               </div>
             </div>
 
@@ -108,128 +172,176 @@ const Landing = () => {
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] md:w-[600px] md:h-[600px] bg-[#5FC77D]/20 rounded-full blur-2xl"></div>
               
               <svg viewBox="0 0 500 600" className="w-full h-auto drop-shadow-2xl relative z-10 max-w-[400px] md:max-w-none mx-auto">
+                <defs>
+                  {/* Shadow filter for 3D depth */}
+                  <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+                    <feOffset dx="2" dy="4" result="offsetblur"/>
+                    <feComponentTransfer>
+                      <feFuncA type="linear" slope="0.3"/>
+                    </feComponentTransfer>
+                    <feMerge>
+                      <feMergeNode/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                  {/* Glow effect */}
+                  <filter id="glow">
+                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                    <feMerge>
+                      <feMergeNode in="coloredBlur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                  {/* Coin pulse animation */}
+                  <style>{`
+                    @keyframes float {
+                      0%, 100% { transform: translateY(0px); }
+                      50% { transform: translateY(-8px); }
+                    }
+                    @keyframes sway {
+                      0%, 100% { transform: rotate(-2deg); }
+                      50% { transform: rotate(2deg); }
+                    }
+                    .coin-float { animation: float 3s ease-in-out infinite; }
+                    .plant-sway { animation: sway 4s ease-in-out infinite; transform-origin: 375px 175px; }
+                  `}</style>
+                </defs>
+
                 {/* Step 1 (Bottom) - Dollar sign */}
-                <g className="animate-fade-in" style={{ animationDelay: '0.2s', animationFillMode: 'backwards' }}>
-                  <polygon points="80,520 180,490 180,540 80,570" fill="#4CAF70" />
+                <g className="animate-fade-in" style={{ animationDelay: '0.2s', animationFillMode: 'backwards' }} filter="url(#shadow)">
+                  <polygon points="80,520 180,490 180,540 80,570" fill="#3E9D5A" />
                   <polygon points="180,490 280,460 280,510 180,540" fill="#7FD98E" />
-                  <polygon points="180,540 180,490 280,460 280,510" fill="#2ECC71" />
-                  <text x="210" y="510" fontSize="48" fill="#2C3E50" fontWeight="bold" textAnchor="middle" fontFamily="Poppins">$</text>
+                  <polygon points="80,520 180,490 280,460 280,510 180,540 80,570" fill="url(#stepGradient1)" />
+                  <linearGradient id="stepGradient1" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="#7FD98E" stopOpacity="0.9"/>
+                    <stop offset="100%" stopColor="#4CAF70" stopOpacity="1"/>
+                  </linearGradient>
+                  <text x="210" y="515" fontSize="52" fill="#2C3E50" fontWeight="bold" textAnchor="middle" fontFamily="Poppins" filter="url(#glow)">$</text>
                 </g>
 
                 {/* Step 2 - Circle icon */}
-                <g className="animate-fade-in" style={{ animationDelay: '0.4s', animationFillMode: 'backwards' }}>
-                  <polygon points="110,450 210,420 210,470 110,500" fill="#4CAF70" />
+                <g className="animate-fade-in" style={{ animationDelay: '0.4s', animationFillMode: 'backwards' }} filter="url(#shadow)">
+                  <polygon points="110,450 210,420 210,470 110,500" fill="#3E9D5A" />
                   <polygon points="210,420 310,390 310,440 210,470" fill="#7FD98E" />
-                  <polygon points="210,470 210,420 310,390 310,440" fill="#2ECC71" />
-                  <circle cx="240" cy="425" r="22" fill="#4CAF70" stroke="#2C3E50" strokeWidth="3" />
+                  <polygon points="210,470 210,420 310,390 310,440" fill="#5FC77D" />
+                  <circle cx="240" cy="428" r="24" fill="#FFFFFF" stroke="#2C3E50" strokeWidth="3" opacity="0.9" />
                 </g>
 
-                {/* Step 3 - Two coin stacks */}
-                <g className="animate-fade-in" style={{ animationDelay: '0.6s', animationFillMode: 'backwards' }}>
-                  <polygon points="140,380 240,350 240,400 140,430" fill="#4CAF70" />
+                {/* Step 3 - Two coin stacks with float animation */}
+                <g className="animate-fade-in coin-float" style={{ animationDelay: '0.6s', animationFillMode: 'backwards' }} filter="url(#shadow)">
+                  <polygon points="140,380 240,350 240,400 140,430" fill="#3E9D5A" />
                   <polygon points="240,350 340,320 340,370 240,400" fill="#7FD98E" />
-                  <polygon points="240,400 240,350 340,320 340,370" fill="#2ECC71" />
-                  {/* Coin stacks */}
+                  <polygon points="240,400 240,350 340,320 340,370" fill="#5FC77D" />
+                  {/* Coin stacks with better depth */}
                   <g>
-                    <circle cx="260" cy="365" r="18" fill="#FFD700" stroke="#FFA500" strokeWidth="2.5" />
-                    <ellipse cx="260" cy="365" rx="18" ry="5" fill="#FFA500" />
-                    <circle cx="260" cy="350" r="18" fill="#FFD700" stroke="#FFA500" strokeWidth="2.5" />
+                    <ellipse cx="260" cy="375" rx="20" ry="6" fill="#B8860B" />
+                    <circle cx="260" cy="370" r="20" fill="#FFD700" stroke="#FFA500" strokeWidth="3" />
+                    <ellipse cx="260" cy="370" rx="20" ry="6" fill="#FFA500" opacity="0.5" />
+                    <ellipse cx="260" cy="355" rx="20" ry="6" fill="#B8860B" />
+                    <circle cx="260" cy="350" r="20" fill="#FFD700" stroke="#FFA500" strokeWidth="3" />
                   </g>
                   <g>
-                    <circle cx="295" cy="365" r="18" fill="#FFD700" stroke="#FFA500" strokeWidth="2.5" />
-                    <ellipse cx="295" cy="365" rx="18" ry="5" fill="#FFA500" />
-                    <circle cx="295" cy="350" r="18" fill="#FFD700" stroke="#FFA500" strokeWidth="2.5" />
+                    <ellipse cx="295" cy="375" rx="20" ry="6" fill="#B8860B" />
+                    <circle cx="295" cy="370" r="20" fill="#FFD700" stroke="#FFA500" strokeWidth="3" />
+                    <ellipse cx="295" cy="370" rx="20" ry="6" fill="#FFA500" opacity="0.5" />
+                    <ellipse cx="295" cy="355" rx="20" ry="6" fill="#B8860B" />
+                    <circle cx="295" cy="350" r="20" fill="#FFD700" stroke="#FFA500" strokeWidth="3" />
                   </g>
                 </g>
 
                 {/* Step 4 - Growth chart */}
-                <g className="animate-fade-in" style={{ animationDelay: '0.8s', animationFillMode: 'backwards' }}>
-                  <polygon points="170,310 270,280 270,330 170,360" fill="#4CAF70" />
+                <g className="animate-fade-in" style={{ animationDelay: '0.8s', animationFillMode: 'backwards' }} filter="url(#shadow)">
+                  <polygon points="170,310 270,280 270,330 170,360" fill="#3E9D5A" />
                   <polygon points="270,280 370,250 370,300 270,330" fill="#7FD98E" />
-                  <polygon points="270,330 270,280 370,250 370,300" fill="#2ECC71" />
-                  {/* Chart icon */}
-                  <rect x="290" y="285" width="50" height="40" rx="4" fill="#2C3E50" opacity="0.2" />
-                  <polyline points="295,315 305,310 315,305 325,295 335,300" fill="none" stroke="#2C3E50" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                  <polygon points="270,330 270,280 370,250 370,300" fill="#5FC77D" />
+                  {/* Enhanced chart icon */}
+                  <rect x="290" y="285" width="50" height="40" rx="4" fill="#FFFFFF" opacity="0.9" stroke="#2C3E50" strokeWidth="2" />
+                  <polyline points="295,315 305,308 315,303 325,293 335,296" fill="none" stroke="#2ECC71" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+                  <circle cx="295" cy="315" r="3" fill="#2ECC71" />
+                  <circle cx="305" cy="308" r="3" fill="#2ECC71" />
+                  <circle cx="315" cy="303" r="3" fill="#2ECC71" />
+                  <circle cx="325" cy="293" r="3" fill="#2ECC71" />
+                  <circle cx="335" cy="296" r="3" fill="#2ECC71" />
                 </g>
 
                 {/* Step 5 - Upward arrow with coins */}
-                <g className="animate-fade-in" style={{ animationDelay: '1s', animationFillMode: 'backwards' }}>
-                  <polygon points="200,240 300,210 300,260 200,290" fill="#4CAF70" />
+                <g className="animate-fade-in" style={{ animationDelay: '1s', animationFillMode: 'backwards' }} filter="url(#shadow)">
+                  <polygon points="200,240 300,210 300,260 200,290" fill="#3E9D5A" />
                   <polygon points="300,210 400,180 400,230 300,260" fill="#7FD98E" />
-                  <polygon points="300,260 300,210 400,180 400,230" fill="#2ECC71" />
-                  {/* Arrow up */}
-                  <polygon points="330,215 340,200 350,215" fill="#2C3E50" />
-                  <rect x="335" y="215" width="10" height="25" fill="#2C3E50" />
-                  {/* Coins */}
-                  <circle cx="315" cy="230" r="12" fill="#FFD700" stroke="#FFA500" strokeWidth="2" />
-                  <text x="315" y="236" fontSize="14" fill="#2C3E50" fontWeight="bold" textAnchor="middle">$</text>
-                  <circle cx="365" cy="220" r="12" fill="#FFD700" stroke="#FFA500" strokeWidth="2" />
-                  <text x="365" y="226" fontSize="14" fill="#2C3E50" fontWeight="bold" textAnchor="middle">$</text>
+                  <polygon points="300,260 300,210 400,180 400,230" fill="#5FC77D" />
+                  {/* Enhanced arrow */}
+                  <polygon points="330,210 340,195 350,210" fill="#2C3E50" stroke="#2C3E50" strokeWidth="2" />
+                  <rect x="335" y="210" width="10" height="30" fill="#2C3E50" rx="2" />
+                  {/* Enhanced coins with depth */}
+                  <ellipse cx="315" cy="235" rx="14" ry="4" fill="#B8860B" />
+                  <circle cx="315" cy="230" r="14" fill="#FFD700" stroke="#FFA500" strokeWidth="2.5" />
+                  <text x="315" y="236" fontSize="16" fill="#2C3E50" fontWeight="bold" textAnchor="middle">$</text>
+                  <ellipse cx="365" cy="225" rx="14" ry="4" fill="#B8860B" />
+                  <circle cx="365" cy="220" r="14" fill="#FFD700" stroke="#FFA500" strokeWidth="2.5" />
+                  <text x="365" y="226" fontSize="16" fill="#2C3E50" fontWeight="bold" textAnchor="middle">$</text>
                 </g>
 
-                {/* Step 6 (Top) - Money Plant */}
-                <g className="animate-fade-in" style={{ animationDelay: '1.2s', animationFillMode: 'backwards' }}>
-                  <polygon points="230,170 330,140 330,190 230,220" fill="#4CAF70" />
+                {/* Step 6 (Top) - Money Plant with sway animation */}
+                <g className="animate-fade-in plant-sway" style={{ animationDelay: '1.2s', animationFillMode: 'backwards' }} filter="url(#shadow)">
+                  <polygon points="230,170 330,140 330,190 230,220" fill="#3E9D5A" />
                   <polygon points="330,140 430,110 430,160 330,190" fill="#7FD98E" />
-                  <polygon points="330,190 330,140 430,110 430,160" fill="#2ECC71" />
+                  <polygon points="330,190 330,140 430,110 430,160" fill="#5FC77D" />
 
-                  {/* Flower pot */}
+                  {/* Enhanced flower pot with depth */}
                   <path d="M 355 175 L 363 155 L 387 155 L 395 175 Z" fill="#C17850" stroke="#8B5A3C" strokeWidth="2.5" />
-                  <ellipse cx="375" cy="175" rx="20" ry="4" fill="#8B5A3C" />
+                  <ellipse cx="375" cy="175" rx="22" ry="5" fill="#8B5A3C" />
+                  <path d="M 360 165 L 390 165" stroke="#A0654B" strokeWidth="2" />
 
-                  {/* Plant stem */}
-                  <path d="M 375 155 Q 373 130, 375 110 Q 377 90, 380 75" fill="none" stroke="#4CAF70" strokeWidth="4" strokeLinecap="round" />
+                  {/* Enhanced plant stem with gradient */}
+                  <path d="M 375 155 Q 373 130, 375 110 Q 377 90, 380 75" fill="none" stroke="#4CAF70" strokeWidth="5" strokeLinecap="round" />
 
-                  {/* Money leaves (dollar coins) */}
+                  {/* Money leaves with better depth and glow */}
                   <g transform="translate(360, 120)">
-                    <circle r="14" fill="#FFD700" stroke="#FFA500" strokeWidth="2.5" />
-                    <text y="5" fontSize="16" fill="#2C3E50" fontWeight="bold" textAnchor="middle">$</text>
-                  </g>
-                  <g transform="translate(380, 100)">
-                    <circle r="16" fill="#FFD700" stroke="#FFA500" strokeWidth="2.5" />
+                    <ellipse cy="4" rx="16" ry="4" fill="#B8860B" />
+                    <circle r="16" fill="#FFD700" stroke="#FFA500" strokeWidth="3" filter="url(#glow)" />
                     <text y="6" fontSize="18" fill="#2C3E50" fontWeight="bold" textAnchor="middle">$</text>
                   </g>
+                  <g transform="translate(380, 100)">
+                    <ellipse cy="4" rx="18" ry="5" fill="#B8860B" />
+                    <circle r="18" fill="#FFD700" stroke="#FFA500" strokeWidth="3" filter="url(#glow)" />
+                    <text y="7" fontSize="20" fill="#2C3E50" fontWeight="bold" textAnchor="middle">$</text>
+                  </g>
                   <g transform="translate(395, 120)">
-                    <circle r="12" fill="#FFD700" stroke="#FFA500" strokeWidth="2.5" />
-                    <text y="5" fontSize="14" fill="#2C3E50" fontWeight="bold" textAnchor="middle">$</text>
+                    <ellipse cy="3" rx="14" ry="4" fill="#B8860B" />
+                    <circle r="14" fill="#FFD700" stroke="#FFA500" strokeWidth="3" filter="url(#glow)" />
+                    <text y="5" fontSize="16" fill="#2C3E50" fontWeight="bold" textAnchor="middle">$</text>
                   </g>
                   <g transform="translate(370, 85)">
-                    <circle r="12" fill="#FFD700" stroke="#FFA500" strokeWidth="2.5" />
-                    <text y="5" fontSize="14" fill="#2C3E50" fontWeight="bold" textAnchor="middle">$</text>
+                    <ellipse cy="3" rx="14" ry="4" fill="#B8860B" />
+                    <circle r="14" fill="#FFD700" stroke="#FFA500" strokeWidth="3" filter="url(#glow)" />
+                    <text y="5" fontSize="16" fill="#2C3E50" fontWeight="bold" textAnchor="middle">$</text>
                   </g>
                   <g transform="translate(385, 70)">
-                    <circle r="10" fill="#FFD700" stroke="#FFA500" strokeWidth="2" />
-                    <text y="4" fontSize="12" fill="#2C3E50" fontWeight="bold" textAnchor="middle">$</text>
+                    <ellipse cy="2" rx="12" ry="3" fill="#B8860B" />
+                    <circle r="12" fill="#FFD700" stroke="#FFA500" strokeWidth="2.5" filter="url(#glow)" />
+                    <text y="5" fontSize="14" fill="#2C3E50" fontWeight="bold" textAnchor="middle">$</text>
                   </g>
                 </g>
 
-                {/* Upward arrows with glow - right side */}
-                <g opacity="0.8">
-                  <defs>
-                    <filter id="glow">
-                      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-                      <feMerge>
-                        <feMergeNode in="coloredBlur"/>
-                        <feMergeNode in="SourceGraphic"/>
-                      </feMerge>
-                    </filter>
-                  </defs>
+                {/* Upward arrows with enhanced glow - right side */}
+                <g opacity="0.7">
                   <polygon points="450,490 460,470 470,490" fill="#7FD98E" filter="url(#glow)" />
-                  <rect x="455" y="490" width="10" height="35" fill="#7FD98E" filter="url(#glow)" />
+                  <rect x="455" y="490" width="10" height="35" fill="#7FD98E" filter="url(#glow)" rx="2" />
 
                   <polygon points="450,370 460,350 470,370" fill="#7FD98E" filter="url(#glow)" />
-                  <rect x="455" y="370" width="10" height="35" fill="#7FD98E" filter="url(#glow)" />
+                  <rect x="455" y="370" width="10" height="35" fill="#7FD98E" filter="url(#glow)" rx="2" />
 
                   <polygon points="450,250 460,230 470,250" fill="#7FD98E" filter="url(#glow)" />
-                  <rect x="455" y="250" width="10" height="35" fill="#7FD98E" filter="url(#glow)" />
+                  <rect x="455" y="250" width="10" height="35" fill="#7FD98E" filter="url(#glow)" rx="2" />
                 </g>
               </svg>
             </div>
           </div>
 
           {/* Spanish Translation - Bottom */}
-          <div className="mt-32 pt-12 text-center border-t border-white/10">
-            <p className="text-[28px] md:text-[36px] text-white font-['Poppins'] italic opacity-80 animate-fade-in" style={{ animationDelay: '1.4s', animationFillMode: 'backwards' }}>
+          <div className="mt-40 pt-16 text-center border-t border-white/10">
+            <p className="text-[28px] md:text-[36px] text-white font-['Poppins'] italic opacity-80 animate-fade-in px-4" style={{ animationDelay: '1.4s', animationFillMode: 'backwards' }}>
               Deja de vivir de sueldo a sueldo
             </p>
           </div>

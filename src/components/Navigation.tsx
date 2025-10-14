@@ -9,10 +9,10 @@ const Navigation = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const navItems = [
-    { path: '/', icon: Home, label: 'Dashboard' },
+    { path: '/dashboard', icon: Home, label: 'Dashboard' },
     { path: '/credit-report', icon: ShieldCheck, label: 'Credit' },
     { path: '/goals', icon: Target, label: 'Goals' },
-    { path: '/budget', icon: Wallet, label: 'Accounts' },
+    { path: '/budget', icon: Wallet, label: 'Budget' },
   ];
 
   const isActive = (path: string) => location.pathname === path;

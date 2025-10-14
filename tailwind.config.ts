@@ -13,7 +13,27 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        poppins: ['Poppins', 'sans-serif'],
+        inter: ['Inter', 'sans-serif'],
+      },
       colors: {
+        'brand-green': {
+          DEFAULT: '#2ECC71',
+          light: '#82E0AA',
+        },
+        'brand-blue': {
+          DEFAULT: '#2C3E50',
+          light: '#3498DB',
+        },
+        'brand-gray': {
+          50: '#F8F9FA',
+          100: '#EAECEE',
+          200: '#BDC3C7',
+          300: '#566573',
+        },
+        'brand-red': '#E74C3C',
+        'brand-yellow': '#F1C40F',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

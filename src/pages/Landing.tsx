@@ -133,65 +133,74 @@ const Landing = () => {
                     <ellipse cx="180" cy="165" rx="40" ry="8" fill="#000" opacity="0.1" />
 
                     {/* Body - rounded and cute */}
-                    <ellipse cx="180" cy="135" rx="38" ry="28" fill="#FFF8E1" stroke="#FFE0B2" strokeWidth="2.5" />
+                    <ellipse cx="180" cy="135" rx="35" ry="26" fill="#FFF8E1" stroke="#FFE0B2" strokeWidth="2" />
 
                     {/* Head - big and round (Duolingo style) */}
-                    <circle cx="145" cy="128" r="26" fill="#FFF8E1" stroke="#FFE0B2" strokeWidth="2.5" />
+                    <circle cx="148" cy="128" r="30" fill="#FFF8E1" stroke="#FFE0B2" strokeWidth="2" />
 
-                    {/* Ears - round and cute */}
+                    {/* Ears - round and simple */}
                     <g>
                       {/* Left ear */}
-                      <ellipse cx="132" cy="108" rx="10" ry="14" fill="#FFF8E1" stroke="#FFE0B2" strokeWidth="2" />
-                      <ellipse cx="132" cy="111" rx="6" ry="8" fill="#FFB6C1" />
+                      <circle cx="132" cy="105" r="12" fill="#FFF8E1" stroke="#FFE0B2" strokeWidth="2" />
+                      <circle cx="132" cy="108" r="6" fill="#FFB6C1" />
                       
                       {/* Right ear */}
-                      <ellipse cx="158" cy="108" rx="10" ry="14" fill="#FFF8E1" stroke="#FFE0B2" strokeWidth="2" />
-                      <ellipse cx="158" cy="111" rx="6" ry="8" fill="#FFB6C1" />
+                      <circle cx="164" cy="105" r="12" fill="#FFF8E1" stroke="#FFE0B2" strokeWidth="2" />
+                      <circle cx="164" cy="108" r="6" fill="#FFB6C1" />
                     </g>
 
-                    {/* Eyes - big and expressive (Duolingo style) */}
+                    {/* Eyes - big, round, Duolingo style */}
                     <g>
-                      {/* Left eye */}
-                      <ellipse cx="136" cy="125" rx="5" ry="6" fill="#2C3E50" />
-                      <circle cx="137" cy="123" r="2.5" fill="#fff" />
+                      {/* Left eye white */}
+                      <circle cx="138" cy="125" r="7" fill="#fff" />
+                      {/* Left pupil */}
+                      <circle cx="140" cy="125" r="4" fill="#2C3E50" />
+                      {/* Left sparkle */}
+                      <circle cx="139" cy="123" r="2" fill="#fff" />
                       
-                      {/* Right eye */}
-                      <ellipse cx="154" cy="125" rx="5" ry="6" fill="#2C3E50" />
-                      <circle cx="155" cy="123" r="2.5" fill="#fff" />
+                      {/* Right eye white */}
+                      <circle cx="158" cy="125" r="7" fill="#fff" />
+                      {/* Right pupil */}
+                      <circle cx="160" cy="125" r="4" fill="#2C3E50" />
+                      {/* Right sparkle */}
+                      <circle cx="159" cy="123" r="2" fill="#fff" />
                     </g>
 
-                    {/* Cute pink nose */}
-                    <ellipse cx="145" cy="135" rx="4" ry="3" fill="#FFB6C1" />
+                    {/* Cute button nose */}
+                    <circle cx="148" cy="136" r="4" fill="#FFB6C1" />
 
-                    {/* Smile */}
-                    <path d="M 140 138 Q 145 142, 150 138" fill="none" stroke="#2C3E50" strokeWidth="1.5" strokeLinecap="round" />
+                    {/* Big happy smile */}
+                    <path d="M 138 142 Q 148 150, 158 142" fill="none" stroke="#2C3E50" strokeWidth="2" strokeLinecap="round" />
 
-                    {/* Whiskers - delicate */}
-                    <line x1="118" y1="130" x2="132" y2="128" stroke="#2C3E50" strokeWidth="1.5" opacity="0.6" strokeLinecap="round" />
-                    <line x1="118" y1="136" x2="132" y2="133" stroke="#2C3E50" strokeWidth="1.5" opacity="0.6" strokeLinecap="round" />
-                    <line x1="172" y1="130" x2="158" y2="128" stroke="#2C3E50" strokeWidth="1.5" opacity="0.6" strokeLinecap="round" />
-                    <line x1="172" y1="136" x2="158" y2="133" stroke="#2C3E50" strokeWidth="1.5" opacity="0.6" strokeLinecap="round" />
+                    {/* Whiskers - simple and clean */}
+                    <g stroke="#2C3E50" strokeWidth="1.5" strokeLinecap="round">
+                      <line x1="115" y1="132" x2="130" y2="130" opacity="0.7" />
+                      <line x1="115" y1="138" x2="130" y2="136" opacity="0.7" />
+                      <line x1="166" y1="130" x2="181" y2="132" opacity="0.7" />
+                      <line x1="166" y1="136" x2="181" y2="138" opacity="0.7" />
+                    </g>
 
-                    {/* Paws - cute little circles */}
-                    <ellipse cx="165" cy="156" rx="8" ry="12" fill="#FFF8E1" stroke="#FFE0B2" strokeWidth="2" />
-                    <ellipse cx="165" cy="160" rx="6" ry="4" fill="#FFB6C1" opacity="0.5" />
+                    {/* Rosy cheeks */}
+                    <circle cx="128" cy="135" r="5" fill="#FFB6C1" opacity="0.3" />
+                    <circle cx="168" cy="135" r="5" fill="#FFB6C1" opacity="0.3" />
+
+                    {/* Front paws - simple ovals */}
+                    <ellipse cx="165" cy="152" rx="9" ry="14" fill="#FFF8E1" stroke="#FFE0B2" strokeWidth="2" />
+                    <ellipse cx="190" cy="152" rx="9" ry="14" fill="#FFF8E1" stroke="#FFE0B2" strokeWidth="2" />
                     
-                    <ellipse cx="190" cy="156" rx="8" ry="12" fill="#FFF8E1" stroke="#FFE0B2" strokeWidth="2" />
-                    <ellipse cx="190" cy="160" rx="6" ry="4" fill="#FFB6C1" opacity="0.5" />
+                    {/* Paw pads */}
+                    <ellipse cx="165" cy="158" rx="5" ry="3" fill="#FFB6C1" opacity="0.4" />
+                    <ellipse cx="190" cy="158" rx="5" ry="3" fill="#FFB6C1" opacity="0.4" />
 
-                    {/* Little arm/paw in front */}
-                    <ellipse cx="155" cy="145" rx="7" ry="10" fill="#FFF8E1" stroke="#FFE0B2" strokeWidth="2" />
-
-                    {/* Cute little tail */}
-                    <path d="M 218 135 Q 235 128, 245 132" fill="none" stroke="#FFE0B2" strokeWidth="5" strokeLinecap="round" />
-                    <path d="M 218 135 Q 235 128, 245 132" fill="none" stroke="#FFF8E1" strokeWidth="3.5" strokeLinecap="round" />
+                    {/* Cute little tail - simplified */}
+                    <circle cx="218" cy="138" r="8" fill="#FFF8E1" stroke="#FFE0B2" strokeWidth="2" />
                   </g>
 
                   {/* Movement lines (speed effect) */}
                   <g opacity="0.3">
-                    <line x1="115" y1="135" x2="95" y2="135" stroke="#fff" strokeWidth="3" strokeLinecap="round" />
-                    <line x1="110" y1="145" x2="90" y2="145" stroke="#fff" strokeWidth="3" strokeLinecap="round" />
-                    <line x1="105" y1="155" x2="85" y2="155" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" />
+                    <line x1="115" y1="130" x2="95" y2="130" stroke="#fff" strokeWidth="3" strokeLinecap="round" />
+                    <line x1="110" y1="140" x2="90" y2="140" stroke="#fff" strokeWidth="3" strokeLinecap="round" />
+                    <line x1="105" y1="150" x2="85" y2="150" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" />
                   </g>
                 </svg>
               </div>

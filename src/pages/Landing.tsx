@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import mouseInWheel from "@/assets/mouse-in-wheel.jpg"; // Make sure to place the image here
 
 const Landing = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -95,68 +96,9 @@ const Landing = () => {
                 </Link>
               </div>
 
-              {/* Rat in Wheel Illustration - With Animation */}
+              {/* Rat in Wheel Illustration */}
               <div className="max-w-[250px] mx-auto lg:mx-0 mt-12">
-                <svg viewBox="0 0 300 300" className="w-full h-auto animate-fade-in">
-                  {/* Shadow underneath */}
-                  <ellipse cx="150" cy="270" rx="80" ry="15" fill="#3E9D5A" opacity="0.3" />
-                  
-                  {/* Outer wheel circle - green with rotation animation */}
-                  <g className="animate-[spin_20s_linear_infinite] origin-center" style={{ transformOrigin: '150px 150px' }}>
-                    <circle cx="150" cy="150" r="120" fill="none" stroke="#2C3E50" strokeWidth="4" />
-                    
-                    {/* Inner wheel circle - lighter green */}
-                    <circle cx="150" cy="150" r="110" fill="none" stroke="#4CAF70" strokeWidth="3" opacity="0.5" />
-                    
-                    {/* Dollar coin circles around the wheel */}
-                    {[0, 90, 180, 270].map((angle, i) => {
-                    const rad = (angle * Math.PI) / 180;
-                    const x = 150 + 110 * Math.cos(rad);
-                    const y = 150 + 110 * Math.sin(rad);
-                    return (
-                      <g key={i}>
-                        <circle cx={x} cy={y} r="20" fill="#4CAF70" stroke="#2C3E50" strokeWidth="2.5" />
-                        <text x={x} y={y + 7} textAnchor="middle" fontSize="24" fill="#2C3E50" fontWeight="bold">$</text>
-                      </g>
-                    );
-                  })}
-                  </g>
-
-                  {/* White rat/hamster INSIDE the wheel */}
-                  <g transform="translate(150, 150)">
-                    {/* Body - white/cream */}
-                    <ellipse cx="0" cy="10" rx="40" ry="28" fill="#FFF8E1" stroke="#2C3E50" strokeWidth="2.5" />
-                    
-                    {/* Head */}
-                    <circle cx="-25" cy="0" r="28" fill="#FFF8E1" stroke="#2C3E50" strokeWidth="2.5" />
-                    
-                    {/* Pink ears */}
-                    <circle cx="-38" cy="-15" r="10" fill="#FFF8E1" stroke="#2C3E50" strokeWidth="2" />
-                    <circle cx="-38" cy="-13" r="6" fill="#FFB6C1" />
-                    <circle cx="-12" cy="-20" r="10" fill="#FFF8E1" stroke="#2C3E50" strokeWidth="2" />
-                    <circle cx="-12" cy="-18" r="6" fill="#FFB6C1" />
-                    
-                    {/* Eyes - simple dots */}
-                    <circle cx="-30" cy="-2" r="3" fill="#2C3E50" />
-                    <circle cx="-18" cy="-2" r="3" fill="#2C3E50" />
-                    
-                    {/* Pink nose */}
-                    <circle cx="-25" cy="8" r="4" fill="#FFB6C1" />
-                    
-                    {/* Smile */}
-                    <path d="M -30 12 Q -25 15, -20 12" fill="none" stroke="#2C3E50" strokeWidth="2" strokeLinecap="round" />
-                    
-                    {/* Running legs - extended back (chasing motion) */}
-                    <ellipse cx="15" cy="32" rx="8" ry="18" fill="#FFF8E1" stroke="#2C3E50" strokeWidth="2" />
-                    <ellipse cx="30" cy="28" rx="8" ry="16" fill="#FFF8E1" stroke="#2C3E50" strokeWidth="2" />
-                    
-                    {/* Front legs - tucked in */}
-                    <ellipse cx="-5" cy="30" rx="7" ry="14" fill="#FFF8E1" stroke="#2C3E50" strokeWidth="2" />
-                    
-                    {/* Small tail */}
-                    <circle cx="42" cy="8" r="7" fill="#FFF8E1" stroke="#2C3E50" strokeWidth="2" />
-                  </g>
-                </svg>
+                <img src={mouseInWheel} alt="Mouse running in a wheel chasing dollar bills" className="w-full h-auto animate-fade-in" />
               </div>
             </div>
 

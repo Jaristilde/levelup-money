@@ -73,13 +73,13 @@ const Landing = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left Side - Content */}
             <div className={`transition-all duration-1000 transform ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-              {/* Main Headline - 64px (60-72px range) */}
-              <h1 className="text-[64px] leading-[1.1] font-bold text-white mb-6 font-['Poppins']">
+              {/* Main Headline - Responsive sizing */}
+              <h1 className="text-[36px] md:text-[52px] leading-[1.2] font-bold text-white mb-6 font-['Poppins']">
                 Step-by-step milestones to escape the paycheck-to-paycheck cycle.
               </h1>
 
               {/* Subheadline - 36px */}
-              <h2 className="text-[36px] text-white mb-8 font-['Poppins'] italic font-normal leading-relaxed">
+              <h2 className="text-[24px] md:text-[36px] text-white mb-8 font-['Poppins'] italic font-normal leading-relaxed">
                 Get off the rat race
               </h2>
 
@@ -95,20 +95,21 @@ const Landing = () => {
                 </Link>
               </div>
 
-              {/* Rat in Wheel Illustration - EXACT MATCH */}
-              <div className="max-w-[250px]">
-                <svg viewBox="0 0 300 300" className="w-full h-auto">
+              {/* Rat in Wheel Illustration - With Animation */}
+              <div className="max-w-[250px] mx-auto lg:mx-0 mt-12">
+                <svg viewBox="0 0 300 300" className="w-full h-auto animate-fade-in">
                   {/* Shadow underneath */}
                   <ellipse cx="150" cy="270" rx="80" ry="15" fill="#3E9D5A" opacity="0.3" />
                   
-                  {/* Outer wheel circle - green */}
-                  <circle cx="150" cy="150" r="120" fill="none" stroke="#2C3E50" strokeWidth="4" />
-                  
-                  {/* Inner wheel circle - lighter green */}
-                  <circle cx="150" cy="150" r="110" fill="none" stroke="#4CAF70" strokeWidth="3" opacity="0.5" />
-                  
-                  {/* Dollar coin circles around the wheel */}
-                  {[0, 90, 180, 270].map((angle, i) => {
+                  {/* Outer wheel circle - green with rotation animation */}
+                  <g className="animate-[spin_20s_linear_infinite] origin-center" style={{ transformOrigin: '150px 150px' }}>
+                    <circle cx="150" cy="150" r="120" fill="none" stroke="#2C3E50" strokeWidth="4" />
+                    
+                    {/* Inner wheel circle - lighter green */}
+                    <circle cx="150" cy="150" r="110" fill="none" stroke="#4CAF70" strokeWidth="3" opacity="0.5" />
+                    
+                    {/* Dollar coin circles around the wheel */}
+                    {[0, 90, 180, 270].map((angle, i) => {
                     const rad = (angle * Math.PI) / 180;
                     const x = 150 + 110 * Math.cos(rad);
                     const y = 150 + 110 * Math.sin(rad);
@@ -119,6 +120,7 @@ const Landing = () => {
                       </g>
                     );
                   })}
+                  </g>
 
                   {/* White rat/hamster INSIDE the wheel */}
                   <g transform="translate(150, 150)">
@@ -161,11 +163,11 @@ const Landing = () => {
             {/* Right Side - 3D Stairs Illustration */}
             <div className={`relative transition-all duration-1000 delay-300 transform ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
               {/* Large background circle */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#5FC77D]/20 rounded-full blur-2xl"></div>
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] md:w-[600px] md:h-[600px] bg-[#5FC77D]/20 rounded-full blur-2xl"></div>
               
-              <svg viewBox="0 0 500 600" className="w-full h-auto drop-shadow-2xl relative z-10">
+              <svg viewBox="0 0 500 600" className="w-full h-auto drop-shadow-2xl relative z-10 max-w-[400px] md:max-w-none mx-auto">
                 {/* Step 1 (Bottom) - Dollar sign */}
-                <g>
+                <g className="animate-fade-in" style={{ animationDelay: '0.2s', animationFillMode: 'backwards' }}>
                   <polygon points="80,520 180,490 180,540 80,570" fill="#4CAF70" />
                   <polygon points="180,490 280,460 280,510 180,540" fill="#7FD98E" />
                   <polygon points="180,540 180,490 280,460 280,510" fill="#2ECC71" />
@@ -173,7 +175,7 @@ const Landing = () => {
                 </g>
 
                 {/* Step 2 - Circle icon */}
-                <g>
+                <g className="animate-fade-in" style={{ animationDelay: '0.4s', animationFillMode: 'backwards' }}>
                   <polygon points="110,450 210,420 210,470 110,500" fill="#4CAF70" />
                   <polygon points="210,420 310,390 310,440 210,470" fill="#7FD98E" />
                   <polygon points="210,470 210,420 310,390 310,440" fill="#2ECC71" />
@@ -181,7 +183,7 @@ const Landing = () => {
                 </g>
 
                 {/* Step 3 - Two coin stacks */}
-                <g>
+                <g className="animate-fade-in" style={{ animationDelay: '0.6s', animationFillMode: 'backwards' }}>
                   <polygon points="140,380 240,350 240,400 140,430" fill="#4CAF70" />
                   <polygon points="240,350 340,320 340,370 240,400" fill="#7FD98E" />
                   <polygon points="240,400 240,350 340,320 340,370" fill="#2ECC71" />
@@ -199,7 +201,7 @@ const Landing = () => {
                 </g>
 
                 {/* Step 4 - Growth chart */}
-                <g>
+                <g className="animate-fade-in" style={{ animationDelay: '0.8s', animationFillMode: 'backwards' }}>
                   <polygon points="170,310 270,280 270,330 170,360" fill="#4CAF70" />
                   <polygon points="270,280 370,250 370,300 270,330" fill="#7FD98E" />
                   <polygon points="270,330 270,280 370,250 370,300" fill="#2ECC71" />
@@ -209,7 +211,7 @@ const Landing = () => {
                 </g>
 
                 {/* Step 5 - Upward arrow with coins */}
-                <g>
+                <g className="animate-fade-in" style={{ animationDelay: '1s', animationFillMode: 'backwards' }}>
                   <polygon points="200,240 300,210 300,260 200,290" fill="#4CAF70" />
                   <polygon points="300,210 400,180 400,230 300,260" fill="#7FD98E" />
                   <polygon points="300,260 300,210 400,180 400,230" fill="#2ECC71" />
@@ -224,7 +226,7 @@ const Landing = () => {
                 </g>
 
                 {/* Step 6 (Top) - Money Plant */}
-                <g>
+                <g className="animate-fade-in" style={{ animationDelay: '1.2s', animationFillMode: 'backwards' }}>
                   <polygon points="230,170 330,140 330,190 230,220" fill="#4CAF70" />
                   <polygon points="330,140 430,110 430,160 330,190" fill="#7FD98E" />
                   <polygon points="330,190 330,140 430,110 430,160" fill="#2ECC71" />
@@ -284,8 +286,8 @@ const Landing = () => {
           </div>
 
           {/* Spanish Translation - Bottom */}
-          <div className="mt-24 text-center">
-            <p className="text-[36px] text-white font-['Poppins'] italic opacity-80">
+          <div className="mt-32 pt-12 text-center border-t border-white/10">
+            <p className="text-[28px] md:text-[36px] text-white font-['Poppins'] italic opacity-80 animate-fade-in" style={{ animationDelay: '1.4s', animationFillMode: 'backwards' }}>
               Deja de vivir de sueldo a sueldo
             </p>
           </div>

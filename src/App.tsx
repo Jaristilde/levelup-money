@@ -77,7 +77,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
-// Public Route - redirects to app if already logged in
+// Public Route - redirects to dashboard if already logged in
 const PublicRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, loading } = useAuth();
 
@@ -102,99 +102,443 @@ const App = () => {
               <Toaster />
               <Sonner />
               <BrowserRouter>
-              <Suspense fallback={<PageLoader />}>
-                <Routes>
-                  {/* Landing Page - Root Route */}
-                  <Route path="/" element={
-                    <PublicRoute>
-                      <Landing />
-                    </PublicRoute>
-                  } />
+                <Suspense fallback={<PageLoader />}>
+                  <Routes>
+                    {/* ============================================ */}
+                    {/* PUBLIC ROUTES - No authentication required  */}
+                    {/* ============================================ */}
+                    
+                    {/* Landing Page - Root URL (/) */}
+                    <Route 
+                      path="/" 
+                      element={
+                        <PublicRoute>
+                          <Landing />
+                        </PublicRoute>
+                      } 
+                    />
 
-                  {/* Auth Routes */}
-                  <Route path="/login" element={
-                    <PublicRoute>
-                      <Login />
-                    </PublicRoute>
-                  } />
-                  <Route path="/signup" element={
-                    <PublicRoute>
-                      <Signup />
-                    </PublicRoute>
-                  } />
-                  <Route path="/forgot-password" element={
-                    <PublicRoute>
-                      <ForgotPassword />
-                    </PublicRoute>
-                  } />
-                  <Route path="/reset-password" element={
-                    <ResetPassword />
-                  } />
+                    {/* Authentication Pages */}
+                    <Route 
+                      path="/login" 
+                      element={
+                        <PublicRoute>
+                          <Login />
+                        </PublicRoute>
+                      } 
+                    />
+                    
+                    <Route 
+                      path="/signup" 
+                      element={
+                        <PublicRoute>
+                          <Signup />
+                        </PublicRoute>
+                      } 
+                    />
+                    
+                    <Route 
+                      path="/forgot-password" 
+                      element={
+                        <PublicRoute>
+                          <ForgotPassword />
+                        </PublicRoute>
+                      } 
+                    />
+                    
+                    <Route 
+                      path="/reset-password" 
+                      element={
+                        <ResetPassword />
+                      } 
+                    />
 
-                  <Route path="/onboarding" element={
-                    <PublicRoute>
-                      <Onboarding />
-                    </PublicRoute>
-                  } />
+                    <Route 
+                      path="/onboarding" 
+                      element={
+                        <PublicRoute>
+                          <Onboarding />
+                        </PublicRoute>
+                      } 
+                    />
 
-                  {/* Protected Routes */}
-                <Route
-                  path="/*"
-                  element={
-                    <ProtectedRoute>
-                      <div className="flex min-h-screen w-full">
-                        {/* Desktop Sidebar - Always visible on desktop */}
-                        <AppSidebar />
-                        
-                        {/* Main Content Area */}
-                        <div className="flex-1 flex flex-col w-full lg:ml-[280px]">
-                          {/* Mobile Top Bar */}
-                          <header className="lg:hidden h-16 border-b border-slate-800 flex items-center justify-between px-4 bg-gradient-to-r from-slate-900 to-slate-950 backdrop-blur-xl sticky top-0 z-40">
-                            <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
-                                <span className="text-white font-bold text-sm">LU</span>
-                              </div>
-                              <span className="text-base font-semibold text-white">LevelUp Money</span>
+                    {/* ============================================ */}
+                    {/* PROTECTED ROUTES - Require authentication   */}
+                    {/* ============================================ */}
+                    
+                    {/* All app routes wrapped in protected layout */}
+                    <Route
+                      path="/dashboard"
+                      element={
+                        <ProtectedRoute>
+                          <div className="flex min-h-screen w-full">
+                            <AppSidebar />
+                            <div className="flex-1 flex flex-col w-full lg:ml-[280px]">
+                              <header className="lg:hidden h-16 border-b border-slate-800 flex items-center justify-between px-4 bg-gradient-to-r from-slate-900 to-slate-950 backdrop-blur-xl sticky top-0 z-40">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                                    <span className="text-white font-bold text-sm">LU</span>
+                                  </div>
+                                  <span className="text-base font-semibold text-white">LevelUp Money</span>
+                                </div>
+                                <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full" />
+                              </header>
+                              <main className="flex-1 pb-20 lg:pb-8 bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen transition-all duration-200" role="main">
+                                <Home />
+                              </main>
                             </div>
-                            <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full" />
-                          </header>
+                            <Navigation />
+                          </div>
+                        </ProtectedRoute>
+                      }
+                    />
 
-                          {/* Page Content with Premium Background */}
-                          <main className="flex-1 pb-20 lg:pb-8 bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen transition-all duration-200" role="main">
-                            <Suspense fallback={<PageLoader />}>
-                              <Routes>
-                                <Route path="/dashboard" element={<Home />} />
-                                <Route path="/milestones" element={<Milestones />} />
-                                <Route path="/credit-report" element={<CreditReport />} />
-                                <Route path="/dispute-letter" element={<DisputeLetter />} />
-                                <Route path="/budget" element={<Budget />} />
-                                <Route path="/debt" element={<Debt />} />
-                                <Route path="/snowball-method" element={<SnowballMethod />} />
-                                <Route path="/avalanche-method" element={<AvalancheMethod />} />
-                                <Route path="/goals" element={<Goals />} />
-                                <Route path="/accounts" element={<Debt />} />
-                                <Route path="/retirement" element={<Retirement />} />
-                                <Route path="/chat" element={<Chat />} />
-                                <Route path="/profile" element={<Profile />} />
-                                <Route path="/settings" element={<Settings />} />
-                                <Route path="*" element={<NotFound />} />
-                              </Routes>
-                            </Suspense>
-                          </main>
-                        </div>
+                    <Route
+                      path="/milestones"
+                      element={
+                        <ProtectedRoute>
+                          <div className="flex min-h-screen w-full">
+                            <AppSidebar />
+                            <div className="flex-1 flex flex-col w-full lg:ml-[280px]">
+                              <header className="lg:hidden h-16 border-b border-slate-800 flex items-center justify-between px-4 bg-gradient-to-r from-slate-900 to-slate-950 backdrop-blur-xl sticky top-0 z-40">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                                    <span className="text-white font-bold text-sm">LU</span>
+                                  </div>
+                                  <span className="text-base font-semibold text-white">LevelUp Money</span>
+                                </div>
+                                <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full" />
+                              </header>
+                              <main className="flex-1 pb-20 lg:pb-8 bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen transition-all duration-200" role="main">
+                                <Milestones />
+                              </main>
+                            </div>
+                            <Navigation />
+                          </div>
+                        </ProtectedRoute>
+                      }
+                    />
 
-                        {/* Mobile Bottom Navigation */}
-                        <Navigation />
-                      </div>
-                    </ProtectedRoute>
-                  }
-                />
-              </Routes>
-            </Suspense>
-          </BrowserRouter>
-        </TooltipProvider>
-      </GamificationProvider>
-      </LanguageProvider>
+                    <Route
+                      path="/credit-report"
+                      element={
+                        <ProtectedRoute>
+                          <div className="flex min-h-screen w-full">
+                            <AppSidebar />
+                            <div className="flex-1 flex flex-col w-full lg:ml-[280px]">
+                              <header className="lg:hidden h-16 border-b border-slate-800 flex items-center justify-between px-4 bg-gradient-to-r from-slate-900 to-slate-950 backdrop-blur-xl sticky top-0 z-40">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                                    <span className="text-white font-bold text-sm">LU</span>
+                                  </div>
+                                  <span className="text-base font-semibold text-white">LevelUp Money</span>
+                                </div>
+                                <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full" />
+                              </header>
+                              <main className="flex-1 pb-20 lg:pb-8 bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen transition-all duration-200" role="main">
+                                <CreditReport />
+                              </main>
+                            </div>
+                            <Navigation />
+                          </div>
+                        </ProtectedRoute>
+                      }
+                    />
+
+                    <Route
+                      path="/dispute-letter"
+                      element={
+                        <ProtectedRoute>
+                          <div className="flex min-h-screen w-full">
+                            <AppSidebar />
+                            <div className="flex-1 flex flex-col w-full lg:ml-[280px]">
+                              <header className="lg:hidden h-16 border-b border-slate-800 flex items-center justify-between px-4 bg-gradient-to-r from-slate-900 to-slate-950 backdrop-blur-xl sticky top-0 z-40">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                                    <span className="text-white font-bold text-sm">LU</span>
+                                  </div>
+                                  <span className="text-base font-semibold text-white">LevelUp Money</span>
+                                </div>
+                                <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full" />
+                              </header>
+                              <main className="flex-1 pb-20 lg:pb-8 bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen transition-all duration-200" role="main">
+                                <DisputeLetter />
+                              </main>
+                            </div>
+                            <Navigation />
+                          </div>
+                        </ProtectedRoute>
+                      }
+                    />
+
+                    <Route
+                      path="/budget"
+                      element={
+                        <ProtectedRoute>
+                          <div className="flex min-h-screen w-full">
+                            <AppSidebar />
+                            <div className="flex-1 flex flex-col w-full lg:ml-[280px]">
+                              <header className="lg:hidden h-16 border-b border-slate-800 flex items-center justify-between px-4 bg-gradient-to-r from-slate-900 to-slate-950 backdrop-blur-xl sticky top-0 z-40">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                                    <span className="text-white font-bold text-sm">LU</span>
+                                  </div>
+                                  <span className="text-base font-semibold text-white">LevelUp Money</span>
+                                </div>
+                                <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full" />
+                              </header>
+                              <main className="flex-1 pb-20 lg:pb-8 bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen transition-all duration-200" role="main">
+                                <Budget />
+                              </main>
+                            </div>
+                            <Navigation />
+                          </div>
+                        </ProtectedRoute>
+                      }
+                    />
+
+                    <Route
+                      path="/debt"
+                      element={
+                        <ProtectedRoute>
+                          <div className="flex min-h-screen w-full">
+                            <AppSidebar />
+                            <div className="flex-1 flex flex-col w-full lg:ml-[280px]">
+                              <header className="lg:hidden h-16 border-b border-slate-800 flex items-center justify-between px-4 bg-gradient-to-r from-slate-900 to-slate-950 backdrop-blur-xl sticky top-0 z-40">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                                    <span className="text-white font-bold text-sm">LU</span>
+                                  </div>
+                                  <span className="text-base font-semibold text-white">LevelUp Money</span>
+                                </div>
+                                <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full" />
+                              </header>
+                              <main className="flex-1 pb-20 lg:pb-8 bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen transition-all duration-200" role="main">
+                                <Debt />
+                              </main>
+                            </div>
+                            <Navigation />
+                          </div>
+                        </ProtectedRoute>
+                      }
+                    />
+
+                    <Route
+                      path="/snowball-method"
+                      element={
+                        <ProtectedRoute>
+                          <div className="flex min-h-screen w-full">
+                            <AppSidebar />
+                            <div className="flex-1 flex flex-col w-full lg:ml-[280px]">
+                              <header className="lg:hidden h-16 border-b border-slate-800 flex items-center justify-between px-4 bg-gradient-to-r from-slate-900 to-slate-950 backdrop-blur-xl sticky top-0 z-40">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                                    <span className="text-white font-bold text-sm">LU</span>
+                                  </div>
+                                  <span className="text-base font-semibold text-white">LevelUp Money</span>
+                                </div>
+                                <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full" />
+                              </header>
+                              <main className="flex-1 pb-20 lg:pb-8 bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen transition-all duration-200" role="main">
+                                <SnowballMethod />
+                              </main>
+                            </div>
+                            <Navigation />
+                          </div>
+                        </ProtectedRoute>
+                      }
+                    />
+
+                    <Route
+                      path="/avalanche-method"
+                      element={
+                        <ProtectedRoute>
+                          <div className="flex min-h-screen w-full">
+                            <AppSidebar />
+                            <div className="flex-1 flex flex-col w-full lg:ml-[280px]">
+                              <header className="lg:hidden h-16 border-b border-slate-800 flex items-center justify-between px-4 bg-gradient-to-r from-slate-900 to-slate-950 backdrop-blur-xl sticky top-0 z-40">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                                    <span className="text-white font-bold text-sm">LU</span>
+                                  </div>
+                                  <span className="text-base font-semibold text-white">LevelUp Money</span>
+                                </div>
+                                <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full" />
+                              </header>
+                              <main className="flex-1 pb-20 lg:pb-8 bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen transition-all duration-200" role="main">
+                                <AvalancheMethod />
+                              </main>
+                            </div>
+                            <Navigation />
+                          </div>
+                        </ProtectedRoute>
+                      }
+                    />
+
+                    <Route
+                      path="/goals"
+                      element={
+                        <ProtectedRoute>
+                          <div className="flex min-h-screen w-full">
+                            <AppSidebar />
+                            <div className="flex-1 flex flex-col w-full lg:ml-[280px]">
+                              <header className="lg:hidden h-16 border-b border-slate-800 flex items-center justify-between px-4 bg-gradient-to-r from-slate-900 to-slate-950 backdrop-blur-xl sticky top-0 z-40">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                                    <span className="text-white font-bold text-sm">LU</span>
+                                  </div>
+                                  <span className="text-base font-semibold text-white">LevelUp Money</span>
+                                </div>
+                                <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full" />
+                              </header>
+                              <main className="flex-1 pb-20 lg:pb-8 bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen transition-all duration-200" role="main">
+                                <Goals />
+                              </main>
+                            </div>
+                            <Navigation />
+                          </div>
+                        </ProtectedRoute>
+                      }
+                    />
+
+                    <Route
+                      path="/accounts"
+                      element={
+                        <ProtectedRoute>
+                          <div className="flex min-h-screen w-full">
+                            <AppSidebar />
+                            <div className="flex-1 flex flex-col w-full lg:ml-[280px]">
+                              <header className="lg:hidden h-16 border-b border-slate-800 flex items-center justify-between px-4 bg-gradient-to-r from-slate-900 to-slate-950 backdrop-blur-xl sticky top-0 z-40">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                                    <span className="text-white font-bold text-sm">LU</span>
+                                  </div>
+                                  <span className="text-base font-semibold text-white">LevelUp Money</span>
+                                </div>
+                                <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full" />
+                              </header>
+                              <main className="flex-1 pb-20 lg:pb-8 bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen transition-all duration-200" role="main">
+                                <Debt />
+                              </main>
+                            </div>
+                            <Navigation />
+                          </div>
+                        </ProtectedRoute>
+                      }
+                    />
+
+                    <Route
+                      path="/retirement"
+                      element={
+                        <ProtectedRoute>
+                          <div className="flex min-h-screen w-full">
+                            <AppSidebar />
+                            <div className="flex-1 flex flex-col w-full lg:ml-[280px]">
+                              <header className="lg:hidden h-16 border-b border-slate-800 flex items-center justify-between px-4 bg-gradient-to-r from-slate-900 to-slate-950 backdrop-blur-xl sticky top-0 z-40">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                                    <span className="text-white font-bold text-sm">LU</span>
+                                  </div>
+                                  <span className="text-base font-semibold text-white">LevelUp Money</span>
+                                </div>
+                                <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full" />
+                              </header>
+                              <main className="flex-1 pb-20 lg:pb-8 bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen transition-all duration-200" role="main">
+                                <Retirement />
+                              </main>
+                            </div>
+                            <Navigation />
+                          </div>
+                        </ProtectedRoute>
+                      }
+                    />
+
+                    <Route
+                      path="/chat"
+                      element={
+                        <ProtectedRoute>
+                          <div className="flex min-h-screen w-full">
+                            <AppSidebar />
+                            <div className="flex-1 flex flex-col w-full lg:ml-[280px]">
+                              <header className="lg:hidden h-16 border-b border-slate-800 flex items-center justify-between px-4 bg-gradient-to-r from-slate-900 to-slate-950 backdrop-blur-xl sticky top-0 z-40">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                                    <span className="text-white font-bold text-sm">LU</span>
+                                  </div>
+                                  <span className="text-base font-semibold text-white">LevelUp Money</span>
+                                </div>
+                                <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full" />
+                              </header>
+                              <main className="flex-1 pb-20 lg:pb-8 bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen transition-all duration-200" role="main">
+                                <Chat />
+                              </main>
+                            </div>
+                            <Navigation />
+                          </div>
+                        </ProtectedRoute>
+                      }
+                    />
+
+                    <Route
+                      path="/profile"
+                      element={
+                        <ProtectedRoute>
+                          <div className="flex min-h-screen w-full">
+                            <AppSidebar />
+                            <div className="flex-1 flex flex-col w-full lg:ml-[280px]">
+                              <header className="lg:hidden h-16 border-b border-slate-800 flex items-center justify-between px-4 bg-gradient-to-r from-slate-900 to-slate-950 backdrop-blur-xl sticky top-0 z-40">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                                    <span className="text-white font-bold text-sm">LU</span>
+                                  </div>
+                                  <span className="text-base font-semibold text-white">LevelUp Money</span>
+                                </div>
+                                <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full" />
+                              </header>
+                              <main className="flex-1 pb-20 lg:pb-8 bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen transition-all duration-200" role="main">
+                                <Profile />
+                              </main>
+                            </div>
+                            <Navigation />
+                          </div>
+                        </ProtectedRoute>
+                      }
+                    />
+
+                    <Route
+                      path="/settings"
+                      element={
+                        <ProtectedRoute>
+                          <div className="flex min-h-screen w-full">
+                            <AppSidebar />
+                            <div className="flex-1 flex flex-col w-full lg:ml-[280px]">
+                              <header className="lg:hidden h-16 border-b border-slate-800 flex items-center justify-between px-4 bg-gradient-to-r from-slate-900 to-slate-950 backdrop-blur-xl sticky top-0 z-40">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                                    <span className="text-white font-bold text-sm">LU</span>
+                                  </div>
+                                  <span className="text-base font-semibold text-white">LevelUp Money</span>
+                                </div>
+                                <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full" />
+                              </header>
+                              <main className="flex-1 pb-20 lg:pb-8 bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen transition-all duration-200" role="main">
+                                <Settings />
+                              </main>
+                            </div>
+                            <Navigation />
+                          </div>
+                        </ProtectedRoute>
+                      }
+                    />
+
+                    {/* 404 Not Found - Catch all */}
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </Suspense>
+              </BrowserRouter>
+            </TooltipProvider>
+          </GamificationProvider>
+        </LanguageProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

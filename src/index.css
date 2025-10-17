@@ -239,4 +239,14 @@ All colors MUST be HSL.
   :disabled {
     @apply cursor-not-allowed opacity-50;
   }
+
+  /* Gentle rotation animation for Breaking the Cycle badge */
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
 }

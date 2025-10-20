@@ -101,7 +101,7 @@ const App = () => {
             <TooltipProvider>
               <Toaster />
               <Sonner />
-              <BrowserRouter>
+              <BrowserRouter basename="/levelup-money">
                 <Suspense fallback={<PageLoader />}>
                   <Routes>
                     {/* ============================================ */}

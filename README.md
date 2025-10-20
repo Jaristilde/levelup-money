@@ -1,4 +1,24 @@
-# Welcome to your Lovable project
+# LevelUp Money - Financial Wellness Platform
+
+⚠️ **SECURITY NOTICE**: This is proprietary software. See LICENSE file for terms.
+
+## 🔒 Security & Confidentiality
+
+**CRITICAL SECURITY REQUIREMENTS:**
+
+- ✅ This repository contains proprietary code - DO NOT share publicly
+- ✅ NEVER commit `.env` files or API keys to git
+- ✅ All credentials must be stored securely in environment variables
+- ✅ Review `.env.example` for required environment variables
+- ✅ Follow security best practices for all development work
+
+**Before Contributing:**
+1. Ensure `.env` is in `.gitignore` (already configured)
+2. Use `.env.example` as a template - NEVER commit actual secrets
+3. Rotate API keys immediately if accidentally exposed
+4. Report security issues privately to: security@levelupmoney.com
+
+---
 
 ## Project info
 
@@ -29,12 +49,18 @@ git clone <YOUR_GIT_URL>
 # Step 2: Navigate to the project directory.
 cd <YOUR_PROJECT_NAME>
 
-# Step 3: Install the necessary dependencies.
+# Step 3: Set up environment variables (CRITICAL!)
+cp .env.example .env
+# Edit .env with your actual API keys (DO NOT COMMIT THIS FILE!)
+
+# Step 4: Install the necessary dependencies.
 npm i
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Step 5: Start the development server with auto-reloading and an instant preview.
 npm run dev
 ```
+
+⚠️ **IMPORTANT**: After copying `.env.example` to `.env`, you MUST replace all placeholder values with your actual credentials. Never commit the `.env` file!
 
 **Edit a file directly in GitHub**
 

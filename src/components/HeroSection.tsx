@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Check } from "lucide-react";
 import "../styles/landing-redesign.css";
+import ratWheelImage from "/public/images/rat-wheel.png";
 
 const HeroSection: React.FC = () => {
   return (
@@ -47,7 +48,7 @@ const HeroSection: React.FC = () => {
         <div className="hero-image-block">
           <div className="image-glow-effect"></div>
           <img 
-            src="/images/rat-wheel.png" 
+            src={ratWheelImage} 
             alt="Break free from the cycle" 
             className="rat-wheel-premium"
           />

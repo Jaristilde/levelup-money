@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Check } from "lucide-react";
 import "../styles/landing-redesign.css";
-import ratWheelImage from "/public/images/rat-wheel.png";
+import ratWheelImage from "../assets/rat-wheel.png";
 
 const HeroSection: React.FC = () => {
   return (

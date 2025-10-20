@@ -87,22 +87,22 @@
   }
   
   .header-cta-btn {
-    font-family: "Inter", system-ui, sans-serif;
-    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
-    color: #FFFFFF;
-    padding: 12px 28px;
-    border-radius: 10px;
+    font-family: "Inter", sans-serif !important;
+    background: #10B981 !important;
+    color: #FFFFFF !important;
+    padding: 12px 28px !important;
+    border-radius: 12px !important;
     text-decoration: none;
-    font-weight: 600;
-    font-size: 0.95rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 2px 12px rgba(16, 185, 129, 0.3);
+    font-weight: 700 !important;
+    font-size: 16px !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3) !important;
   }
   
   .header-cta-btn:hover {
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4);
-    filter: brightness(1.05);
+    background: #059669 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4) !important;
   }
   
   /* ============================================ */
@@ -156,13 +156,13 @@
 }
 
 .feature-card {
-  background: #FFFFFF;
-  border-radius: 16px;
-  padding: 40px 32px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: white !important;
+  border-radius: 16px !important;
+  padding: 40px 32px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
   text-align: center;
-  border: 1px solid rgba(226, 232, 240, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.06) !important;
   position: relative;
   overflow: hidden;
 }
@@ -180,9 +180,9 @@
 }
 
 .feature-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
-  border-color: rgba(16, 185, 129, 0.2);
+  transform: translateY(-8px) !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15) !important;
+  border-color: rgba(16, 185, 129, 0.2) !important;
 }
 
 .feature-card:hover::before {
@@ -200,27 +200,27 @@
 }
 
 .feature-title {
-  font-family: "Inter", system-ui, sans-serif;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #1F2937;
-  margin-bottom: 12px;
+  font-family: "Inter", sans-serif !important;
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  color: #0A0A0A !important;
+  margin-bottom: 12px !important;
   letter-spacing: -0.015em;
 }
 
 .feature-tagline {
-  font-family: "Inter", system-ui, sans-serif;
-  font-size: 1rem;
-  color: #10B981;
-  font-weight: 600;
-  margin-bottom: 16px;
+  font-family: "Inter", sans-serif !important;
+  font-size: 16px !important;
+  color: #10B981 !important;
+  font-weight: 600 !important;
+  margin-bottom: 16px !important;
 }
 
 .feature-description {
-  font-family: "Lato", system-ui, sans-serif;
-  font-size: 1rem;
-  color: #64748B;
-  line-height: 1.7;
+  font-family: "Inter", sans-serif !important;
+  font-size: 16px !important;
+  color: #6B7280 !important;
+  line-height: 1.6 !important;
 }
   
   /* ============================================ */
@@ -272,23 +272,23 @@
 
 .final-cta-button {
   display: inline-block;
-  font-family: "Inter", system-ui, sans-serif;
-  background: #FFFFFF;
-  color: #10B981;
-  padding: 20px 48px;
+  font-family: "Inter", sans-serif !important;
+  background: #FFFFFF !important;
+  color: #10B981 !important;
+  padding: 20px 48px !important;
   min-height: 64px;
-  border-radius: 14px;
+  border-radius: 12px !important;
   text-decoration: none;
-  font-weight: 700;
-  font-size: 1.125rem;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  font-weight: 700 !important;
+  font-size: 18px !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2) !important;
 }
 
 .final-cta-button:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.3);
-  background: #F9FAFB;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+  background: #F9FAFB !important;
 }
   
   /* ============================================ */

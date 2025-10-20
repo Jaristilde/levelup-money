@@ -101,7 +101,7 @@ const App = () => {
             <TooltipProvider>
               <Toaster />
               <Sonner />
-              <BrowserRouter basename="/levelup-money">
+              <BrowserRouter basename={import.meta.env.BASE_URL}>
                 <Suspense fallback={<PageLoader />}>
                   <Routes>
                     {/* ============================================ */}

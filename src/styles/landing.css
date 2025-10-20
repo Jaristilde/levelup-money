@@ -8,11 +8,12 @@
   }
   
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", sans-serif;
+    font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     color: #1F2937;
     background: #FFFFFF;
-    line-height: 1.6;
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   
   .landing-container {
@@ -51,15 +52,19 @@
   }
   
   .logo-main {
+    font-family: "Inter", system-ui, sans-serif;
     font-size: 1.6rem;
     font-weight: 800;
     color: #1F2937;
+    letter-spacing: -0.015em;
   }
   
   .logo-sub {
+    font-family: "Inter", system-ui, sans-serif;
     font-size: 1.6rem;
     font-weight: 800;
     color: #2ECC71;
+    letter-spacing: -0.015em;
   }
   
   .header-nav {
@@ -69,6 +74,7 @@
   }
   
   .nav-link {
+    font-family: "Inter", system-ui, sans-serif;
     color: #4B5563;
     text-decoration: none;
     font-weight: 500;
@@ -81,6 +87,7 @@
   }
   
   .header-cta-btn {
+    font-family: "Inter", system-ui, sans-serif;
     background: #2ECC71;
     color: #FFFFFF;
     padding: 11px 26px;
@@ -113,14 +120,17 @@
   }
   
   .milestone-title {
+    font-family: "Inter", system-ui, sans-serif;
     font-size: 2.5rem;
     font-weight: 700;
     color: #1F2937;
     margin-bottom: 20px;
     line-height: 1.2;
+    letter-spacing: -0.02em;
   }
   
   .milestone-description {
+    font-family: "Lato", system-ui, sans-serif;
     font-size: 1.2rem;
     color: #6B7280;
     line-height: 1.7;
@@ -165,13 +175,16 @@
   }
   
   .feature-title {
+    font-family: "Inter", system-ui, sans-serif;
     font-size: 1.5rem;
     font-weight: 700;
     color: #1F2937;
     margin-bottom: 8px;
+    letter-spacing: -0.015em;
   }
   
   .feature-tagline {
+    font-family: "Inter", system-ui, sans-serif;
     font-size: 1rem;
     color: #2ECC71;
     font-weight: 600;
@@ -179,9 +192,10 @@
   }
   
   .feature-description {
+    font-family: "Lato", system-ui, sans-serif;
     font-size: 0.95rem;
     color: #6B7280;
-    line-height: 1.6;
+    line-height: 1.65;
   }
   
   /* ============================================ */
@@ -200,20 +214,25 @@
   }
   
   .final-cta-title {
+    font-family: "Inter", system-ui, sans-serif;
     font-size: 2.8rem;
     font-weight: 800;
     margin-bottom: 20px;
     line-height: 1.2;
+    letter-spacing: -0.02em;
   }
   
   .final-cta-subtitle {
+    font-family: "Lato", system-ui, sans-serif;
     font-size: 1.4rem;
     margin-bottom: 40px;
     opacity: 0.95;
+    line-height: 1.5;
   }
   
   .final-cta-button {
     display: inline-block;
+    font-family: "Inter", system-ui, sans-serif;
     background: #FFFFFF;
     color: #2ECC71;
     padding: 20px 50px;
@@ -234,6 +253,7 @@
   /* FOOTER */
   /* ============================================ */
   .site-footer {
+    font-family: "Lato", system-ui, sans-serif;
     background: #1F2937;
     color: #9CA3AF;
     text-align: center;

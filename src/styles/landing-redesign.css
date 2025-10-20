@@ -31,16 +31,17 @@
     font-family: "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
     font-size: 56px;
     font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -1.5px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
     color: #0F172A;
     margin-bottom: 24px;
   }
   
   .hero-subheadline-premium {
+    font-family: "Lato", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
     font-size: 20px;
     font-weight: 400;
-    line-height: 1.6;
+    line-height: 1.65;
     color: #475569;
     margin-bottom: 32px;
     max-width: 520px;
@@ -63,6 +64,7 @@
     justify-content: center;
     background: linear-gradient(135deg, #10B981 0%, #059669 100%);
     color: #FFFFFF;
+    font-family: "Inter", system-ui, sans-serif;
     font-size: 16px;
     font-weight: 600;
     padding: 16px 32px;
@@ -97,6 +99,7 @@
     justify-content: center;
     background: transparent;
     color: #10B981;
+    font-family: "Inter", system-ui, sans-serif;
     font-size: 16px;
     font-weight: 600;
     padding: 16px 32px;
@@ -128,6 +131,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    font-family: "Lato", system-ui, sans-serif;
     font-size: 14px;
     font-weight: 500;
     color: #64748B;
@@ -188,7 +192,8 @@
   
   @media (min-width: 1440px) {
     .hero-headline-premium {
-      font-size: 64px;
+      font-size: 68px;
+      letter-spacing: -0.015em;
     }
     
     .hero-container-premium {
@@ -208,7 +213,8 @@
     }
     
     .hero-headline-premium {
-      font-size: 44px;
+      font-size: 48px;
+      letter-spacing: -0.015em;
     }
     
     .hero-text-block {
@@ -232,11 +238,12 @@
     
     .hero-headline-premium {
       font-size: 36px;
-      letter-spacing: -0.8px;
+      letter-spacing: -0.01em;
     }
     
     .hero-subheadline-premium {
       font-size: 18px;
+      line-height: 1.6;
     }
     
     .hero-cta-container {

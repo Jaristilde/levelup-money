@@ -10,6 +10,7 @@ import {
   updateEmail,
   sendEmailVerification,
   GoogleAuthProvider,
+  OAuthProvider,
   signInWithPopup,
   setPersistence,
   browserLocalPersistence,
@@ -33,6 +34,7 @@ interface AuthContextType {
   signUp: (data: SignUpData) => Promise<{ error: Error | null }>;
   signIn: (data: LoginData) => Promise<{ error: Error | null }>;
   signInWithGoogle: () => Promise<{ error: Error | null }>;
+  signInWithApple: () => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<{ error: Error | null }>;
   updatePassword: (newPassword: string) => Promise<{ error: Error | null }>;
@@ -256,6 +258,45 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
+  const signInWithApple = async () => {
+    try {
+      const provider = new OAuthProvider('apple.com');
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      // Check if user profile exists, if not create it
+      const userDocRef = doc(db, 'users', user.uid);
+      const userDocSnap = await getDoc(userDocRef);
+
+      if (!userDocSnap.exists()) {
+        // Create profile for new Apple user
+        await setDoc(userDocRef, {
+          email: user.email,
+          full_name: user.displayName || 'User',
+          avatar_type: 'david',
+          avatar_url: user.photoURL,
+          email_verified: user.emailVerified,
+          created_at: serverTimestamp(),
+          updated_at: serverTimestamp()
+        });
+      }
+
+      toast.success('Welcome back!');
+      return { error: null };
+    } catch (error: any) {
+      console.error('Error signing in with Apple:', error);
+
+      let errorMessage = 'Failed to sign in with Apple';
+      if (error.code === 'auth/popup-closed-by-user') {
+        errorMessage = 'Sign-in popup was closed';
+      } else if (error.code === 'auth/cancelled-popup-request') {
+        return { error: null }; // User cancelled, don't show error
+      }
+
+      return { error: new Error(errorMessage) };
+    }
+  };
+
   const signOut = async () => {
     try {
       await firebaseSignOut(auth);
@@ -383,6 +424,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     signUp,
     signIn,
     signInWithGoogle,
+    signInWithApple,
     signOut,
     resetPassword,
     updatePassword,

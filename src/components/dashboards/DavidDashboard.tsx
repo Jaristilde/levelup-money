@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import MobileHeader from '@/components/MobileHeader';
 
 // David (35, Solution Aware) - Comprehensive Planning Dashboard
 // Focus: Data-rich yet organized, with clear charts and actionable insights
@@ -26,8 +27,10 @@ export const DavidDashboard = () => {
   const budgetSurplus = 350;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 pb-20 lg:pb-8">
-      <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-6 md:py-10">
+    <>
+      <MobileHeader />
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 pb-20 lg:pb-8 pt-16 lg:pt-0">
+        <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-6 md:py-10">
         {/* Header */}
         <header className="mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2 font-poppins">
@@ -434,7 +437,8 @@ export const DavidDashboard = () => {
             </Card>
           </div>
         </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };

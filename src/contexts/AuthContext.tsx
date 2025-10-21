@@ -222,6 +222,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const signInWithGoogle = async () => {
     try {
       const provider = new GoogleAuthProvider();
+      // Request access to user's profile info
+      provider.addScope('profile');
+      provider.addScope('email');
+      
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
@@ -240,6 +244,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           created_at: serverTimestamp(),
           updated_at: serverTimestamp()
         });
+      } else {
+        // Update existing profile with Google info if name was 'User'
+        const existingData = userDocSnap.data();
+        if (existingData.full_name === 'User' && user.displayName) {
+          await updateDoc(userDocRef, {
+            full_name: user.displayName,
+            avatar_url: user.photoURL,
+            updated_at: serverTimestamp()
+          });
+        }
       }
 
       toast.success('Welcome back!');

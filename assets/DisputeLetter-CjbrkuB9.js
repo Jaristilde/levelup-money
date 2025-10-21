@@ -1,0 +1,24 @@
+import{r as l,j as e,x as C,y as w,C as x,A as b,B as f,D as L,z as g,d as o}from"./index-Ds5wnI9h.js";import{B as u}from"./button-DQkY-fFZ.js";import{I as c}from"./input-8ssZjQQB.js";import{L as i}from"./label-7KFADr0r.js";import{F as X}from"./file-check-D2tjTQeV.js";import{C as F}from"./copy-B-BtcZEO.js";import{D as k}from"./download-OCX61QIc.js";const j=l.forwardRef(({className:n,...s},r)=>e.jsx("textarea",{className:C("flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",n),ref:r,...s}));j.displayName="Textarea";const G=()=>{const{t:n}=w(),[s,r]=l.useState({name:"",address:"",accountNumber:"",bureauName:"",issueDescription:""}),[t,N]=l.useState(null),[m,p]=l.useState(!1),v=async()=>{if(!s.name||!s.issueDescription){o.error("Please fill in at least your name and issue description");return}p(!0),setTimeout(()=>{const a=`${s.name}
+${s.address}
+
+${new Date().toLocaleDateString()}
+
+${s.bureauName||"[Credit Bureau Name]"}
+Dispute Department
+
+Re: Formal Dispute of Credit Report Information
+
+Dear Sir or Madam,
+
+I am writing to dispute the following information in my credit file. The items I dispute are:
+
+Account: ${s.accountNumber||"[Account Number]"}
+
+${s.issueDescription}
+
+I am requesting that this item be removed [or request another specific change] to correct the information.
+
+Enclosed are copies of [use this sentence to describe any enclosed documentation, such as payment records, court documents] supporting my position. Please investigate this matter and correct the disputed item as soon as possible.
+
+Sincerely,
+${s.name}`;N(a),p(!1),o.success("Letter generated successfully!")},1500)},y=()=>{t&&(navigator.clipboard.writeText(t),o.success("Letter copied to clipboard!"))},D=()=>{if(t){const a=new Blob([t],{type:"text/plain"}),h=URL.createObjectURL(a),d=document.createElement("a");d.href=h,d.download="credit-dispute-letter.txt",d.click(),URL.revokeObjectURL(h),o.success("Letter downloaded!")}};return e.jsx("div",{className:"min-h-screen bg-background pb-20 md:pb-8 md:pt-20",children:e.jsxs("div",{className:"max-w-4xl mx-auto px-4 py-6",children:[e.jsxs("div",{className:"mb-6",children:[e.jsxs("h1",{className:"text-3xl font-bold text-foreground mb-2 flex items-center gap-2",children:[e.jsx(X,{className:"w-8 h-8 text-primary"}),n("disputeLetterTitle")]}),e.jsx("p",{className:"text-muted-foreground",children:n("disputeLetterSubtitle")})]}),e.jsxs(x,{className:"mb-6",children:[e.jsxs(b,{children:[e.jsx(f,{children:"Fill in Your Information"}),e.jsx(L,{children:"Complete the form below to generate a professional dispute letter"})]}),e.jsxs(g,{className:"space-y-4",children:[e.jsxs("div",{className:"grid gap-4 md:grid-cols-2",children:[e.jsxs("div",{className:"space-y-2",children:[e.jsx(i,{htmlFor:"name",children:"Your Full Name *"}),e.jsx(c,{id:"name",value:s.name,onChange:a=>r({...s,name:a.target.value}),placeholder:"John Doe"})]}),e.jsxs("div",{className:"space-y-2",children:[e.jsx(i,{htmlFor:"address",children:"Your Address"}),e.jsx(c,{id:"address",value:s.address,onChange:a=>r({...s,address:a.target.value}),placeholder:"123 Main St, City, ST 12345"})]}),e.jsxs("div",{className:"space-y-2",children:[e.jsx(i,{htmlFor:"accountNumber",children:"Account Number"}),e.jsx(c,{id:"accountNumber",value:s.accountNumber,onChange:a=>r({...s,accountNumber:a.target.value}),placeholder:"XXXX-XXXX-XXXX"})]}),e.jsxs("div",{className:"space-y-2",children:[e.jsx(i,{htmlFor:"bureauName",children:"Credit Bureau Name"}),e.jsx(c,{id:"bureauName",value:s.bureauName,onChange:a=>r({...s,bureauName:a.target.value}),placeholder:"Equifax, Experian, or TransUnion"})]})]}),e.jsxs("div",{className:"space-y-2",children:[e.jsx(i,{htmlFor:"issueDescription",children:"Describe the Issue *"}),e.jsx(j,{id:"issueDescription",value:s.issueDescription,onChange:a=>r({...s,issueDescription:a.target.value}),placeholder:"Describe what is incorrect on your credit report and why it should be corrected...",className:"min-h-[120px]"})]}),e.jsx(u,{onClick:v,disabled:m,className:"w-full bg-primary hover:bg-primary/90",children:m?"Generating...":"Generate Dispute Letter"})]})]}),t&&e.jsxs(x,{className:"border-primary",children:[e.jsx(b,{children:e.jsxs(f,{className:"flex items-center justify-between",children:[e.jsx("span",{children:"Your Dispute Letter"}),e.jsxs("div",{className:"flex gap-2",children:[e.jsxs(u,{variant:"outline",size:"sm",onClick:y,children:[e.jsx(F,{className:"w-4 h-4 mr-2"}),"Copy"]}),e.jsxs(u,{variant:"outline",size:"sm",onClick:D,children:[e.jsx(k,{className:"w-4 h-4 mr-2"}),"Download"]})]})]})}),e.jsx(g,{children:e.jsx("pre",{className:"whitespace-pre-wrap text-sm text-foreground bg-muted p-4 rounded-lg font-mono",children:t})})]})]})})};export{G as default};

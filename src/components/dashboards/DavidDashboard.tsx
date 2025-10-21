@@ -3,11 +3,21 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Link } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 
 // David (35, Solution Aware) - Comprehensive Planning Dashboard
 // Focus: Data-rich yet organized, with clear charts and actionable insights
 
 export const DavidDashboard = () => {
+  const { profile } = useAuth();
+  
+  // Extract first name from profile
+  const getFirstName = () => {
+    if (profile?.full_name) {
+      return profile.full_name.split(' ')[0];
+    }
+    return 'User';
+  };
   const netWorth = 45000;
   const netWorthChange = 5;
   const creditScore = 685;
@@ -21,7 +31,7 @@ export const DavidDashboard = () => {
         {/* Header */}
         <header className="mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2 font-poppins">
-            Welcome Back, David
+            Welcome Back, {getFirstName()}
           </h1>
           <p className="text-lg text-slate-600 font-inter">Financial Snapshot</p>
         </header>

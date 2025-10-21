@@ -1,13 +1,52 @@
+import { useState, useEffect } from 'react';
 import { AwarenessLevel } from '@/components/onboarding/AwarenessQualificationStep';
 import { KevinDashboard } from '@/components/dashboards/KevinDashboard';
 import { JessDashboard } from '@/components/dashboards/JessDashboard';
 import { DavidDashboard } from '@/components/dashboards/DavidDashboard';
 import { MariaDashboard } from '@/components/dashboards/MariaDashboard';
 import { BenDashboard } from '@/components/dashboards/BenDashboard';
+import FirstTimeUserModal from '@/components/onboarding/FirstTimeUserModal';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Home = () => {
+  const { profile, refreshSession } = useAuth();
+  const [showOnboardingModal, setShowOnboardingModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
   // Get user's awareness level from localStorage
   const awarenessLevel = localStorage.getItem("awarenessLevel") as AwarenessLevel | null;
+
+  // Check if user needs to complete onboarding
+  useEffect(() => {
+    if (profile) {
+      const needsOnboarding = !profile.onboarding_completed;
+      setShowOnboardingModal(needsOnboarding);
+      setIsLoading(false);
+    }
+  }, [profile]);
+
+  const handleOnboardingComplete = async () => {
+    setShowOnboardingModal(false);
+    // Refresh the profile to get updated data
+    await refreshSession();
+  };
+
+  // Show loading state while checking onboarding status
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-brand-green border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-slate-600 font-inter">Loading your dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show onboarding modal for first-time users
+  if (showOnboardingModal) {
+    return <FirstTimeUserModal open={showOnboardingModal} onComplete={handleOnboardingComplete} />;
+  }
 
   // Route to appropriate dashboard based on awareness level
   switch (awarenessLevel) {

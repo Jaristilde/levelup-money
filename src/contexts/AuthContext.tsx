@@ -176,6 +176,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         avatar_type: data.avatarType || 'david',
         avatar_url: null,
         email_verified: false,
+        onboarding_completed: false,
         created_at: serverTimestamp(),
         updated_at: serverTimestamp()
       });
@@ -241,6 +242,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           avatar_type: 'david',
           avatar_url: user.photoURL,
           email_verified: user.emailVerified,
+          onboarding_completed: false,
           created_at: serverTimestamp(),
           updated_at: serverTimestamp()
         });
@@ -290,6 +292,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           avatar_type: 'david',
           avatar_url: user.photoURL,
           email_verified: user.emailVerified,
+          onboarding_completed: false,
           created_at: serverTimestamp(),
           updated_at: serverTimestamp()
         });

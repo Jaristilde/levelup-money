@@ -33,9 +33,14 @@ export interface UserProfile {
   id: string;
   email: string;
   full_name: string;
+  first_name?: string;
+  last_name?: string;
   avatar_type: 'kevin' | 'jess' | 'david' | 'maria' | 'ben';
   avatar_url?: string;
   email_verified: boolean;
+  onboarding_completed?: boolean;
+  referral_source?: string;
+  primary_financial_goal?: string;
   created_at: string;
   updated_at: string;
 }

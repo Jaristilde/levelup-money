@@ -1,7 +1,12 @@
+// TOP OF FILE - IMMEDIATE LOG TO VERIFY FILE LOADS
+console.log('🔴 FIREBASE.TS FILE IS LOADING - START');
+
 import { initializeApp } from 'firebase/app';
 import { getAuth, connectAuthEmulator } from 'firebase/auth';
 import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 import { getStorage, connectStorageEmulator } from 'firebase/storage';
+
+console.log('🔴 FIREBASE IMPORTS COMPLETED');
 
 // Firebase configuration from environment variables
 const firebaseConfig = {
@@ -13,15 +18,19 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
+console.log('🔴 FIREBASE CONFIG OBJECT CREATED');
+
 // Debug: Log environment variable loading
 console.log('🔵 Firebase Config Loading...');
 console.log('🔵 API Key exists:', !!firebaseConfig.apiKey);
-console.log('🔵 API Key preview:', firebaseConfig.apiKey?.substring(0, 10) + '...');
+console.log('🔵 API Key value:', firebaseConfig.apiKey);
 console.log('🔵 Project ID:', firebaseConfig.projectId);
+console.log('🔵 Full config:', firebaseConfig);
 
 // Initialize Firebase
+console.log('🔴 ABOUT TO CALL initializeApp...');
 const app = initializeApp(firebaseConfig);
-console.log('✅ Firebase App initialized');
+console.log('✅ Firebase App initialized:', app.name);
 
 // Initialize Firebase services
 export const auth = getAuth(app);

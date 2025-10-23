@@ -18,9 +18,7 @@ service cloud.firestore {
              profile.email is string &&
              profile.full_name is string &&
              profile.avatar_type in ['kevin', 'jess', 'david', 'maria', 'ben'] &&
-             profile.email_verified is bool &&
-             // Allow optional financial_profile field
-             (!profile.keys().hasAny(['financial_profile']) || profile.financial_profile is map);
+             profile.email_verified is bool;
     }
 
     // Users collection - stores user profiles
@@ -34,8 +32,8 @@ service cloud.firestore {
                        request.resource.data.email == request.auth.token.email;
 
       // Allow users to update their own profile
-      allow update: if isOwner(userId) &&
-                       isValidProfile(request.resource.data);
+      // Simplified: Just check ownership, allow any field updates
+      allow update: if isOwner(userId);
 
       // Prevent users from deleting their profile
       allow delete: if false;

@@ -186,7 +186,7 @@ const Debt = () => {
     console.log('🔵 handleAddDebt CALLED');
     console.log('🔵 Form Data:', formData);
 
-    if (formData.name && formData.balance && formData.minimumPayment) {
+    if (formData.name && formData.balance !== undefined && formData.minimumPayment !== undefined) {
       console.log('✅ Validation passed');
 
       const newDebt: Debt = {
@@ -225,7 +225,7 @@ const Debt = () => {
   };
 
   const handleUpdateDebt = async () => {
-    if (editingDebt && formData.name && formData.balance && formData.minimumPayment) {
+    if (editingDebt && formData.name && formData.balance !== undefined && formData.minimumPayment !== undefined) {
       const updatedDebts = debts.map(debt =>
         debt.id === editingDebt.id
           ? {

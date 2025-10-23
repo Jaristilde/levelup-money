@@ -175,7 +175,7 @@ const Budget = () => {
     console.log('🔵 handleAddIncome CALLED');
     console.log('🔵 New Income Data:', newIncome);
 
-    if (newIncome.name && newIncome.amount > 0) {
+    if (newIncome.name && newIncome.name.trim() !== '' && newIncome.amount > 0) {
       console.log('✅ Validation passed');
       const newIncomeWithId = { id: Date.now().toString(), ...newIncome };
       const updatedIncomes = [...incomes, newIncomeWithId];

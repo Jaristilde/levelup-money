@@ -13,13 +13,24 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
+// Debug: Log environment variable loading
+console.log('🔵 Firebase Config Loading...');
+console.log('🔵 API Key exists:', !!firebaseConfig.apiKey);
+console.log('🔵 API Key preview:', firebaseConfig.apiKey?.substring(0, 10) + '...');
+console.log('🔵 Project ID:', firebaseConfig.projectId);
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+console.log('✅ Firebase App initialized');
 
 // Initialize Firebase services
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
+
+console.log('✅ Firebase Auth initialized');
+console.log('✅ Firestore DB initialized');
+console.log('✅ Firebase Storage initialized');
 
 // Connect to emulators in development (optional)
 if (import.meta.env.DEV && import.meta.env.VITE_USE_FIREBASE_EMULATOR === 'true') {

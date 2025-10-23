@@ -13,7 +13,8 @@ import {
   UserCircle,
   Settings,
   ChevronRight,
-  LogOut
+  LogOut,
+  FileText
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/contexts/AuthContext';
@@ -35,6 +36,7 @@ const AppSidebar = () => {
       label: 'FINANCIAL HEALTH',
       items: [
         { path: '/credit-report', icon: ShieldCheck, label: 'Credit Report' },
+        { path: '/financial-profile', icon: FileText, label: 'Financial Profile' },
         { path: '/accounts', icon: Wallet, label: 'Accounts' },
         { path: '/budget', icon: PieChart, label: 'Budget' },
         { path: '/debt', icon: TrendingDown, label: 'Debts' },

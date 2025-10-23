@@ -10,6 +10,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { doc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { db, CreditCard, Loan } from '@/lib/firebase';
 import { toast } from 'sonner';
+import { calculateTotalDebt } from '@/lib/calculations';
 
 const FinancialProfileSetup = () => {
   const { user, profile, refreshSession } = useAuth();
@@ -135,10 +136,9 @@ const FinancialProfileSetup = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const calculateTotalDebt = () => {
-    const cardDebt = creditCards.reduce((sum, card) => sum + (card.balance || 0), 0);
-    const loanDebt = loans.reduce((sum, loan) => sum + (loan.balance || 0), 0);
-    return cardDebt + loanDebt;
+  // Use centralized calculation function
+  const getTotalDebt = () => {
+    return calculateTotalDebt(creditCards, loans);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -182,7 +182,7 @@ const FinancialProfileSetup = () => {
           // Debts
           credit_cards: creditCards.filter(card => card.name && card.balance > 0),
           loans: loans.filter(loan => loan.name && loan.balance > 0),
-          total_debt: calculateTotalDebt(),
+          total_debt: getTotalDebt(),
           
           // Income & Expenses
           monthly_income: monthlyIncome ? parseFloat(monthlyIncome) : null,

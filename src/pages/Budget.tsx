@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Wallet, Plus, TrendingUp, TrendingDown, DollarSign, Trash2, Edit2, Check, X } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -11,12 +11,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { calculateMonthlyIncome, calculateMonthlyExpenses, calculateNetBudget } from '@/lib/calculations';
+import { useAuth } from '@/contexts/AuthContext';
+import { doc, updateDoc, setDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
+import { toast } from 'sonner';
 
 interface IncomeSource {
   id: string;
   name: string;
   amount: number;
-  frequency: 'weekly' | 'monthly';
+  frequency: 'weekly' | 'biweekly' | 'monthly';
 }
 
 interface ExpenseCategory {
@@ -26,19 +31,16 @@ interface ExpenseCategory {
 }
 
 const Budget = () => {
-  // Income State
-  const [incomes, setIncomes] = useState<IncomeSource[]>([
-    { id: '1', name: 'Salary', amount: 4000, frequency: 'monthly' },
-  ]);
-  const [showAddIncome, setShowAddIncome] = useState(false);
-  const [newIncome, setNewIncome] = useState<{ name: string; amount: number; frequency: 'weekly' | 'monthly' }>({ name: '', amount: 0, frequency: 'monthly' });
+  const { user, profile } = useAuth();
+  const [loading, setLoading] = useState(false);
 
-  // Expense State
-  const [expenses, setExpenses] = useState<ExpenseCategory[]>([
-    { id: '1', category: 'rent', amount: 1500 },
-    { id: '2', category: 'groceries', amount: 400 },
-    { id: '3', category: 'transportation', amount: 200 },
-  ]);
+  // Income State - Load from Firestore
+  const [incomes, setIncomes] = useState<IncomeSource[]>([]);
+  const [showAddIncome, setShowAddIncome] = useState(false);
+  const [newIncome, setNewIncome] = useState<{ name: string; amount: number; frequency: 'weekly' | 'biweekly' | 'monthly' }>({ name: '', amount: 0, frequency: 'monthly' });
+
+  // Expense State - Load from Firestore
+  const [expenses, setExpenses] = useState<ExpenseCategory[]>([]);
 
   // Expense categories with labels
   const expenseCategories = {
@@ -81,40 +83,156 @@ const Budget = () => {
     other: 'Other',
   };
 
-  // Calculate totals
-  const monthlyIncome = incomes.reduce((sum, income) => {
-    return sum + (income.frequency === 'weekly' ? income.amount * 4.33 : income.amount);
-  }, 0);
+  // Load income and expenses from Firestore on mount
+  useEffect(() => {
+    console.log('🔵 Budget - useEffect triggered');
+    console.log('🔵 User:', user?.uid);
+    console.log('🔵 Profile:', profile);
+    console.log('🔵 Financial Profile:', profile?.financial_profile);
 
+    if (profile?.financial_profile) {
+      const budgetData = profile.financial_profile.budget_data;
+      console.log('🔵 Budget Data from Firestore:', budgetData);
+
+      if (budgetData) {
+        setIncomes(budgetData.income_sources || []);
+        setExpenses(budgetData.expenses || []);
+        console.log('✅ Loaded incomes:', budgetData.income_sources);
+        console.log('✅ Loaded expenses:', budgetData.expenses);
+      } else {
+        console.log('⚠️ No budget_data field found in profile');
+      }
+    } else {
+      console.log('⚠️ No financial_profile found in profile');
+    }
+  }, [profile, user]);
+
+  // Calculate totals using centralized calculation functions
+  const monthlyIncome = calculateMonthlyIncome(incomes);
   const weeklyIncome = monthlyIncome / 4.33;
 
-  const monthlyExpenses = expenses.reduce((sum, expense) => sum + expense.amount, 0);
+  const monthlyExpenses = calculateMonthlyExpenses(expenses);
   const weeklyExpenses = monthlyExpenses / 4.33;
 
-  const monthlySafeToSpend = monthlyIncome - monthlyExpenses;
+  const monthlySafeToSpend = calculateNetBudget(monthlyIncome, monthlyExpenses);
   const weeklySafeToSpend = weeklyIncome - weeklyExpenses;
 
-  // Income handlers
-  const handleAddIncome = () => {
-    if (newIncome.name && newIncome.amount > 0) {
-      setIncomes([...incomes, { id: Date.now().toString(), ...newIncome }]);
-      setNewIncome({ name: '', amount: 0, frequency: 'monthly' });
-      setShowAddIncome(false);
+  // Helper function to save budget data to Firestore
+  const saveBudgetToFirestore = async (updatedIncomes: IncomeSource[], updatedExpenses: ExpenseCategory[]) => {
+    console.log('🔵 saveBudgetToFirestore CALLED');
+    console.log('🔵 Updated Incomes:', updatedIncomes);
+    console.log('🔵 Updated Expenses:', updatedExpenses);
+
+    if (!user) {
+      console.error('❌ No user found!');
+      toast.error('User not found. Please log in again.');
+      return false;
+    }
+
+    console.log('🔵 User ID:', user.uid);
+    console.log('🔵 Firestore path: users/' + user.uid);
+
+    setLoading(true);
+    try {
+      const userDocRef = doc(db, 'users', user.uid);
+      console.log('🔵 Document reference created');
+
+      const dataToSave = {
+        financial_profile: {
+          budget_data: {
+            income_sources: updatedIncomes,
+            expenses: updatedExpenses,
+          },
+          monthly_income: calculateMonthlyIncome(updatedIncomes),
+          monthly_expenses: calculateMonthlyExpenses(updatedExpenses),
+          last_updated: new Date().toISOString(),
+        }
+      };
+
+      console.log('🔵 Data to save:', dataToSave);
+      console.log('🔵 About to call setDoc with merge: true...');
+
+      // Use setDoc with merge to create fields if they don't exist
+      await setDoc(userDocRef, dataToSave, { merge: true });
+
+      console.log('✅ Firestore write SUCCESS!');
+      setLoading(false);
+      return true;
+    } catch (error: any) {
+      console.error('❌ Firestore write FAILED!');
+      console.error('❌ Error object:', error);
+      console.error('❌ Error code:', error?.code);
+      console.error('❌ Error message:', error?.message);
+      console.error('❌ Full error:', JSON.stringify(error, null, 2));
+      toast.error('Failed to save changes. Please try again.');
+      setLoading(false);
+      return false;
     }
   };
 
-  const handleDeleteIncome = (id: string) => {
-    setIncomes(incomes.filter(income => income.id !== id));
+  // Income handlers
+  const handleAddIncome = async () => {
+    console.log('🔵 handleAddIncome CALLED');
+    console.log('🔵 New Income Data:', newIncome);
+
+    if (newIncome.name && newIncome.amount > 0) {
+      console.log('✅ Validation passed');
+      const newIncomeWithId = { id: Date.now().toString(), ...newIncome };
+      const updatedIncomes = [...incomes, newIncomeWithId];
+
+      console.log('🔵 Current incomes:', incomes);
+      console.log('🔵 Updated incomes:', updatedIncomes);
+
+      setIncomes(updatedIncomes);
+      console.log('🔵 Local state updated, now calling Firestore...');
+
+      const success = await saveBudgetToFirestore(updatedIncomes, expenses);
+
+      if (success) {
+        console.log('✅ handleAddIncome completed successfully');
+        toast.success('Income source added successfully!');
+        setNewIncome({ name: '', amount: 0, frequency: 'monthly' });
+        setShowAddIncome(false);
+      } else {
+        console.error('❌ handleAddIncome failed, reverting state');
+        // Revert on failure
+        setIncomes(incomes);
+      }
+    } else {
+      console.error('❌ Validation failed:', { name: newIncome.name, amount: newIncome.amount });
+    }
+  };
+
+  const handleDeleteIncome = async (id: string) => {
+    const updatedIncomes = incomes.filter(income => income.id !== id);
+    setIncomes(updatedIncomes);
+
+    const success = await saveBudgetToFirestore(updatedIncomes, expenses);
+    if (success) {
+      toast.success('Income source deleted successfully!');
+    } else {
+      // Revert on failure
+      setIncomes(incomes);
+    }
   };
 
   // Expense handlers
-  const handleUpdateExpense = (id: string, amount: number) => {
-    setExpenses(expenses.map(expense =>
+  const handleUpdateExpense = async (id: string, amount: number) => {
+    const updatedExpenses = expenses.map(expense =>
       expense.id === id ? { ...expense, amount } : expense
-    ));
+    );
+    setExpenses(updatedExpenses);
+
+    const success = await saveBudgetToFirestore(incomes, updatedExpenses);
+    if (success) {
+      toast.success('Expense updated successfully!');
+    } else {
+      // Revert on failure
+      setExpenses(expenses);
+    }
   };
 
-  const handleAddExpense = () => {
+  const handleAddExpense = async () => {
     // Find first category not already in use
     const usedCategories = expenses.map(e => e.category);
     const availableCategory = Object.keys(expenseCategories).find(
@@ -122,22 +240,49 @@ const Budget = () => {
     );
 
     if (availableCategory) {
-      setExpenses([...expenses, {
+      const updatedExpenses = [...expenses, {
         id: Date.now().toString(),
         category: availableCategory,
         amount: 0,
-      }]);
+      }];
+      setExpenses(updatedExpenses);
+
+      const success = await saveBudgetToFirestore(incomes, updatedExpenses);
+      if (success) {
+        toast.success('Expense category added successfully!');
+      } else {
+        // Revert on failure
+        setExpenses(expenses);
+      }
     }
   };
 
-  const handleDeleteExpense = (id: string) => {
-    setExpenses(expenses.filter(expense => expense.id !== id));
+  const handleDeleteExpense = async (id: string) => {
+    const updatedExpenses = expenses.filter(expense => expense.id !== id);
+    setExpenses(updatedExpenses);
+
+    const success = await saveBudgetToFirestore(incomes, updatedExpenses);
+    if (success) {
+      toast.success('Expense deleted successfully!');
+    } else {
+      // Revert on failure
+      setExpenses(expenses);
+    }
   };
 
-  const handleCategoryChange = (id: string, newCategory: string) => {
-    setExpenses(expenses.map(expense =>
+  const handleCategoryChange = async (id: string, newCategory: string) => {
+    const updatedExpenses = expenses.map(expense =>
       expense.id === id ? { ...expense, category: newCategory } : expense
-    ));
+    );
+    setExpenses(updatedExpenses);
+
+    const success = await saveBudgetToFirestore(incomes, updatedExpenses);
+    if (success) {
+      toast.success('Category updated successfully!');
+    } else {
+      // Revert on failure
+      setExpenses(expenses);
+    }
   };
 
   // Calculate expense percentages
@@ -256,6 +401,7 @@ const Budget = () => {
                 onClick={() => setShowAddIncome(true)}
                 size="sm"
                 className="bg-emerald-600 hover:bg-emerald-700"
+                disabled={loading}
               >
                 <Plus className="w-4 h-4 mr-2" />
                 Add Income
@@ -278,6 +424,7 @@ const Budget = () => {
                         size="sm"
                         onClick={() => handleDeleteIncome(income.id)}
                         className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                        disabled={loading}
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>
@@ -312,13 +459,14 @@ const Budget = () => {
                           <Label htmlFor="income-frequency">Frequency</Label>
                           <Select
                             value={newIncome.frequency}
-                            onValueChange={(value) => setNewIncome({ ...newIncome, frequency: value as 'weekly' | 'monthly' })}
+                            onValueChange={(value) => setNewIncome({ ...newIncome, frequency: value as 'weekly' | 'biweekly' | 'monthly' })}
                           >
                             <SelectTrigger id="income-frequency" className="mt-1">
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent className="bg-white">
                               <SelectItem value="weekly">Weekly</SelectItem>
+                              <SelectItem value="biweekly">Bi-weekly</SelectItem>
                               <SelectItem value="monthly">Monthly</SelectItem>
                             </SelectContent>
                           </Select>
@@ -329,9 +477,10 @@ const Budget = () => {
                           onClick={handleAddIncome}
                           size="sm"
                           className="bg-emerald-600 hover:bg-emerald-700 flex-1"
+                          disabled={loading}
                         >
                           <Check className="w-4 h-4 mr-2" />
-                          Add
+                          {loading ? 'Saving...' : 'Add'}
                         </Button>
                         <Button
                           onClick={() => {
@@ -341,6 +490,7 @@ const Budget = () => {
                           size="sm"
                           variant="outline"
                           className="flex-1"
+                          disabled={loading}
                         >
                           <X className="w-4 h-4 mr-2" />
                           Cancel
@@ -364,6 +514,7 @@ const Budget = () => {
                 onClick={handleAddExpense}
                 size="sm"
                 className="bg-red-600 hover:bg-red-700"
+                disabled={loading}
               >
                 <Plus className="w-4 h-4 mr-2" />
                 Add Expense
@@ -409,6 +560,7 @@ const Budget = () => {
                         size="sm"
                         onClick={() => handleDeleteExpense(expense.id)}
                         className="text-red-600 hover:text-red-700 hover:bg-red-50 h-9 w-9 p-0"
+                        disabled={loading}
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>

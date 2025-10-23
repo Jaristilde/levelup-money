@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Plus, Trash2, Edit2, TrendingDown, DollarSign, Calendar, Percent, Target } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -19,6 +19,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { calculateTotalMinimumPayment, calculateDTI } from '@/lib/calculations';
+import { useAuth } from '@/contexts/AuthContext';
+import { doc, updateDoc, setDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
+import { toast } from 'sonner';
 
 interface Debt {
   id: string;
@@ -31,32 +36,16 @@ interface Debt {
 }
 
 const Debt = () => {
+  const { user, profile } = useAuth();
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingDebt, setEditingDebt] = useState<Debt | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  // Mock user income for debt-to-income calculation
-  const monthlyIncome = 5000; // This would come from user profile
+  // Get monthly income from profile for DTI calculation
+  const monthlyIncome = profile?.financial_profile?.monthly_income || 0;
 
-  const [debts, setDebts] = useState<Debt[]>([
-    {
-      id: '1',
-      name: 'Chase Freedom',
-      type: 'credit-card',
-      balance: 4350,
-      interestRate: 18.99,
-      minimumPayment: 125,
-      dueDate: 15,
-    },
-    {
-      id: '2',
-      name: 'Federal Student Loan',
-      type: 'student-loan',
-      balance: 8100,
-      interestRate: 4.5,
-      minimumPayment: 150,
-      dueDate: 1,
-    },
-  ]);
+  // Load debts from Firestore profile
+  const [debts, setDebts] = useState<Debt[]>([]);
 
   const [formData, setFormData] = useState<Partial<Debt>>({
     name: '',
@@ -67,13 +56,139 @@ const Debt = () => {
     dueDate: 1,
   });
 
+  // Load debts from profile on mount
+  useEffect(() => {
+    console.log('🔵 Debt - useEffect triggered');
+    console.log('🔵 User:', user?.uid);
+    console.log('🔵 Profile:', profile);
+    console.log('🔵 Financial Profile:', profile?.financial_profile);
+
+    if (profile?.financial_profile) {
+      console.log('🔵 Credit Cards:', profile.financial_profile.credit_cards);
+      console.log('🔵 Loans:', profile.financial_profile.loans);
+
+      // Map credit cards and loans from profile to debts array
+      const creditCardDebts: Debt[] = (profile.financial_profile.credit_cards || []).map(card => ({
+        id: card.id || Date.now().toString(),
+        name: card.name || 'Credit Card',
+        type: 'credit-card' as const,
+        balance: card.balance || 0,
+        interestRate: card.apr || 0,
+        minimumPayment: card.minimum_payment || 0,
+        dueDate: 1, // Default, could be added to schema later
+      }));
+
+      const loanDebts: Debt[] = (profile.financial_profile.loans || []).map(loan => ({
+        id: loan.id || Date.now().toString(),
+        name: loan.name || 'Loan',
+        type: (loan.type === 'student' ? 'student-loan' :
+               loan.type === 'personal' ? 'personal-loan' :
+               loan.type === 'auto' ? 'car-loan' : 'other') as Debt['type'],
+        balance: loan.balance || 0,
+        interestRate: loan.apr || 0,
+        minimumPayment: loan.monthly_payment || 0,
+        dueDate: 1, // Default, could be added to schema later
+      }));
+
+      console.log('✅ Loaded credit card debts:', creditCardDebts);
+      console.log('✅ Loaded loan debts:', loanDebts);
+
+      setDebts([...creditCardDebts, ...loanDebts]);
+    } else {
+      console.log('⚠️ No financial_profile found in profile');
+    }
+  }, [profile, user]);
+
+  // Calculate totals using centralized calculation functions
   const totalDebt = debts.reduce((sum, debt) => sum + debt.balance, 0);
-  const totalMinimumPayment = debts.reduce((sum, debt) => sum + debt.minimumPayment, 0);
-  const debtToIncomeRatio = (totalMinimumPayment / monthlyIncome) * 100;
+  const totalMinimumPayment = calculateTotalMinimumPayment(debts);
+  const debtToIncomeRatio = calculateDTI(totalMinimumPayment, monthlyIncome);
   const avgInterestRate = debts.reduce((sum, debt) => sum + debt.interestRate, 0) / (debts.length || 1);
 
-  const handleAddDebt = () => {
+  // Helper function to save debts to Firestore
+  const saveDebtsToFirestore = async (updatedDebts: Debt[]) => {
+    console.log('🔵 saveDebtsToFirestore CALLED');
+    console.log('🔵 Updated Debts:', updatedDebts);
+
+    if (!user) {
+      console.error('❌ No user found!');
+      toast.error('User not found. Please log in again.');
+      return false;
+    }
+
+    console.log('🔵 User ID:', user.uid);
+    console.log('🔵 Firestore path: users/' + user.uid);
+
+    setLoading(true);
+    try {
+      const userDocRef = doc(db, 'users', user.uid);
+      console.log('🔵 Document reference created');
+
+      // Separate debts into credit cards and loans
+      const creditCards = updatedDebts
+        .filter(debt => debt.type === 'credit-card')
+        .map(debt => ({
+          id: debt.id,
+          name: debt.name,
+          balance: debt.balance,
+          apr: debt.interestRate,
+          minimum_payment: debt.minimumPayment,
+          credit_limit: 0, // Default, not tracked in this interface
+        }));
+
+      const loans = updatedDebts
+        .filter(debt => debt.type !== 'credit-card')
+        .map(debt => ({
+          id: debt.id,
+          name: debt.name,
+          type: debt.type === 'student-loan' ? 'student' :
+                debt.type === 'personal-loan' ? 'personal' :
+                debt.type === 'car-loan' ? 'auto' : 'other',
+          balance: debt.balance,
+          apr: debt.interestRate,
+          monthly_payment: debt.minimumPayment,
+        }));
+
+      console.log('🔵 Credit Cards to save:', creditCards);
+      console.log('🔵 Loans to save:', loans);
+
+      const dataToSave = {
+        financial_profile: {
+          credit_cards: creditCards,
+          loans: loans,
+          total_debt: totalDebt,
+          last_updated: new Date().toISOString(),
+        }
+      };
+
+      console.log('🔵 Data to save:', dataToSave);
+      console.log('🔵 About to call setDoc with merge: true...');
+
+      // Use setDoc with merge to create fields if they don't exist
+      await setDoc(userDocRef, dataToSave, { merge: true });
+
+      console.log('✅ Firestore write SUCCESS!');
+      setLoading(false);
+      return true;
+    } catch (error: any) {
+      console.error('❌ Firestore write FAILED!');
+      console.error('❌ Error object:', error);
+      console.error('❌ Error code:', error?.code);
+      console.error('❌ Error message:', error?.message);
+      console.error('❌ Full error:', JSON.stringify(error, null, 2));
+      toast.error('Failed to save changes. Please try again.');
+      setLoading(false);
+      return false;
+    }
+  };
+
+  const handleAddDebt = async () => {
+    console.log('🔵 handleAddDebt CALLED');
+    console.log('🔵 Form Data:', formData);
+
     if (formData.name && formData.balance && formData.minimumPayment) {
+      console.log('✅ Validation passed');
+
       const newDebt: Debt = {
         id: Date.now().toString(),
         name: formData.name,
@@ -83,15 +198,35 @@ const Debt = () => {
         minimumPayment: Number(formData.minimumPayment),
         dueDate: Number(formData.dueDate),
       };
-      setDebts([...debts, newDebt]);
-      resetForm();
-      setShowAddModal(false);
+
+      console.log('🔵 New Debt:', newDebt);
+      console.log('🔵 Current debts:', debts);
+
+      const updatedDebts = [...debts, newDebt];
+      console.log('🔵 Updated debts:', updatedDebts);
+
+      setDebts(updatedDebts);
+      console.log('🔵 Local state updated, now calling Firestore...');
+
+      const success = await saveDebtsToFirestore(updatedDebts);
+      if (success) {
+        console.log('✅ handleAddDebt completed successfully');
+        toast.success('Debt added successfully!');
+        resetForm();
+        setShowAddModal(false);
+      } else {
+        console.error('❌ handleAddDebt failed, reverting state');
+        // Revert on failure
+        setDebts(debts);
+      }
+    } else {
+      console.error('❌ Validation failed:', formData);
     }
   };
 
-  const handleUpdateDebt = () => {
+  const handleUpdateDebt = async () => {
     if (editingDebt && formData.name && formData.balance && formData.minimumPayment) {
-      setDebts(debts.map(debt =>
+      const updatedDebts = debts.map(debt =>
         debt.id === editingDebt.id
           ? {
               ...debt,
@@ -103,15 +238,34 @@ const Debt = () => {
               dueDate: Number(formData.dueDate),
             }
           : debt
-      ));
-      resetForm();
-      setEditingDebt(null);
+      );
+
+      setDebts(updatedDebts);
+
+      const success = await saveDebtsToFirestore(updatedDebts);
+      if (success) {
+        toast.success('Debt updated successfully!');
+        resetForm();
+        setEditingDebt(null);
+      } else {
+        // Revert on failure
+        setDebts(debts);
+      }
     }
   };
 
-  const handleDeleteDebt = (id: string) => {
+  const handleDeleteDebt = async (id: string) => {
     if (confirm('Are you sure you want to delete this debt?')) {
-      setDebts(debts.filter(debt => debt.id !== id));
+      const updatedDebts = debts.filter(debt => debt.id !== id);
+      setDebts(updatedDebts);
+
+      const success = await saveDebtsToFirestore(updatedDebts);
+      if (success) {
+        toast.success('Debt deleted successfully!');
+      } else {
+        // Revert on failure
+        setDebts(debts);
+      }
     }
   };
 
@@ -465,14 +619,16 @@ const Debt = () => {
                   setEditingDebt(null);
                   resetForm();
                 }}
+                disabled={loading}
               >
                 Cancel
               </Button>
               <Button
                 onClick={editingDebt ? handleUpdateDebt : handleAddDebt}
                 className="bg-emerald-600 hover:bg-emerald-700"
+                disabled={loading}
               >
-                {editingDebt ? 'Update Debt' : 'Add Debt'}
+                {loading ? 'Saving...' : editingDebt ? 'Update Debt' : 'Add Debt'}
               </Button>
             </div>
           </DialogContent>

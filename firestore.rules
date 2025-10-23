@@ -18,7 +18,9 @@ service cloud.firestore {
              profile.email is string &&
              profile.full_name is string &&
              profile.avatar_type in ['kevin', 'jess', 'david', 'maria', 'ben'] &&
-             profile.email_verified is bool;
+             profile.email_verified is bool &&
+             // Allow optional financial_profile field
+             (!profile.keys().hasAny(['financial_profile']) || profile.financial_profile is map);
     }
 
     // Users collection - stores user profiles

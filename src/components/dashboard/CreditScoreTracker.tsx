@@ -2,19 +2,12 @@ import { TrendingUp } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-const data = [
-  { month: 'Jan', score: 650 },
-  { month: 'Feb', score: 665 },
-  { month: 'Mar', score: 680 },
-  { month: 'Apr', score: 695 },
-  { month: 'May', score: 705 },
-  { month: 'Jun', score: 720 },
-];
+const data: Array<{ month: string; score: number }> = [];
 
 export const CreditScoreTracker = () => {
-  const currentScore = 720;
+  const currentScore = null; // Not connected
   const maxScore = 850;
-  const percentage = (currentScore / maxScore) * 100;
+  const percentage = 0;
   const circumference = 2 * Math.PI * 80;
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
 
@@ -55,8 +48,8 @@ export const CreditScoreTracker = () => {
               />
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <div className="text-4xl font-bold text-slate-900">{currentScore}</div>
-              <div className="text-sm text-slate-600">/ {maxScore}</div>
+              <div className="text-4xl font-bold text-slate-400">—</div>
+              <div className="text-sm text-slate-500">Not Connected</div>
             </div>
           </div>
         </div>
@@ -103,16 +96,15 @@ export const CreditScoreTracker = () => {
           </ResponsiveContainer>
         </div>
 
-        {/* Progress Indicators */}
-        <div className="space-y-2">
-          <div className="flex items-center gap-2 text-sm">
-            <TrendingUp className="w-4 h-4 text-emerald-600" />
-            <span className="text-slate-700 font-medium">Excellent progress</span>
-          </div>
-          <div className="flex items-center gap-2 text-sm">
-            <TrendingUp className="w-4 h-4 text-emerald-600" />
-            <span className="text-slate-700 font-medium">On track to 750 by June</span>
-          </div>
+        {/* Connect Prompt */}
+        <div className="text-center space-y-3">
+          <p className="text-sm text-slate-600">Connect your credit report to track your score over time</p>
+          <a 
+            href="/credit-report" 
+            className="inline-block bg-brand-green hover:bg-brand-green/90 text-white px-6 py-2 rounded-lg text-sm font-semibold transition-all"
+          >
+            Connect Report
+          </a>
         </div>
       </CardContent>
     </Card>

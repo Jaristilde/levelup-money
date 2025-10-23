@@ -47,7 +47,7 @@ const Chat = () => {
 
     // Credit score related
     if (input.includes('credit score') || input.includes('improve') && input.includes('credit')) {
-      return `Great question! Here are proven strategies to improve your credit score:\n\n✅ Pay all bills on time (35% of score)\n✅ Keep credit utilization under 30% (30% of score)\n✅ Don't close old credit cards\n✅ Limit new credit applications\n✅ Dispute any errors on your report\n\nBased on your current score of 720, focusing on lowering your credit utilization from 25% to under 10% could increase your score by 15-25 points!\n\nWould you like me to create a personalized credit improvement plan?`;
+      return `Great question! Here are proven strategies to improve your credit score:\n\n✅ Pay all bills on time (35% of score)\n✅ Keep credit utilization under 30% (30% of score)\n✅ Don't close old credit cards\n✅ Limit new credit applications\n✅ Dispute any errors on your report\n\nConnect your credit report on the Credit Report page to get personalized insights based on your actual score!\n\nWould you like me to create a personalized credit improvement plan?`;
     }
 
     // Debt related

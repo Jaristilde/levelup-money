@@ -78,9 +78,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           id: userId,
           email: data.email,
           full_name: data.full_name,
+          first_name: data.first_name,
+          last_name: data.last_name,
           avatar_type: data.avatar_type,
           avatar_url: data.avatar_url,
           email_verified: data.email_verified,
+          onboarding_completed: data.onboarding_completed || false,
+          referral_source: data.referral_source,
+          primary_financial_goal: data.primary_financial_goal,
           created_at: data.created_at?.toDate?.()?.toISOString() || new Date().toISOString(),
           updated_at: data.updated_at?.toDate?.()?.toISOString() || new Date().toISOString()
         });

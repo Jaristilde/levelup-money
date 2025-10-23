@@ -30,6 +30,7 @@ const Retirement = lazy(() => import("./pages/Retirement"));
 const Chat = lazy(() => import("./pages/Chat"));
 const Settings = lazy(() => import("./pages/Settings"));
 const Profile = lazy(() => import("./pages/Profile"));
+const FinancialProfileSetup = lazy(() => import("./pages/FinancialProfileSetup"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Onboarding = lazy(() => import("./pages/Onboarding"));
 
@@ -523,6 +524,32 @@ const App = () => {
                               </header>
                               <main className="flex-1 pb-20 lg:pb-8 bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen transition-all duration-200" role="main">
                                 <Settings />
+                              </main>
+                            </div>
+                            <Navigation />
+                          </div>
+                        </ProtectedRoute>
+                      }
+                    />
+
+                    <Route
+                      path="/financial-profile"
+                      element={
+                        <ProtectedRoute>
+                          <div className="flex min-h-screen w-full">
+                            <AppSidebar />
+                            <div className="flex-1 flex flex-col w-full lg:ml-[280px]">
+                              <header className="lg:hidden h-16 border-b border-slate-800 flex items-center justify-between px-4 bg-gradient-to-r from-slate-900 to-slate-950 backdrop-blur-xl sticky top-0 z-40">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                                    <span className="text-white font-bold text-sm">LU</span>
+                                  </div>
+                                  <span className="text-base font-semibold text-white">LevelUp Money</span>
+                                </div>
+                                <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full" />
+                              </header>
+                              <main className="flex-1 pb-20 lg:pb-8 bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen transition-all duration-200" role="main">
+                                <FinancialProfileSetup />
                               </main>
                             </div>
                             <Navigation />

@@ -11,7 +11,7 @@ import { Badge } from '@/components/ui/badge';
 export const BenDashboard = () => {
   const cashFlow = 1500;
   const investmentGrowth = 1.2;
-  const creditScore = 760;
+  const creditScore = null; // Not connected
   const debtToIncome = 0.25;
   const portfolioValue = 180000;
   const monthlyBudget = 4500;
@@ -174,12 +174,11 @@ export const BenDashboard = () => {
                 <div className="mb-4">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm text-slate-600 font-inter">Credit Score</span>
-                    <Badge className="bg-brand-green/10 text-brand-green border-0">Exceptional</Badge>
+                    <Badge className="bg-slate-100 text-slate-600 border-0">Not Connected</Badge>
                   </div>
-                  <p className="text-5xl font-bold text-brand-green mb-2 font-poppins">{creditScore}</p>
+                  <p className="text-5xl font-bold text-slate-400 mb-2 font-poppins">—</p>
                   <div className="flex items-center gap-1 text-sm text-slate-600">
-                    <TrendingUp className="w-4 h-4 text-brand-green" />
-                    <span className="font-inter">+3 points this month</span>
+                    <span className="font-inter">Connect your report to see your score</span>
                   </div>
                 </div>
 

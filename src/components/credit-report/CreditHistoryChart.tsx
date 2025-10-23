@@ -14,9 +14,8 @@ const historyData = [
   { month: 'Oct 23', score: 700 },
   { month: 'Nov 23', score: 705 },
   { month: 'Dec 23', score: 710 },
-  { month: 'Jan 24', score: 715 },
-  { month: 'Feb 24', score: 718 },
-  { month: 'Mar 24', score: 720 },
+  // No data until credit report is connected
+
 ];
 
 const CustomTooltip = ({ active, payload }: any) => {
@@ -88,8 +87,8 @@ export const CreditHistoryChart = () => {
             <p className="text-xs text-slate-600 mt-1">Points gained</p>
           </div>
           <div className="text-center">
-            <p className="text-2xl font-bold text-slate-900">720</p>
-            <p className="text-xs text-slate-600 mt-1">Current score</p>
+            <p className="text-2xl font-bold text-slate-400">—</p>
+            <p className="text-xs text-slate-600 mt-1">Not connected</p>
           </div>
           <div className="text-center">
             <p className="text-2xl font-bold text-blue-600">15</p>

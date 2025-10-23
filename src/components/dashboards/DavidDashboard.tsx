@@ -21,7 +21,7 @@ export const DavidDashboard = () => {
   };
   const netWorth = 45000;
   const netWorthChange = 5;
-  const creditScore = 685;
+  const creditScore = null; // Not connected yet
   const totalDebt = 15000;
   const debtReduction = 500;
   const budgetSurplus = 350;
@@ -58,20 +58,20 @@ export const DavidDashboard = () => {
           </Card>
 
           {/* Credit Score */}
-          <Card className="p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-brand-blue/5 to-brand-blue-light/5 border-brand-blue/20">
+          <Card className="p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-slate-100 to-slate-50 border-slate-200">
             <div className="flex items-center justify-between mb-3">
-              <Shield className="w-8 h-8 text-brand-blue" />
-              <div className="inline-block bg-brand-green/10 text-brand-green text-xs font-bold px-2 py-1 rounded-full font-inter">
-                Good
+              <Shield className="w-8 h-8 text-slate-400" />
+              <div className="inline-block bg-slate-100 text-slate-600 text-xs font-bold px-2 py-1 rounded-full font-inter">
+                Not Connected
               </div>
             </div>
             <p className="text-sm text-slate-600 mb-1 font-inter">Credit Score</p>
-            <p className="text-3xl font-bold text-slate-900 font-poppins">{creditScore}</p>
-            <div className="mt-2 flex items-center gap-1">
-              <div className="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden">
-                <div className="h-full w-[68%] bg-gradient-to-r from-brand-green to-emerald-400 rounded-full" />
-              </div>
-            </div>
+            <p className="text-2xl font-bold text-slate-500 font-poppins">—</p>
+            <Link to="/credit-report">
+              <p className="text-xs text-brand-blue hover:text-brand-blue/80 mt-2 font-inter underline cursor-pointer">
+                Connect Report
+              </p>
+            </Link>
           </Card>
 
           {/* Total Debt */}

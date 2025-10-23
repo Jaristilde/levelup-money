@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 
 export const MariaDashboard = () => {
   const budgetEfficiency = 85;
-  const creditScore = 710;
+  const creditScore = null; // Not connected
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 pb-20 lg:pb-8">
@@ -211,27 +211,26 @@ export const MariaDashboard = () => {
             </Card>
 
             {/* Credit Score Health - Compact */}
-            <Card className="p-6 rounded-2xl shadow-lg bg-gradient-to-br from-brand-blue/5 to-brand-blue-light/5 border-brand-blue/20">
+            <Card className="p-6 rounded-2xl shadow-lg bg-gradient-to-br from-slate-100 to-slate-50 border-slate-200">
               <div className="flex items-center justify-between">
                 <div className="flex-1">
                   <h3 className="text-xl font-bold text-slate-900 mb-1 font-poppins">
                     Credit Score Health
                   </h3>
-                  <p className="text-sm text-slate-600 mb-4 font-inter">You're in excellent shape!</p>
+                  <p className="text-sm text-slate-600 mb-4 font-inter">Connect your report to see your score</p>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <p className="text-sm text-slate-600 mb-1 font-inter">Current Score</p>
-                      <p className="text-4xl font-bold text-brand-blue font-poppins">{creditScore}</p>
-                      <div className="inline-block bg-brand-green/10 text-brand-green text-xs font-bold px-2 py-1 rounded-full mt-2">
-                        Excellent
+                      <p className="text-4xl font-bold text-slate-400 font-poppins">—</p>
+                      <div className="inline-block bg-slate-100 text-slate-600 text-xs font-bold px-2 py-1 rounded-full mt-2">
+                        Not Connected
                       </div>
                     </div>
                     <div>
                       <p className="text-sm text-slate-600 mb-1 font-inter">This Month</p>
                       <div className="flex items-center gap-2">
-                        <TrendingUp className="w-6 h-6 text-brand-green" />
-                        <p className="text-4xl font-bold text-brand-green font-poppins">+5</p>
+                        <p className="text-sm text-slate-400 font-inter">No data yet</p>
                       </div>
                     </div>
                   </div>
@@ -239,7 +238,7 @@ export const MariaDashboard = () => {
 
                 <Link to="/credit-report">
                   <Button className="bg-brand-blue hover:bg-brand-blue/90 text-white font-semibold">
-                    Maintain Score →
+                    Connect Report →
                   </Button>
                 </Link>
               </div>

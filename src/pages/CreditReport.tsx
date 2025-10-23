@@ -10,10 +10,11 @@ import DisputeLetterModal from '@/components/DisputeLetterModal';
 const CreditReport = () => {
   const [selectedPeriod, setSelectedPeriod] = useState('6M');
   const [isDisputeModalOpen, setIsDisputeModalOpen] = useState(false);
-  const creditScore = 720;
-  const previousScore = 705;
-  const scoreChange = creditScore - previousScore;
-  const scorePercentage = (creditScore / 850) * 100;
+  // Credit score not connected yet
+  const creditScore = null;
+  const previousScore = null;
+  const scoreChange = 0;
+  const scorePercentage = 0;
 
   // Determine score range and color
   const getScoreInfo = (score: number) => {
@@ -24,17 +25,10 @@ const CreditReport = () => {
     return { label: 'Poor', color: 'text-brand-red', bgColor: 'bg-brand-red', gradient: 'from-brand-red to-red-500' };
   };
 
-  const scoreInfo = getScoreInfo(creditScore);
+  const scoreInfo = creditScore ? getScoreInfo(creditScore) : { label: 'Not Connected', color: 'text-slate-500', bgColor: 'bg-slate-500', gradient: 'from-slate-400 to-slate-500' };
 
-  // Historical data for trend chart
-  const historicalData = [
-    { month: 'Jan', score: 685 },
-    { month: 'Feb', score: 690 },
-    { month: 'Mar', score: 695 },
-    { month: 'Apr', score: 700 },
-    { month: 'May', score: 705 },
-    { month: 'Jun', score: 720 },
-  ];
+  // Historical data for trend chart (empty until credit report connected)
+  const historicalData: Array<{ month: string; score: number }> = [];
 
   // Credit factors with status
   const creditFactors = [
@@ -177,103 +171,56 @@ const CreditReport = () => {
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Left Column - Score and Factors */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Hero Circle - Large Credit Score */}
-            <Card className="p-8 rounded-3xl shadow-2xl bg-white">
-              <div className="flex flex-col md:flex-row gap-8 items-center">
-                {/* Circular Progress Indicator */}
-                <div className="relative flex-shrink-0">
-                  <div className="relative w-64 h-64">
-                    {/* Background circle */}
-                    <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                      <circle
-                        cx="50"
-                        cy="50"
-                        r="42"
-                        fill="none"
-                        stroke="#EAECEE"
-                        strokeWidth="8"
-                      />
-                      {/* Progress circle */}
-                      <circle
-                        cx="50"
-                        cy="50"
-                        r="42"
-                        fill="none"
-                        stroke="url(#scoreGradient)"
-                        strokeWidth="8"
-                        strokeDasharray={`${scorePercentage * 2.64} 264`}
-                        className="transition-all duration-1000"
-                        strokeLinecap="round"
-                      />
-                      <defs>
-                        <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                          <stop offset="0%" stopColor="#2ECC71" />
-                          <stop offset="100%" stopColor="#10B981" />
-                        </linearGradient>
-                      </defs>
-                    </svg>
+            {/* Connect Credit Report Placeholder */}
+            <Card className="p-8 md:p-12 rounded-3xl shadow-2xl bg-gradient-to-br from-brand-blue/5 to-brand-green/5 border-2 border-dashed border-slate-300">
+              <div className="text-center max-w-2xl mx-auto">
+                {/* Icon */}
+                <div className="w-24 h-24 bg-gradient-to-br from-brand-blue to-brand-green rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                  <AlertCircle className="w-12 h-12 text-white" />
+                </div>
 
-                    {/* Score in center */}
-                    <div className="absolute inset-0 flex flex-col items-center justify-center">
-                      <p className="text-7xl font-bold text-slate-900 font-poppins">{creditScore}</p>
-                      <Badge className={`${scoreInfo.bgColor} text-white border-0 mt-2 text-sm px-3 py-1`}>
-                        {scoreInfo.label}
-                      </Badge>
-                    </div>
+                {/* Title */}
+                <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 font-poppins">
+                  Connect Your Credit Report
+                </h2>
 
-                    {/* Sparkle animation if score increased */}
-                    {scoreChange > 0 && (
-                      <div className="absolute -top-4 -right-4 animate-bounce">
-                        <div className="w-12 h-12 bg-brand-green/20 rounded-full flex items-center justify-center">
-                          <Sparkles className="w-6 h-6 text-brand-green" />
-                        </div>
-                      </div>
-                    )}
+                {/* Description */}
+                <p className="text-lg text-slate-600 mb-8 font-inter">
+                  Get your real credit score from all 3 bureaus (Experian, Equifax, TransUnion) 
+                  and unlock personalized insights to improve your financial health.
+                </p>
+
+                {/* Features */}
+                <div className="grid md:grid-cols-3 gap-4 mb-8 text-left">
+                  <div className="bg-white rounded-xl p-4 shadow-sm">
+                    <CheckCircle className="w-6 h-6 text-brand-green mb-2" />
+                    <h3 className="font-semibold text-slate-900 mb-1 font-poppins">100% Free</h3>
+                    <p className="text-sm text-slate-600 font-inter">No hidden fees or credit card required</p>
                   </div>
-
-                  {/* Score range indicator below circle */}
-                  <div className="mt-4 flex items-center justify-between text-xs text-slate-500 font-inter">
-                    <span>300</span>
-                    <span className={`font-bold ${scoreInfo.color} text-sm`}>Your Score</span>
-                    <span>850</span>
+                  <div className="bg-white rounded-xl p-4 shadow-sm">
+                    <CheckCircle className="w-6 h-6 text-brand-green mb-2" />
+                    <h3 className="font-semibold text-slate-900 mb-1 font-poppins">Secure & Private</h3>
+                    <p className="text-sm text-slate-600 font-inter">Bank-level 256-bit encryption</p>
+                  </div>
+                  <div className="bg-white rounded-xl p-4 shadow-sm">
+                    <CheckCircle className="w-6 h-6 text-brand-green mb-2" />
+                    <h3 className="font-semibold text-slate-900 mb-1 font-poppins">No Impact</h3>
+                    <p className="text-sm text-slate-600 font-inter">Soft pull won't affect your score</p>
                   </div>
                 </div>
 
-                {/* Score interpretation and stats */}
-                <div className="flex-1">
-                  <div className="mb-6">
-                    <h3 className="text-2xl font-bold text-slate-900 mb-2 font-poppins">
-                      Great progress, your score is "{scoreInfo.label}"!
-                    </h3>
-                    <p className="text-slate-600 font-inter">
-                      Keep up the great work! You're in good shape to qualify for favorable interest rates.
-                    </p>
-                  </div>
+                {/* CTA Button */}
+                <Button 
+                  size="lg"
+                  className="bg-brand-green hover:bg-brand-green/90 text-white px-8 py-6 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all"
+                >
+                  <AlertCircle className="w-5 h-5 mr-2" />
+                  Check Credit Report
+                </Button>
 
-                  {scoreChange !== 0 && (
-                    <div className={`p-4 rounded-xl mb-4 ${scoreChange > 0 ? 'bg-brand-green/10 border-brand-green/20' : 'bg-brand-red/10 border-brand-red/20'} border`}>
-                      <div className="flex items-center gap-2 mb-1">
-                        <TrendingUp className={`w-5 h-5 ${scoreChange > 0 ? 'text-brand-green' : 'text-brand-red'}`} />
-                        <span className={`text-lg font-bold ${scoreChange > 0 ? 'text-brand-green' : 'text-brand-red'} font-poppins`}>
-                          {scoreChange > 0 ? '+' : ''}{scoreChange} points
-                        </span>
-                      </div>
-                      <p className="text-sm text-slate-600 font-inter">Since last month</p>
-                    </div>
-                  )}
-
-                  {/* Quick stats */}
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="bg-slate-50 rounded-xl p-4">
-                      <p className="text-xs text-slate-600 mb-1 font-inter">Previous Score</p>
-                      <p className="text-2xl font-bold text-slate-900 font-poppins">{previousScore}</p>
-                    </div>
-                    <div className="bg-slate-50 rounded-xl p-4">
-                      <p className="text-xs text-slate-600 mb-1 font-inter">Goal Score</p>
-                      <p className="text-2xl font-bold text-slate-900 font-poppins">750+</p>
-                    </div>
-                  </div>
-                </div>
+                <p className="text-sm text-slate-500 mt-4 font-inter">
+                  Powered by Experian • Takes less than 2 minutes
+                </p>
               </div>
             </Card>
 

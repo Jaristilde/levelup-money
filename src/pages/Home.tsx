@@ -9,21 +9,32 @@ import FirstTimeUserModal from '@/components/onboarding/FirstTimeUserModal';
 import { useAuth } from '@/contexts/AuthContext';
 
 const Home = () => {
-  const { profile, refreshSession } = useAuth();
+  const { profile, refreshSession, loading: authLoading } = useAuth();
   const [showOnboardingModal, setShowOnboardingModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isChecking, setIsChecking] = useState(true);
 
   // Get user's awareness level from localStorage
   const awarenessLevel = localStorage.getItem("awarenessLevel") as AwarenessLevel | null;
 
   // Check if user needs to complete onboarding
   useEffect(() => {
-    if (profile) {
-      const needsOnboarding = !profile.onboarding_completed;
+    // Wait for auth to finish loading AND profile to be available
+    if (!authLoading && profile) {
+      const needsOnboarding = profile.onboarding_completed === false;
       setShowOnboardingModal(needsOnboarding);
-      setIsLoading(false);
+      setIsChecking(false);
+    } else if (!authLoading && !profile) {
+      // Auth loaded but no profile yet - this is likely a brand new user
+      // Show onboarding modal after a short wait (2 seconds)
+      const timeout = setTimeout(() => {
+        // If profile still hasn't loaded, assume new user and show onboarding
+        setShowOnboardingModal(true);
+        setIsChecking(false);
+      }, 2000); // Wait 2 seconds for profile to load
+      
+      return () => clearTimeout(timeout);
     }
-  }, [profile]);
+  }, [profile, authLoading]);
 
   const handleOnboardingComplete = async () => {
     setShowOnboardingModal(false);
@@ -31,8 +42,8 @@ const Home = () => {
     await refreshSession();
   };
 
-  // Show loading state while checking onboarding status
-  if (isLoading) {
+  // Show loading state while auth is loading or checking profile
+  if (authLoading || isChecking) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">

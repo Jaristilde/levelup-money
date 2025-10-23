@@ -3,7 +3,7 @@ import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Shield, Lock, Activity } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
-import { doc, updateDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { toast } from 'sonner';
 
@@ -81,7 +81,8 @@ const FirstTimeUserModal = ({ open, onComplete }: FirstTimeUserModalProps) => {
     try {
       const userDocRef = doc(db, 'users', user.uid);
       
-      await updateDoc(userDocRef, {
+      // Use setDoc with merge:true to create or update the document
+      await setDoc(userDocRef, {
         full_name: `${formData.firstName} ${formData.lastName}`,
         first_name: formData.firstName,
         last_name: formData.lastName,
@@ -89,7 +90,7 @@ const FirstTimeUserModal = ({ open, onComplete }: FirstTimeUserModalProps) => {
         primary_financial_goal: formData.primaryGoal,
         onboarding_completed: true,
         updated_at: serverTimestamp()
-      });
+      }, { merge: true });
 
       toast.success('Welcome to LevelUp Money! 🎉');
       onComplete();

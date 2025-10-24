@@ -1,12 +1,7 @@
-// TOP OF FILE - IMMEDIATE LOG TO VERIFY FILE LOADS
-console.log('🔴 FIREBASE.TS FILE IS LOADING - START');
-
 import { initializeApp } from 'firebase/app';
 import { getAuth, connectAuthEmulator } from 'firebase/auth';
 import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 import { getStorage, connectStorageEmulator } from 'firebase/storage';
-
-console.log('🔴 FIREBASE IMPORTS COMPLETED');
 
 // Firebase configuration from environment variables
 const firebaseConfig = {
@@ -18,35 +13,19 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
-console.log('🔴 FIREBASE CONFIG OBJECT CREATED');
-
-// Debug: Log environment variable loading
-console.log('🔵 Firebase Config Loading...');
-console.log('🔵 API Key exists:', !!firebaseConfig.apiKey);
-console.log('🔵 API Key value:', firebaseConfig.apiKey);
-console.log('🔵 Project ID:', firebaseConfig.projectId);
-console.log('🔵 Full config:', firebaseConfig);
-
 // Initialize Firebase
-console.log('🔴 ABOUT TO CALL initializeApp...');
 const app = initializeApp(firebaseConfig);
-console.log('✅ Firebase App initialized:', app.name);
 
 // Initialize Firebase services
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
 
-console.log('✅ Firebase Auth initialized');
-console.log('✅ Firestore DB initialized');
-console.log('✅ Firebase Storage initialized');
-
 // Connect to emulators in development (optional)
 if (import.meta.env.DEV && import.meta.env.VITE_USE_FIREBASE_EMULATOR === 'true') {
   connectAuthEmulator(auth, 'http://localhost:9099');
-  connectFirestoreEmulator(db, 'localhost', 8081); // Changed from 8080 to avoid conflict with Vite
+  connectFirestoreEmulator(db, 'localhost', 8081);
   connectStorageEmulator(storage, 'localhost', 9199);
-  console.log('⚠️ Connected to Firebase emulators');
 }
 
 // Database types for user profile

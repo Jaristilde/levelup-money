@@ -74,7 +74,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
       if (userDocSnap.exists()) {
         const data = userDocSnap.data();
-        console.log('🔵 AuthContext - Fetched user data from Firestore:', data);
         setProfile({
           id: userId,
           email: data.email,
@@ -89,12 +88,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           primary_financial_goal: data.primary_financial_goal,
           created_at: data.created_at?.toDate?.()?.toISOString() || new Date().toISOString(),
           updated_at: data.updated_at?.toDate?.()?.toISOString() || new Date().toISOString(),
-          financial_profile: data.financial_profile // CRITICAL: Load financial_profile from Firestore
+          financial_profile: data.financial_profile
         });
-        console.log('✅ AuthContext - Profile state updated with financial_profile');
       }
     } catch (error) {
-      console.error('❌ AuthContext - Error fetching profile:', error);
+      console.error('Error fetching profile:', error);
     }
   };
 

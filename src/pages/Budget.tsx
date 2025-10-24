@@ -85,20 +85,13 @@ const Budget = () => {
 
   // Load income and expenses from Firestore on mount
   useEffect(() => {
-    console.log('🔵 Budget - useEffect triggered');
-    console.log('🔵 User:', user?.uid);
-    console.log('🔵 Profile:', profile);
-    console.log('🔵 Financial Profile:', profile?.financial_profile);
 
     if (profile?.financial_profile) {
       const budgetData = profile.financial_profile.budget_data;
-      console.log('🔵 Budget Data from Firestore:', budgetData);
 
       if (budgetData) {
         setIncomes(budgetData.income_sources || []);
         setExpenses(budgetData.expenses || []);
-        console.log('✅ Loaded incomes:', budgetData.income_sources);
-        console.log('✅ Loaded expenses:', budgetData.expenses);
       } else {
         console.log('⚠️ No budget_data field found in profile');
       }
@@ -119,9 +112,6 @@ const Budget = () => {
 
   // Helper function to save budget data to Firestore
   const saveBudgetToFirestore = async (updatedIncomes: IncomeSource[], updatedExpenses: ExpenseCategory[]) => {
-    console.log('🔵 saveBudgetToFirestore CALLED');
-    console.log('🔵 Updated Incomes:', updatedIncomes);
-    console.log('🔵 Updated Expenses:', updatedExpenses);
 
     if (!user) {
       console.error('❌ No user found!');
@@ -129,13 +119,10 @@ const Budget = () => {
       return false;
     }
 
-    console.log('🔵 User ID:', user.uid);
-    console.log('🔵 Firestore path: users/' + user.uid);
 
     setLoading(true);
     try {
       const userDocRef = doc(db, 'users', user.uid);
-      console.log('🔵 Document reference created');
 
       const dataToSave = {
         financial_profile: {
@@ -149,13 +136,10 @@ const Budget = () => {
         }
       };
 
-      console.log('🔵 Data to save:', dataToSave);
-      console.log('🔵 About to call setDoc with merge: true...');
 
       // Use setDoc with merge to create fields if they don't exist
       await setDoc(userDocRef, dataToSave, { merge: true });
 
-      console.log('✅ Firestore write SUCCESS!');
       setLoading(false);
       return true;
     } catch (error: any) {
@@ -172,24 +156,17 @@ const Budget = () => {
 
   // Income handlers
   const handleAddIncome = async () => {
-    console.log('🔵 handleAddIncome CALLED');
-    console.log('🔵 New Income Data:', newIncome);
 
     if (newIncome.name && newIncome.name.trim() !== '' && newIncome.amount > 0) {
-      console.log('✅ Validation passed');
       const newIncomeWithId = { id: Date.now().toString(), ...newIncome };
       const updatedIncomes = [...incomes, newIncomeWithId];
 
-      console.log('🔵 Current incomes:', incomes);
-      console.log('🔵 Updated incomes:', updatedIncomes);
 
       setIncomes(updatedIncomes);
-      console.log('🔵 Local state updated, now calling Firestore...');
 
       const success = await saveBudgetToFirestore(updatedIncomes, expenses);
 
       if (success) {
-        console.log('✅ handleAddIncome completed successfully');
         toast.success('Income source added successfully!');
         setNewIncome({ name: '', amount: 0, frequency: 'monthly' });
         setShowAddIncome(false);

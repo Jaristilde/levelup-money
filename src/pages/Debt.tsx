@@ -58,14 +58,8 @@ const Debt = () => {
 
   // Load debts from profile on mount
   useEffect(() => {
-    console.log('🔵 Debt - useEffect triggered');
-    console.log('🔵 User:', user?.uid);
-    console.log('🔵 Profile:', profile);
-    console.log('🔵 Financial Profile:', profile?.financial_profile);
 
     if (profile?.financial_profile) {
-      console.log('🔵 Credit Cards:', profile.financial_profile.credit_cards);
-      console.log('🔵 Loans:', profile.financial_profile.loans);
 
       // Map credit cards and loans from profile to debts array
       const creditCardDebts: Debt[] = (profile.financial_profile.credit_cards || []).map(card => ({
@@ -90,8 +84,6 @@ const Debt = () => {
         dueDate: 1, // Default, could be added to schema later
       }));
 
-      console.log('✅ Loaded credit card debts:', creditCardDebts);
-      console.log('✅ Loaded loan debts:', loanDebts);
 
       setDebts([...creditCardDebts, ...loanDebts]);
     } else {
@@ -107,8 +99,6 @@ const Debt = () => {
 
   // Helper function to save debts to Firestore
   const saveDebtsToFirestore = async (updatedDebts: Debt[]) => {
-    console.log('🔵 saveDebtsToFirestore CALLED');
-    console.log('🔵 Updated Debts:', updatedDebts);
 
     if (!user) {
       console.error('❌ No user found!');
@@ -116,13 +106,10 @@ const Debt = () => {
       return false;
     }
 
-    console.log('🔵 User ID:', user.uid);
-    console.log('🔵 Firestore path: users/' + user.uid);
 
     setLoading(true);
     try {
       const userDocRef = doc(db, 'users', user.uid);
-      console.log('🔵 Document reference created');
 
       // Separate debts into credit cards and loans
       const creditCards = updatedDebts
@@ -149,8 +136,6 @@ const Debt = () => {
           monthly_payment: debt.minimumPayment,
         }));
 
-      console.log('🔵 Credit Cards to save:', creditCards);
-      console.log('🔵 Loans to save:', loans);
 
       const dataToSave = {
         financial_profile: {
@@ -161,13 +146,10 @@ const Debt = () => {
         }
       };
 
-      console.log('🔵 Data to save:', dataToSave);
-      console.log('🔵 About to call setDoc with merge: true...');
 
       // Use setDoc with merge to create fields if they don't exist
       await setDoc(userDocRef, dataToSave, { merge: true });
 
-      console.log('✅ Firestore write SUCCESS!');
       setLoading(false);
       return true;
     } catch (error: any) {
@@ -183,11 +165,8 @@ const Debt = () => {
   };
 
   const handleAddDebt = async () => {
-    console.log('🔵 handleAddDebt CALLED');
-    console.log('🔵 Form Data:', formData);
 
     if (formData.name && formData.balance !== undefined && formData.minimumPayment !== undefined) {
-      console.log('✅ Validation passed');
 
       const newDebt: Debt = {
         id: Date.now().toString(),
@@ -199,18 +178,13 @@ const Debt = () => {
         dueDate: Number(formData.dueDate),
       };
 
-      console.log('🔵 New Debt:', newDebt);
-      console.log('🔵 Current debts:', debts);
 
       const updatedDebts = [...debts, newDebt];
-      console.log('🔵 Updated debts:', updatedDebts);
 
       setDebts(updatedDebts);
-      console.log('🔵 Local state updated, now calling Firestore...');
 
       const success = await saveDebtsToFirestore(updatedDebts);
       if (success) {
-        console.log('✅ handleAddDebt completed successfully');
         toast.success('Debt added successfully!');
         resetForm();
         setShowAddModal(false);

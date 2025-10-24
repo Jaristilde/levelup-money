@@ -35,7 +35,7 @@ const OnboardingWelcome = () => {
     {
       emoji: '🎯',
       title: 'What LevelUp Money Is About',
-      description: 'Let's be clear about our philosophy',
+      description: "Let's be clear about our philosophy",
       content: (
         <div className="space-y-4 text-left">
           <div className="bg-green-50 border-l-4 border-green-600 p-4 rounded">
@@ -93,7 +93,7 @@ const OnboardingWelcome = () => {
     {
       emoji: '🚀',
       title: 'Ready to Level Up?',
-      description: 'Let's build your financial profile',
+      description: "Let's build your financial profile",
       content: (
         <div className="space-y-4 text-left">
           <p className="text-lg text-gray-700">

@@ -14,7 +14,9 @@ import {
   Settings,
   ChevronRight,
   LogOut,
-  FileText
+  FileText,
+  Info,
+  HelpCircle
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/contexts/AuthContext';
@@ -53,6 +55,8 @@ const AppSidebar = () => {
       label: 'RESOURCES',
       items: [
         { path: '/chat', icon: Users, label: 'AI Assistant' },
+        { path: '/about', icon: Info, label: 'About' },
+        { path: '/faq', icon: HelpCircle, label: 'FAQ' },
       ]
     }
   ];

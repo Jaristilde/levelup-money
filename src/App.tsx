@@ -33,6 +33,10 @@ const Profile = lazy(() => import("./pages/Profile"));
 const FinancialProfileSetup = lazy(() => import("./pages/FinancialProfileSetup"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Onboarding = lazy(() => import("./pages/Onboarding"));
+const About = lazy(() => import("./pages/About"));
+const FAQ = lazy(() => import("./pages/FAQ"));
+const OnboardingWelcome = lazy(() => import("./pages/OnboardingWelcome"));
+const LandingPage = lazy(() => import("./pages/LandingPage"));
 
 // Loading fallback component
 const PageLoader = () => (
@@ -110,13 +114,13 @@ const App = () => {
                     {/* ============================================ */}
                     
                     {/* Landing Page - Root URL (/) */}
-                    <Route 
-                      path="/" 
+                    <Route
+                      path="/"
                       element={
                         <PublicRoute>
-                          <Landing />
+                          <LandingPage />
                         </PublicRoute>
-                      } 
+                      }
                     />
 
                     {/* Authentication Pages */}
@@ -154,13 +158,29 @@ const App = () => {
                       } 
                     />
 
-                    <Route 
-                      path="/onboarding" 
+                    <Route
+                      path="/onboarding"
                       element={
                         <PublicRoute>
                           <Onboarding />
                         </PublicRoute>
-                      } 
+                      }
+                    />
+
+                    {/* Informational Pages */}
+                    <Route
+                      path="/about"
+                      element={<About />}
+                    />
+
+                    <Route
+                      path="/faq"
+                      element={<FAQ />}
+                    />
+
+                    <Route
+                      path="/welcome"
+                      element={<OnboardingWelcome />}
                     />
 
                     {/* ============================================ */}

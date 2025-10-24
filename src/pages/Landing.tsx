@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import HeroSection from "../components/HeroSection";
+import Footer from "../components/Footer";
 import "../styles/landing.css";
 
 const Landing: React.FC = () => {
@@ -312,9 +313,7 @@ const Landing: React.FC = () => {
       </section>
 
       {/* Footer */}
-      <footer className="site-footer">
-        <p>&copy; 2025 Level Up Money. All rights reserved.</p>
-      </footer>
+      <Footer />
     </div>
   );
 };
